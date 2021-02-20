@@ -14,17 +14,8 @@ import db_sql,math,time
 import veri_tipi as vt
 import json
 
-headers_recete= ("id","musteri_kodu","musteri_adi","siparis_kodu","kademeli","primer_kademe","sekonder_kademe","va_kademe",\
-                 "guc","karkas", \
-                "sac_tipi","sac","frekans","gauss","c_deg","nuve_bosluk",\
-                "primer_izo_deg","primer_izo_tur","sekonder_izo_deg","sekonder_izo_tur","pri_sek_izo_deg","pri_sek_izo_tur","ekran_sec",\
-                "ekran_izo_deg","ekstra","ekstra_izo_deg","klemens","ayak",\
-                "primer", \
-                "sekonder",
-                 "VA",\
-                 "va_kademe",
-                 "va_guclist",\
-                 "Tarih" )
+headers_recete= ("id","kullanıcı","musteri_adi","siparis_kodu","guc","primer", \
+                "sekonder","VA","Tarih" )
 headers_klemens= ("ID", "klemens_Adı","en","boy","yukseklik", "akim", "Kayıt Tarihi")
 headers_ayak= ("ID", "AYAK_Adı","en","boy","yukseklik", "Kayıt Tarihi")
 headers_kapton= ("ID", "Kapton_Adı","Yukseklik", "Ozzellik-1", "Kayıt Tarihi")
@@ -2564,7 +2555,6 @@ class Reciepedialog(QDialog):
         self.va_group_elementlist = [self.ui.lineEdit_sva1,self.ui.lineEdit_sva2,self.ui.lineEdit_sva3,self.ui.lineEdit_sva4,
                                      self.ui.lineEdit_sva5,self.ui.lineEdit_sva6,self.ui.lineEdit_sva7,self.ui.lineEdit_sva8,
                                      self.ui.lineEdit_sva9,self.ui.lineEdit_sva10]
-
     def date_visible_event(self):
         if self.ui.comboBox_filter1.currentIndex()==4:
             self.ui.dateEdit.setVisible(True)
@@ -2578,7 +2568,6 @@ class Reciepedialog(QDialog):
             return True
     def visible_item(self):
         self.ui.dateEdit.setVisible(False)
-
     def va_kademe_guncelle(self):
         if self.rec_veriler["va_enabled"] == True:
             self.ui.tabWidget_2.setVisible(True)
@@ -2602,8 +2591,6 @@ class Reciepedialog(QDialog):
                     self.ui.tabWidget_2.setTabEnabled(i,False)
                     self.ui.tabWidget_2.setTabVisible(i, False)
         self.ui.tabWidget_2.setCurrentIndex(0)
-
-
     def primer_kademe_guncelle(self):
         for i in range(0, 10):
             if self.rec_veriler["primer_group_list"][i]["voltaj"] > 0:
@@ -2621,6 +2608,23 @@ class Reciepedialog(QDialog):
         self.primer_kademe_guncelle()
         self.va_kademe_guncelle()
         self.sekonder_kademe_guncelle()
+
+    def tum_kademeleri_temizle(self):
+        self.rec_veriler = vt.recete_veri.copy()
+        self.ui.lineEdit_primer.setText("")
+        self.ui.lineEdit_sekonder.setText("")
+        self.ui.lineEdit_sva1.setText("")
+        self.ui.lineEdit_sva2.setText("")
+        self.ui.lineEdit_sva3.setText("")
+        self.ui.lineEdit_sva4.setText("")
+        self.ui.lineEdit_sva5.setText("")
+        self.ui.lineEdit_sva6.setText("")
+        self.ui.lineEdit_sva7.setText("")
+        self.ui.lineEdit_sva8.setText("")
+        self.ui.lineEdit_sva9.setText("")
+        self.ui.lineEdit_sva10.setText("")
+        self.ui.lineEdit_musteri_adi.setText("")
+        self.ui.lineEdit_siparis_kodu.setText("")
     def filter_recete_table(self):
         self.ui.lineEdit_ara_text1.text()
         self.ui.comboBox_filter1.currentIndex()
@@ -2666,51 +2670,25 @@ class Reciepedialog(QDialog):
 
         self.tum_kademeleri_guncelle()
     def read_data_fromsql_write_fields(self,data):
+        self.tum_kademeleri_temizle()
         self.ui.doubleSpinBox_ID.setValue(data[0])
-        #self.ui.lineEdit_musteri_kodu.setText(data[1])
+        self.ui.lineEdit_kullanici.setText(data[1])
         self.ui.lineEdit_musteri_adi.setText(data[2])
         self.ui.lineEdit_siparis_kodu.setText(data[3])
-        #self.ui.radioButton_kademeli.setChecked(bool(data[4]))
-        #self.ui.comboBox_primer.setCurrentText(str(data[5]))
-        #self.ui.comboBox_sek.setCurrentText(str(data[6]))
-        #self.ui.comboBox_va.setCurrentText(str(data[7]))
-        self.ui.doubleSpinBox_guc.setValue(data[8])
-
+        self.ui.doubleSpinBox_guc.setValue(data[4])
+        #self.ui.lineEdit_primer.setText(data[5])
+        #self.ui.lineEdit_sekonder.setText(data[6])
+        #self.ui.lineEdit_sva1.setText(data[7])
         #self.ui.lineEdit_karkas_name.setText(json.loads(data[9])["adi"])
         #self.ui.doubleSpinBox_karkas_en.setValue(float(json.loads(data[9])["en"]))
         #self.ui.doubleSpinBox_karkas_boy.setValue(float(json.loads(data[9])["boy"]))
         #self.ui.doubleSpinBox_karkas_yukseklik.setValue(float(json.loads(data[9])["yukseklik"]))
         #self.ui.doubleSpinBox_karkas_verim.setValue(float(json.loads(data[9])["verim"]))
+        self.ui.lineEdit_tarih.setText(data[8])
+        self.rec_veriler = json.loads(data[9])
 
-
-        #self.ui.lineEdit_sac_tipi.setText(data[10])
-        #self.ui.doubleSpinBox_sac.setValue(data[11])
-        #self.ui.doubleSpinBox_frekans.setValue(data[12])
-        #self.ui.doubleSpinBox_gauss.setValue(data[13])
-        #self.ui.doubleSpinBox_c_deg.setValue(data[14])
-        self.nuve_bosluk=float(data[15])
-        self.primer_izo_deg=float(data[16])
-        self.primer_izo_tur = int(data[17])
-        self.sekonder_izo_deg=float(data[18])
-        self.sekonder_izo_tur = int(data[19])
-        self.pri_sek_izo_deg=float(data[20])
-        self.pri_sek_izo_tur = int(data[21])
-        self.ekran_sec = str(data[22])
-        self.ekran_izo_deg=float(data[23])
-        self.ekstra = str(data[24])
-        self.ekstra_izo_deg=float(data[25])
-        self.klemens=str(json.loads(data[26]))
-        self.ayak=str(json.loads(data[27]))
-        for i in range(0, 10):
-            self.primer_group_elementlist[i].setValue(json.loads(data[28])[i]["voltaj"])
-            self.sekonder_group_elementlist[i].setValue(json.loads(data[29])[i]["voltaj"])
-
-            for y in range(0, 10):
-                self.va_group_elementlist[i][y].setValue(json.loads(data[30])[i][y]["voltaj"])
-                # self.va_group_elementlist[i][y].setValue(1)
-            self.va_kademe_elemenlist[i].setValue(float(json.loads(data[31])[i]))
-            self.va_guc_elementlist[i].setValue(float(json.loads(data[32])[i]))
         self.tum_kademeleri_guncelle()
+
     def insert_recete_table(self):
         if self.check_requirement_fields()==False:
             error_msjbox(title='Eksik Bilgi', text='Lütfen Musteri Bilgilerini Giriniz.')
@@ -2722,17 +2700,12 @@ class Reciepedialog(QDialog):
             return False
         else:
 
-            db.insert_recete((self.ui.lineEdit_musteri_kodu.text(),self.ui.lineEdit_musteri_adi.text(),
-                              self.ui.lineEdit_siparis_kodu.text(),self.rec_veriler[ "va_enabled"],self.rec_veriler[ "primer_kademe"],
-                              self.ui.comboBox_sek.currentText(),self.ui.comboBox_va.currentText(),self.ui.doubleSpinBox_guc.value(),
-                              json.dumps(self.rec_veriler["karkas"]),
-                              self.ui.lineEdit_sac_tipi.text(),self.ui.doubleSpinBox_sac.value(),
-                              self.ui.doubleSpinBox_frekans.value(),self.ui.doubleSpinBox_gauss.value(),
-                              self.ui.doubleSpinBox_c_deg.value(),self.rec_veriler["nuve_bosluk"],self.rec_veriler["primer_izo_deg"],self.rec_veriler["primer_izo_tur"],self.rec_veriler["sekonder_izo_deg"],
-                              self.rec_veriler["sekonder_izo_tur"],self.rec_veriler["pri_sek_izo_deg"],self.rec_veriler["pri_sek_izo_tur"],self.rec_veriler["ekran_sec"],self.rec_veriler["ekran_izo_deg"],self.rec_veriler["ekstra"],self.rec_veriler["ekstra_izo_deg"],
-                              json.dumps(self.rec_veriler["klemens"]),json.dumps(self.rec_veriler["ayak"]),json.dumps(self.rec_veriler["primer_group_list"]),
-                              json.dumps(self.rec_veriler["sekonder_group_list"]),json.dumps(self.rec_veriler["va_group_list"]),json.dumps(self.rec_veriler["va_altkademe"]),json.dumps(self.rec_veriler["va_guclist"])
-                              ))
+            db.insert_recete((self.ui.lineEdit_kullanici.text(),self.ui.lineEdit_musteri_adi.text(),
+                              self.ui.lineEdit_siparis_kodu.text(),
+                              self.ui.doubleSpinBox_guc.value(),
+                              self.ui.lineEdit_primer.text(),
+                              self.ui.lineEdit_sekonder.text(),self.ui.lineEdit_sva1.text(),json.dumps(self.rec_veriler))
+                              )
 
             #self.ui.statusbar.showMessage('The record added successfully ')
 

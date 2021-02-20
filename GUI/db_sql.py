@@ -430,25 +430,17 @@ class mydb():
 # =========== recete  ==========================
     def check_recete(self,values):
 
-        query = "SELECT id,musteri_kodu,musteri_adi,siparis_kodu,kademeli,primer_kademe,sekonder_kademe,va_kademe, \
-                 guc,karkas,sac_tipi, sac,frekans,gauss,c_deg,nuve_bosluk,\
-        primer_izo_deg,primer_izo_tur,sekonder_izo_deg,sekonder_izo_tur,pri_sek_izo_deg,pri_sek_izo_tur,ekran_sec,\
-        ekran_izo_deg,ekstra,ekstra_izo_deg,klemens,ayak,primer_list,sekonder_list,sva_list,sva_altkad_list, \
-        sva_altguc_list " \
+        query = "SELECT id,kullanici,musteri_adi,siparis_kodu, \
+                 guc,primer_list,sekonder_list,sva_list,rec_veriler" \
         " FROM recete WHERE siparis_kodu = '%s'" % values
 
         data = self.fetchone(query)
         return data
     def insert_recete(self,values):
-        query = "INSERT INTO recete (musteri_kodu,musteri_adi,siparis_kodu,kademeli,primer_kademe,sekonder_kademe,va_kademe, \
-                 guc,karkas,sac_tipi, sac,frekans,gauss,c_deg,nuve_bosluk,\
-                primer_izo_deg,primer_izo_tur,sekonder_izo_deg,sekonder_izo_tur,pri_sek_izo_deg,pri_sek_izo_tur,ekran_sec,\
-                ekran_izo_deg,ekstra,ekstra_izo_deg,klemens,ayak,primer_list,sekonder_list,sva_list,sva_altkad_list, \
-                sva_altguc_list) VALUES ( " \
-                "'%s','%s','%s','%s','%s','%s','%s'," \
-                "'%f','%s','%s','%f','%f','%f','%f'," \
-                "'%f','%f','%d','%f','%d','%f','%d','%s', '%f','%s'," \
-                "'%f','%s','%s','%s','%s','%s','%s','%s' )" % values
+        query = "INSERT INTO recete (kullanici,musteri_adi,siparis_kodu, \
+                 guc,primer_list,sekonder_list,sva_list,rec_veriler) VALUES ( " \
+                "'%s','%s','%s','%f','%s','%s','%s'," \
+                "'%s' )" % values
         try:
             data = self.commit_db(query)
         except Exception as err:
@@ -456,36 +448,29 @@ class mydb():
             return None
         return True
     def calldata_with_id_recete(self,id):
-        query = "SELECT id,musteri_kodu,musteri_adi,siparis_kodu,kademeli,primer_kademe,sekonder_kademe,va_kademe, \
-                guc,karkas,sac_tipi, sac,frekans,gauss,c_deg,nuve_bosluk,\
-                primer_izo_deg,primer_izo_tur,sekonder_izo_deg,sekonder_izo_tur,pri_sek_izo_deg,pri_sek_izo_tur,ekran_sec,\
-                ekran_izo_deg,ekstra,ekstra_izo_deg,klemens,ayak,primer_list,sekonder_list,sva_list,sva_altkad_list, \
-                sva_altguc_list " \
-                "FROM recete WHERE recete.id = '%s'" % (id,)
+        query = "SELECT recete.id,kullanici,musteri_adi,siparis_kodu, \
+                 guc,primer_list,sekonder_list,sva_list,recete.record_date, rec_veriler " \
+                "FROM recete INNER JOIN users ON  recete.kullanici = users.username WHERE recete.id = '%d'" % (id,)
         data = self.fetchone(query)
         return data
     def delete_recete(self,value):
-        query = "DELETE FROM recete WHERE id='%s'" % (value,)
+        query = "DELETE FROM recete WHERE id='%d'" % (value,)
         data = self.commit_db(query)
         return data
     def update_recete(self,value):
         query = "UPDATE  recete SET " \
-                "karkas='%s',en='%s',boy='%s',ozellik_1='%s' " \
-                "WHERE id='%s'" % (value)
+                "kullanici='%s',musteri_adi='%s',siparis_kodu='%s',guc='%f',primer_list='%s',sekonder_list='%s',sva_list='%s',rec_veriler='%s'" \
+                "WHERE id='%d'" % (value)
         data = self.commit_db(query)
         return data
     def showall_recete(self):
-        query = "SELECT id,musteri_kodu,musteri_adi,siparis_kodu,kademeli,primer_kademe,sekonder_kademe,va_kademe, \
-                 guc,karkas,sac_tipi, sac,frekans,gauss,c_deg,nuve_bosluk,\
-        primer_izo_deg,primer_izo_tur,sekonder_izo_deg,sekonder_izo_tur,pri_sek_izo_deg,pri_sek_izo_tur,ekran_sec,\
-        ekran_izo_deg,ekstra,ekstra_izo_deg,klemens,ayak,primer_list,sekonder_list,sva_list,sva_altkad_list, \
-        sva_altguc_list " \
-                " FROM recete "
+        query = "SELECT recete.id,kullanici,musteri_adi,siparis_kodu ,guc,primer_list,sekonder_list,sva_list,recete.record_date,rec_veriler " \
+                " FROM recete INNER JOIN users ON  recete.kullanici = users.username"
         data = self.fetchall(query)
         return data
     def showfilter_recete(self, filter_value, index=0):
         if index == 1:
-            criteria = "recete.musteri_kodu"
+            criteria = "recete.kullanici"
         elif index == 2:
             criteria = "recete.musteri_adi"
         elif index == 3:
@@ -495,11 +480,8 @@ class mydb():
         else:
             criteria = ""
 
-        query = "SELECT id,musteri_kodu,musteri_adi,siparis_kodu,kademeli,primer_kademe,sekonder_kademe,va_kademe, \
-                 guc,karkas,sac_tipi, sac,frekans,gauss,c_deg,nuve_bosluk,\
-        primer_izo_deg,primer_izo_tur,sekonder_izo_deg,sekonder_izo_tur,pri_sek_izo_deg,pri_sek_izo_tur,ekran_sec,\
-        ekran_izo_deg,ekstra,ekstra_izo_deg,klemens,ayak,primer_list,sekonder_list,sva_list,sva_altkad_list, \
-        sva_altguc_list " \
+        query = "SELECT id,kullanici,musteri_adi,siparis_kodu, \
+                 guc,primer_list,sekonder_list,sva_list,record_date " \
                 " FROM recete WHERE {} LIKE '{}%'".format(criteria, filter_value)
         data = self.fetchall(query)
         return data
