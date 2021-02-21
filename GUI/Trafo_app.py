@@ -175,7 +175,7 @@ class Login(QDialog):
         else:
             # error_msjbox(title='Value Error', text='Please fill the blanks')
             self.ui.label_6.setText('Lütfen Girdiğiniz Değerleri Kontrol Edin')
-            print("User error")
+            print("Kullanıcı Hatası")
     def add_user(self):
         username = self.ui.lineEdit_3.text()
         password = self.ui.lineEdit_4.text()

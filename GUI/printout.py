@@ -80,6 +80,7 @@ primer_baglanti=""
 sekonder_baglanti=""
 izolasyon_karsiligi=0
 va_guclist=[]
+mlz_listesi=[]
 # ====================================================
     
 def topline(ws,tarih,trafo_tipi=trafo_tipi):
@@ -432,15 +433,12 @@ def izolasyon_mono_printout():
     
     ws2=wb.get_sheet_by_name("M_Listesi")
     start_row_list=3
-    for i in range(0,10):
-        if primer_group_list[i]["mlz_tel_1"]!="":
-            a20 = ws2.cell(row=start_row_list, column=2, value=primer_group_list[i]["mlz_tel_1"])
-            a20 = ws2.cell(row=start_row_list, column=3, value=primer_group_list[i]["mancap_1"])
-            start_row_list+=1
-        if primer_group_list[i]["mlz_tel_2"]!="":
-            a20 = ws2.cell(row=start_row_list, column=2, value=primer_group_list[i]["mlz_tel_2"])
-            a20 = ws2.cell(row=start_row_list, column=3, value=primer_group_list[i]["mancap_2"])
-            start_row_list+=1
+    for key,value in mlz_listesi.items():
+
+        a20 = ws2.cell(row=start_row_list, column=2, value=key)
+        a21 = ws2.cell(row=start_row_list, column=4, value=value)
+        start_row_list+=1
+
     try:
         wb_save(DIR=REPORT_DIR,name='izolasyon_mono.xlsx',wb=wb)
         file = REPORT_DIR+"izolasyon_mono.xlsx"

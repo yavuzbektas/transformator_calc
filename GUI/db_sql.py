@@ -450,7 +450,7 @@ class mydb():
     def calldata_with_id_recete(self,id):
         query = "SELECT recete.id,kullanici,musteri_adi,siparis_kodu, \
                  guc,primer_list,sekonder_list,sva_list,recete.record_date, rec_veriler " \
-                "FROM recete INNER JOIN users ON  recete.kullanici = users.username WHERE recete.id = '%d'" % (id,)
+                "FROM recete  WHERE recete.id = '%d'" % (id,)
         data = self.fetchone(query)
         return data
     def delete_recete(self,value):
@@ -465,24 +465,42 @@ class mydb():
         return data
     def showall_recete(self):
         query = "SELECT recete.id,kullanici,musteri_adi,siparis_kodu ,guc,primer_list,sekonder_list,sva_list,recete.record_date,rec_veriler " \
-                " FROM recete INNER JOIN users ON  recete.kullanici = users.username"
+                " FROM recete "
         data = self.fetchall(query)
         return data
     def showfilter_recete(self, filter_value, index=0):
-        if index == 1:
-            criteria = "recete.kullanici"
-        elif index == 2:
-            criteria = "recete.musteri_adi"
-        elif index == 3:
-            criteria = "recete.siparis_kodu"
-        elif index == 4:
-            criteria = "recete.record_date"
+        index1,index2=index
+        filter1,filter2=filter_value
+        if index1 == 1:
+            criteria1 = "recete.kullanici"
+        elif index1 == 2:
+            criteria1 = "recete.guc"
+        elif index1 == 3:
+            criteria1 = "recete.musteri_adi"
+        elif index1 == 4:
+            criteria1 = "recete.siparis_kodu"
+        elif index1 == 5:
+            criteria1 = "recete.record_date"
         else:
-            criteria = ""
-
-        query = "SELECT id,kullanici,musteri_adi,siparis_kodu, \
+            criteria1 = ""
+        if index2 == 1:
+            criteria2 = "recete.kullanici"
+        elif index2 == 2:
+            criteria2 = "recete.musteri_adi"
+        elif index2 == 3:
+            criteria2 = "recete.siparis_kodu"
+        elif index2 == 4:
+            criteria2 = "recete.record_date"
+        else:
+            criteria2 = ""
+        if index2 >0:
+            query = "SELECT id,kullanici,musteri_adi,siparis_kodu, \
                  guc,primer_list,sekonder_list,sva_list,record_date " \
-                " FROM recete WHERE {} LIKE '{}%'".format(criteria, filter_value)
+                " FROM recete WHERE {} LIKE '{}%' AND {} LIKE '{}%'".format(criteria1,filter1,criteria2,filter2)
+        else:
+            query = "SELECT id,kullanici,musteri_adi,siparis_kodu, \
+                             guc,primer_list,sekonder_list,sva_list,record_date " \
+                    " FROM recete WHERE {} LIKE '{}%' ".format(criteria1, filter1)
         data = self.fetchall(query)
         return data
 # =========== logs  ==========================
@@ -520,7 +538,6 @@ class mydb():
         if index == 0:
             criteria = "karkas.en = " + filter_value.split("x")[0] + " AND " + "karkas.boy  = " + filter_value.split("x")[1]
 
-            print(filter_value)
         elif index == 1:
             criteria = "karkas.karkas_name LIKE '{}%'".format(filter_value)
         elif index == 2:
@@ -577,7 +594,14 @@ class mydb():
         query = "SELECT id,tel_name,cap,ozellik_1,ozellik_2,record_date  FROM teller WHERE {} LIKE '{}%'".format(criteria, filter_value)
         data = self.fetchall(query)
         return data
+    def get_tell_byname(self, filter_value):
 
+        criteria = "teller.tel_name"
+
+
+        query = "SELECT cap  FROM teller WHERE '%s' = '%s'".format(criteria, filter_value)
+        data = self.fetchall(query)
+        return data
     # folyoteel secimi
     def check_folyotel(self,values):
         query = "SELECT id,tel_name,cap1,cap2,ozellik_1 FROM folyo_tel WHERE tel_name='%s'" % values
@@ -620,7 +644,14 @@ class mydb():
         query = "SELECT id,tel_name,cap1,cap2,ozellik_1,ozellik_2,record_date  FROM folyo_tel WHERE {} LIKE '{}%'".format(criteria, filter_value)
         data = self.fetchall(query)
         return data
+    def get_folyotell_byname(self, filter_value):
 
+        criteria = "folyo_tel.tel_name"
+
+
+        query = "SELECT cap1,cap2  FROM folyo_tel WHERE '%s' = '%s'".format(criteria, filter_value)
+        data = self.fetchall(query)
+        return data
     # karetel secimi
     def check_karetel(self, values):
         query = "SELECT id,tel_name,cap1,cap2,ozellik_1,ozellik_2 FROM kare_tel WHERE tel_name='%s'" % values
@@ -664,6 +695,14 @@ class mydb():
             criteria, filter_value)
         data = self.fetchall(query)
         return data
+    def get_karetell_byname(self, filter_value):
+
+        criteria = "kare_tel.tel_name"
+
+
+        query = "SELECT cap1,cap2  FROM kare_tel WHERE '%s' = '%s'".format(criteria, filter_value)
+        data = self.fetchall(query)
+        return data
  # kapton secimi
     def check_kapton(self,values):
         query = "SELECT id,kapton_name,cap,ozellik_1 FROM kapton WHERE kapton_name='%s'" % values
@@ -704,7 +743,14 @@ class mydb():
         query = "SELECT id,kapton_name,cap,ozellik_1,record_date  FROM kapton WHERE {} LIKE '{}%'".format(criteria, filter_value)
         data = self.fetchall(query)
         return data
+    def get_kapton_byname(self, filter_value):
 
+        criteria = "kapton.tel_name"
+
+
+        query = "SELECT cap  FROM kapton WHERE '%s' = '%s'".format(criteria, filter_value)
+        data = self.fetchall(query)
+        return data
  # tel_spir secimi
     def check_tel_spir(self,values):
         query = "SELECT id,tel_cap,a_deg,b_deg,c_deg,cu_deg,al_deg FROM tel_spir WHERE tel_cap='%s'" % values

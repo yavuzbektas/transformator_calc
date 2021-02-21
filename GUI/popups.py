@@ -9,7 +9,7 @@ from QT_file.about import Ui_Form as About_window
 from QT_file.kesit_param import Ui_Dialog as KesitParam_dialog
 import hesaplamalar  as hp
 from PySide2.QtWidgets import QMainWindow,QDialog,QTableWidgetItem,QPushButton,QLineEdit,QLabel,QMessageBox
-from PySide2.QtCore import SIGNAL, QObject,QTimer,Qt,QRect
+from PySide2.QtCore import SIGNAL, QObject,QTimer,Qt,QRect,QDateTime
 import db_sql,math,time
 import veri_tipi as vt
 import json
@@ -177,7 +177,7 @@ class Karkasdialog(QDialog):
             if button_name == QMessageBox.Discard:
                 try :
                     data = db.check_karkas((self.ui.lineEdit_karkas_name.text()))
-                    print(data)
+
                     if data!="" and data!=None:
                         error_msjbox(text='Bu isimle bir Karkas ismi var Lütfen İsmi Değiştirin', title='Karkas isim Hatası')
                         return False
@@ -309,7 +309,7 @@ class Telselectdialog(QDialog):
             if button_name == QMessageBox.Discard:
                 try :
                     data = db.check_teller((self.ui.lineEdit_tel_name.text()))
-                    print(data)
+
                     if data!="" and data!=None:
                         error_msjbox(text='Bu isimle bir Yuvarlak TEl  ismi var Lütfen İsmi Değiştirin', title='Yuvarlak TEl isim Hatası')
                         return False
@@ -387,7 +387,7 @@ class Telselectdialog(QDialog):
             if button_name == QMessageBox.Discard:
                 try :
                     data = db.check_karetel((self.ui.lineEdit_tel_name_2.text()))
-                    print(data)
+
                     if data!="" and data!=None:
                         error_msjbox(text='Bu isimle bir KareTel tel ismi var. Lütfen İsmi Değiştirin', title='KareTel isim Hatası')
                         return False
@@ -462,7 +462,7 @@ class Telselectdialog(QDialog):
             if button_name == QMessageBox.Discard:
                 try :
                     data = db.check_folyotel((self.ui.lineEdit_tel_name_3.text()))
-                    print(data)
+
                     if data!="" and data!=None:
                         error_msjbox(text='Bu isimle bir folyo ismi var Lütfen İsmi Değiştirin', title='Folyo isim Hatası')
                         return False
@@ -538,7 +538,7 @@ class Telselectdialog(QDialog):
             if button_name == QMessageBox.Discard:
                 try :
                     data = db.check_kapton((self.ui.lineEdit_tel_name_4.text()))
-                    print(data)
+
                     if data!="" and data!=None:
                         error_msjbox(text='Bu isimle bir Kapton ismi var Lütfen İsmi Değiştirin', title='Kapton isim Hatası')
                         return False
@@ -697,7 +697,7 @@ class Klemensdialog(QDialog):
             if button_name == QMessageBox.Discard:
                 try :
                     data = db.check_klemens((self.ui.lineEdit_klemens_name.text()))
-                    print(data)
+
                     if data!="" and data!=None:
                         error_msjbox(text='Bu isimle bir  klemens ismi var Lütfen İsmi Değiştirin', title='klemens isim Hatası')
                         return False
@@ -745,7 +745,7 @@ class Klemensdialog(QDialog):
             if button_name == QMessageBox.Discard:
                 try :
                     data = db.check_ayak((self.ui.lineEdit_ayak_name.text()))
-                    print(data)
+
                     if data!="" and data!=None:
                         error_msjbox(text='Bu isimle bir  ayak ismi var Lütfen İsmi Değiştirin', title='ayak isim Hatası')
                         return False
@@ -2545,8 +2545,10 @@ class Reciepedialog(QDialog):
         self.ui.pushButton_sil.clicked.connect(self.delete_recete_table)
         self.ui.tableWidget.itemClicked.connect(self.callback_from_recete_table)
         self.ui.comboBox_filter1.currentIndexChanged.connect(self.date_visible_event)
-
+        self.ui.lineEdit_musteri_adi.textChanged.connect(self.siparis_kodu_olustur)
         self.ui.dateEdit.dateChanged.connect(lambda x:self.ui.lineEdit_ara_text1.setText(self.ui.dateEdit.date().toString("yyyy-MM-dd")))
+    def siparis_kodu_olustur(self):
+        self.ui.lineEdit_siparis_kodu.setText(self.ui.lineEdit_musteri_adi.text() + "_" +self.ui.lineEdit_kullanici.text() + "_" +str(QDateTime.currentDateTime().toString("yyyy-MM-dd HH:mm:ss")))
     def recete_veri_kumesi(self):
         self.rec_veriler = vt.recete_veri.copy()
 
@@ -2556,7 +2558,7 @@ class Reciepedialog(QDialog):
                                      self.ui.lineEdit_sva5,self.ui.lineEdit_sva6,self.ui.lineEdit_sva7,self.ui.lineEdit_sva8,
                                      self.ui.lineEdit_sva9,self.ui.lineEdit_sva10]
     def date_visible_event(self):
-        if self.ui.comboBox_filter1.currentIndex()==4:
+        if self.ui.comboBox_filter1.currentIndex()==5:
             self.ui.dateEdit.setVisible(True)
 
         else:
@@ -2629,17 +2631,20 @@ class Reciepedialog(QDialog):
         self.ui.lineEdit_ara_text1.text()
         self.ui.comboBox_filter1.currentIndex()
 
-        data = db.showfilter_recete(index=self.ui.comboBox_filter1.currentIndex(), filter_value=self.ui.lineEdit_ara_text1.text())
+        data = db.showfilter_recete(
+            index=(self.ui.comboBox_filter1.currentIndex(),self.ui.comboBox_filter2.currentIndex()),
+            filter_value=(self.ui.lineEdit_ara_text1.text(),self.ui.lineEdit_ara_text2.text()))
 
         table_update(data, headers_recete, self.ui.tableWidget)
     def delete_recete_table(self):
-        if self.rec_veriler["recete_ID"] >= 1:
+
+        if self.ui.doubleSpinBox_ID.value() >= 1:
             returnValue = delete_msjbox(
-                text="{} Nolu kayıt silinecektir.\nDevam Etmek için Delete tuşuna basın".format(self.rec_veriler["recete_ID"] ),
+                text='{} Nolu kayıt silinecektir.\nDevam Etmek için Sil  tuşuna basın'.format(self.ui.doubleSpinBox_ID.value() ),
                 title="DİKKAT - Veriler silinecektir")
 
             if returnValue == QMessageBox.Discard:
-                db.delete_recete(int(self.rec_veriler["recete_ID"] ))
+                db.delete_recete(int(self.ui.doubleSpinBox_ID.value() ))
 
                 data = db.showall_recete()
                 table_update(data, headers_recete, self.ui.tableWidget)
@@ -2655,9 +2660,20 @@ class Reciepedialog(QDialog):
 
         self.ui.doubleSpinBox_ID.setValue(0)
         self.ui.doubleSpinBox_guc.setValue(0)
-
+        self.rec_veriler = vt.recete_veri.copy()
+        self.ui.lineEdit_primer.setText("")
+        self.ui.lineEdit_sekonder.setText("")
+        self.ui.lineEdit_sva1.setText("")
+        self.ui.lineEdit_sva2.setText("")
+        self.ui.lineEdit_sva3.setText("")
+        self.ui.lineEdit_sva4.setText("")
+        self.ui.lineEdit_sva5.setText("")
+        self.ui.lineEdit_sva6.setText("")
+        self.ui.lineEdit_sva7.setText("")
+        self.ui.lineEdit_sva8.setText("")
+        self.ui.lineEdit_sva9.setText("")
+        self.ui.lineEdit_sva10.setText("")
         self.ui.lineEdit_musteri_adi.setText("")
-
         self.ui.lineEdit_siparis_kodu.setText("")
 
         self.ui.lineEdit_tarih.setText("")
@@ -2667,7 +2683,7 @@ class Reciepedialog(QDialog):
         self.ui.doubleSpinBox_ID.setValue(self.rec_veriler["recete_ID"])
         self.ui.lineEdit_musteri_adi.setText(self.rec_veriler["musteri_adi"])
         self.ui.lineEdit_siparis_kodu.setText(self.rec_veriler["siparis_kodu"])
-
+        self.ui.lineEdit_kullanici.setText(self.rec_veriler["kullanici"])
         self.tum_kademeleri_guncelle()
     def read_data_fromsql_write_fields(self,data):
         self.tum_kademeleri_temizle()
@@ -2704,9 +2720,22 @@ class Reciepedialog(QDialog):
                               self.ui.lineEdit_siparis_kodu.text(),
                               self.ui.doubleSpinBox_guc.value(),
                               self.ui.lineEdit_primer.text(),
-                              self.ui.lineEdit_sekonder.text(),self.ui.lineEdit_sva1.text(),json.dumps(self.rec_veriler))
+                              self.ui.lineEdit_sekonder.text(),json.dumps([self.ui.lineEdit_sva1.text(),
+                                                                self.ui.lineEdit_sva2.text(),
+                                                                self.ui.lineEdit_sva3.text(),
+                                                                self.ui.lineEdit_sva4.text(),
+                                                                self.ui.lineEdit_sva5.text(),
+                                                                self.ui.lineEdit_sva6.text(),
+                                                                self.ui.lineEdit_sva7.text(),
+                                                                self.ui.lineEdit_sva8.text(),
+                                                                self.ui.lineEdit_sva9.text(),
+                                                                self.ui.lineEdit_sva10.text()]),
+                                                                json.dumps(self.rec_veriler))
                               )
-
+            info_msjbox(
+                text='Sip. Kod: {} \nKayıt olusturulmustur.\nDevam Etmek için Ok tuşuna basın'.format(
+                    self.ui.lineEdit_siparis_kodu.text()),
+                title="Bilgi - Yeni Kayıt ")
             #self.ui.statusbar.showMessage('The record added successfully ')
 
         data = db.showall_recete()

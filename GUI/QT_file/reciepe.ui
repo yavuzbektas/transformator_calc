@@ -366,6 +366,12 @@
      <height>181</height>
     </rect>
    </property>
+   <property name="selectionMode">
+    <enum>QAbstractItemView::SingleSelection</enum>
+   </property>
+   <property name="selectionBehavior">
+    <enum>QAbstractItemView::SelectRows</enum>
+   </property>
    <column>
     <property name="text">
      <string>ID</string>
@@ -383,62 +389,27 @@
    </column>
    <column>
     <property name="text">
-     <string>Primer Gerilimleri</string>
+     <string>Siparis Kodu</string>
     </property>
    </column>
    <column>
     <property name="text">
-     <string>Sekonder Gerilimleri</string>
+     <string>Guc</string>
     </property>
    </column>
    <column>
     <property name="text">
-     <string>S1 Guc/kdm/gerilimler</string>
+     <string>Primer</string>
     </property>
    </column>
    <column>
     <property name="text">
-     <string>S2 Guc/kdm/gerilimler</string>
+     <string>Sekonder</string>
     </property>
    </column>
    <column>
     <property name="text">
-     <string>S3 Guc/kdm/gerilimler</string>
-    </property>
-   </column>
-   <column>
-    <property name="text">
-     <string>S4 Guc/kdm/gerilimler</string>
-    </property>
-   </column>
-   <column>
-    <property name="text">
-     <string>S5 Guc/kdm/gerilimler</string>
-    </property>
-   </column>
-   <column>
-    <property name="text">
-     <string>S6 Guc/kdm/gerilimler</string>
-    </property>
-   </column>
-   <column>
-    <property name="text">
-     <string>S7 Guc/kdm/gerilimler</string>
-    </property>
-   </column>
-   <column>
-    <property name="text">
-     <string>S8 Guc/kdm/gerilimler</string>
-    </property>
-   </column>
-   <column>
-    <property name="text">
-     <string>S9 Guc/kdm/gerilimler</string>
-    </property>
-   </column>
-   <column>
-    <property name="text">
-     <string>S10 Guc/kdm/gerilimler</string>
+     <string>VA Dagilim</string>
     </property>
    </column>
    <column>
@@ -452,7 +423,7 @@
     <rect>
      <x>10</x>
      <y>-2</y>
-     <width>361</width>
+     <width>521</width>
      <height>121</height>
     </rect>
    </property>
@@ -462,7 +433,7 @@
    <widget class="QLabel" name="label_56">
     <property name="geometry">
      <rect>
-      <x>270</x>
+      <x>430</x>
       <y>29</y>
       <width>31</width>
       <height>20</height>
@@ -478,7 +449,7 @@
     </property>
     <property name="geometry">
      <rect>
-      <x>300</x>
+      <x>460</x>
       <y>29</y>
       <width>51</width>
       <height>24</height>
@@ -712,15 +683,22 @@
    </widget>
    <widget class="QLineEdit" name="lineEdit_siparis_kodu">
     <property name="enabled">
-     <bool>true</bool>
+     <bool>false</bool>
     </property>
     <property name="geometry">
      <rect>
       <x>110</x>
       <y>84</y>
-      <width>241</width>
+      <width>401</width>
       <height>24</height>
      </rect>
+    </property>
+    <property name="font">
+     <font>
+      <pointsize>6</pointsize>
+      <weight>75</weight>
+      <bold>true</bold>
+     </font>
     </property>
    </widget>
    <widget class="QLineEdit" name="lineEdit_musteri_adi">
@@ -728,7 +706,7 @@
      <rect>
       <x>110</x>
       <y>56</y>
-      <width>241</width>
+      <width>401</width>
       <height>24</height>
      </rect>
     </property>
@@ -950,9 +928,9 @@
   <widget class="QLineEdit" name="lineEdit_ara_text1">
    <property name="geometry">
     <rect>
-     <x>240</x>
+     <x>166</x>
      <y>287</y>
-     <width>381</width>
+     <width>201</width>
      <height>31</height>
     </rect>
    </property>
@@ -960,7 +938,7 @@
   <widget class="QPushButton" name="pushButton_ara">
    <property name="geometry">
     <rect>
-     <x>630</x>
+     <x>734</x>
      <y>287</y>
      <width>61</width>
      <height>31</height>
@@ -975,7 +953,7 @@
     <rect>
      <x>10</x>
      <y>287</y>
-     <width>221</width>
+     <width>151</width>
      <height>31</height>
     </rect>
    </property>
@@ -986,12 +964,17 @@
    </item>
    <item>
     <property name="text">
-     <string>Musteri_Adı</string>
+     <string>Kullanıcı</string>
     </property>
    </item>
    <item>
     <property name="text">
-     <string>Musteri_kodu</string>
+     <string>Guc</string>
+    </property>
+   </item>
+   <item>
+    <property name="text">
+     <string>Musteri_Adı</string>
     </property>
    </item>
    <item>
@@ -1008,7 +991,7 @@
   <widget class="QDateEdit" name="dateEdit">
    <property name="geometry">
     <rect>
-     <x>700</x>
+     <x>800</x>
      <y>288</y>
      <width>151</width>
      <height>31</height>
@@ -1089,7 +1072,7 @@
   <widget class="Line" name="line">
    <property name="geometry">
     <rect>
-     <x>370</x>
+     <x>530</x>
      <y>0</y>
      <width>20</width>
      <height>140</height>
@@ -1102,7 +1085,7 @@
   <widget class="QGroupBox" name="groupBox_4">
    <property name="geometry">
     <rect>
-     <x>390</x>
+     <x>550</x>
      <y>0</y>
      <width>291</width>
      <height>121</height>
@@ -1125,6 +1108,9 @@
     </property>
    </widget>
    <widget class="QLineEdit" name="lineEdit_tarih">
+    <property name="enabled">
+     <bool>false</bool>
+    </property>
     <property name="geometry">
      <rect>
       <x>123</x>
@@ -1132,6 +1118,13 @@
       <width>161</width>
       <height>24</height>
      </rect>
+    </property>
+    <property name="font">
+     <font>
+      <pointsize>6</pointsize>
+      <weight>75</weight>
+      <bold>true</bold>
+     </font>
     </property>
    </widget>
    <widget class="QLineEdit" name="lineEdit_kullanici">
@@ -1164,7 +1157,7 @@
   <widget class="Line" name="line_2">
    <property name="geometry">
     <rect>
-     <x>680</x>
+     <x>840</x>
      <y>0</y>
      <width>20</width>
      <height>140</height>
@@ -1187,24 +1180,52 @@
     <string>Sec</string>
    </property>
   </widget>
+  <widget class="QLineEdit" name="lineEdit_ara_text2">
+   <property name="geometry">
+    <rect>
+     <x>526</x>
+     <y>288</y>
+     <width>201</width>
+     <height>31</height>
+    </rect>
+   </property>
+  </widget>
+  <widget class="QComboBox" name="comboBox_filter2">
+   <property name="geometry">
+    <rect>
+     <x>372</x>
+     <y>289</y>
+     <width>151</width>
+     <height>31</height>
+    </rect>
+   </property>
+   <item>
+    <property name="text">
+     <string/>
+    </property>
+   </item>
+   <item>
+    <property name="text">
+     <string>Kullanıcı</string>
+    </property>
+   </item>
+   <item>
+    <property name="text">
+     <string>Guc</string>
+    </property>
+   </item>
+   <item>
+    <property name="text">
+     <string>Musteri_Adı</string>
+    </property>
+   </item>
+   <item>
+    <property name="text">
+     <string>Siparis_Kodu</string>
+    </property>
+   </item>
+  </widget>
  </widget>
  <resources/>
- <connections>
-  <connection>
-   <sender>lineEdit_musteri_adi</sender>
-   <signal>textChanged(QString)</signal>
-   <receiver>lineEdit_siparis_kodu</receiver>
-   <slot>setText(QString)</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>212</x>
-     <y>66</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>220</x>
-     <y>90</y>
-    </hint>
-   </hints>
-  </connection>
- </connections>
+ <connections/>
 </ui>

@@ -18,6 +18,7 @@ import hesaplamalar  as hp
 import popups as popup
 import veri_tipi as vt
 import json
+from collections import Counter
 import logging,logging.handlers
 
 # =====================================================================================================
@@ -403,7 +404,7 @@ class MyWindow(QMainWindow):
         self.izolasyon_hesapla()
         self.bosluk_hesapla()
         self.olcu_hesapla()
-
+        self.malzeme_listesi_yap()
     # ======= Diyolog pencerelerin acilisi ===========================
     def tum_degerleri_temizle(self):
         returnValue = clear_msjbox(
@@ -645,32 +646,7 @@ class MyWindow(QMainWindow):
         self.window3.show()
         self.window3.ui.pushButton_sec.clicked.connect(lambda  x:self.izolasyon_verileri_guncelle(object=self.window3))
         self.izolasyon_deger_al(object=self.window3)
-    def open_telsecim(self,gl,type="tel",index=1):
-        self.window2 = Telselectdialog()
 
-        if type=="tel":
-
-            self.window2.setWindowTitle("Tel Seçim Sayfası")
-            self.window2.ui.tabWidget.setCurrentIndex(0)
-            self.window2.show()
-            self.window2.ui.pushButton_sec.clicked.connect(lambda x: self.tel_deger_al(gl=gl,object=self.window2,type=type,index=index))
-        elif type=="karetel":
-            self.window2.setWindowTitle("Kare Tel Seçim Sayfası")
-            self.window2.ui.tabWidget.setCurrentIndex(1)
-            self.window2.show()
-            self.window2.ui.pushButton_sec_2.clicked.connect(lambda x: self.tel_deger_al(gl=gl,object=self.window2,type=type,index=index))
-        elif type=="folyotel":
-            self.window2.setWindowTitle("Folyo Seçim Sayfası")
-            self.window2.ui.tabWidget.setCurrentIndex(2)
-            self.window2.show()
-            self.window2.ui.pushButton_sec_3.clicked.connect(lambda x: self.tel_deger_al(gl=gl,object=self.window2,type=type,index=index))
-        elif type=="kapton":
-            self.window2.setWindowTitle("Kare Tel Seçim Sayfası")
-            self.window2.ui.tabWidget.setCurrentIndex(3)
-            self.window2.show()
-            self.window2.ui.pushButton_sec_4.clicked.connect(lambda x: self.tel_deger_al(gl=gl,object=self.window2,type=type,index=index))
-        else:
-            pass
     def open_other_trafo(self,trafo_index):
         if trafo_index == 0:
             import myApp
@@ -759,7 +735,7 @@ class MyWindow(QMainWindow):
             self.window.ui.stackedWidget.setCurrentIndex(0)
     # ========== RECETE ==========================
     def recete_veri_kumesi(self,veri_kumesi):
-
+        veri_kumesi.rec_veriler["kullanici"] = self.ui.lineEdit_user.text()
         veri_kumesi.rec_veriler["primer_group_list"] = self.group_name_list_primer_kademe
         veri_kumesi.rec_veriler["sekonder_group_list"] = self.group_name_list_sekonder_kademe
         veri_kumesi.rec_veriler["va_group_list"][0] = self.group_name_list_sva1_kademe
@@ -817,60 +793,55 @@ class MyWindow(QMainWindow):
         if data == None:
             return False
         self.degerler_sifirlama()
-        if data[4]=="False":
+        self.rec_veriler = json.loads(data[9])
+
+        if self.rec_veriler["va_enabled"]==False:
 
             self.ui.radioButton_kademeli.setChecked(True)
         else:
 
             self.ui.radioButton_vadagilim.setChecked(True)
-        self.ui.comboBox.setCurrentText(str(data[5]))
-        self.ui.comboBox_sek.setCurrentText(str(data[6]))
-        self.ui.comboBox_va.setCurrentText(str(data[7]))
-        self.ui.doubleSpinBox_guc.setValue(data[8])
-        self.ui.doubleSpinBox_karkas_en.setValue(float(json.loads(data[9])["en"]))
-        self.ui.doubleSpinBox_karkas_boy.setValue(float(json.loads(data[9])["boy"]))
-        self.ui.doubleSpinBox_karkas_yukseklik.setValue(float(json.loads(data[9])["yukseklik"]))
-        self.ui.doubleSpinBox_karkas_verim.setValue(float(json.loads(data[9])["verim"]))
-        self.ui.lineEdit_mlz_karkas.setText(json.loads(data[9])["adi"])
-        self.ui.comboBox_sactipi.setCurrentText(data[10])
-        self.ui.doubleSpinBox_sac.setValue(data[11])
-        self.ui.doubleSpinBox_frekans.setValue(data[12])
-        self.ui.doubleSpinBox_gauss.setValue(data[13])
-        self.ui.doubleSpinBox_c.setValue(data[14])
-        self.ui.doubleSpinBox_nuvebosluk.setValue(data[15])
-        self.ui.doubleSpinBox_primer_izo_deg.setValue(data[16])
-        self.ui.doubleSpinBox_primer_izo_tur.setValue(data[17])
-        self.ui.doubleSpinBox_sekonder_izo_deg.setValue(data[18])
-        self.ui.doubleSpinBox_sekonder_izo_tur.setValue(data[19])
-        self.ui.doubleSpinBox_pri_sek_izo_deg.setValue(data[20])
-        self.ui.doubleSpinBox_pri_sek_izo_tur.setValue(data[21])
-        self.ui.checkBox_ekran_sec.setChecked(bool(data[22]))
-        self.ui.doubleSpinBox_ekran_izo_deg.setValue(data[23])
-        self.ui.checkBox_ekstra.setChecked(bool(data[24]))
-        self.ui.doubleSpinBox_ekstra_izo_deg.setValue(data[25])
-        self.ui.lineEdit_klemens_adi.setText(json.loads(data[26])["adi"])
-        self.ui.doubleSpinBox_klemens_a_deg.setValue(json.loads(data[26])["en"])
-        self.ui.doubleSpinBox_klemens_b_deg.setValue(json.loads(data[26])["boy"])
-        self.ui.doubleSpinBox_klemens_akim.setValue(json.loads(data[26])["akim"])
-        self.ui.lineEdit_ayak_adi.setText(json.loads(data[27])["adi"])
-        self.ui.doubleSpinBox_ayak_a_deg.setValue(json.loads(data[27])["en"])
-        self.ui.doubleSpinBox_ayak_b_deg.setValue(json.loads(data[27])["boy"])
-
-        self.ui.lineEdit_mlz_karkas.setText(json.loads(data[9])["adi"])
-        self.ui.doubleSpinBox_karkas_en.setValue(float(json.loads(data[9])["en"]))
-        self.ui.doubleSpinBox_karkas_boy.setValue(float(json.loads(data[9])["boy"]))
-        self.ui.doubleSpinBox_karkas_yukseklik.setValue(float(json.loads(data[9])["yukseklik"]))
-        self.ui.doubleSpinBox_karkas_verim.setValue(float(json.loads(data[9])["verim"]))
-
+        self.ui.comboBox.setCurrentText(str(self.rec_veriler["primer_kademe"]))
+        self.ui.comboBox_sek.setCurrentText(str(self.rec_veriler["sekonder_kademe"]))
+        self.ui.comboBox_va.setCurrentText(str(self.rec_veriler["va_kademe"]))
+        self.ui.doubleSpinBox_guc.setValue(self.rec_veriler["guc"])
+        self.ui.doubleSpinBox_karkas_en.setValue(self.rec_veriler["karkas"]["en"])
+        self.ui.doubleSpinBox_karkas_boy.setValue(float(self.rec_veriler["karkas"]["boy"]))
+        self.ui.doubleSpinBox_karkas_yukseklik.setValue(float(self.rec_veriler["karkas"]["yukseklik"]))
+        self.ui.doubleSpinBox_karkas_verim.setValue(float(self.rec_veriler["karkas"]["verim"]))
+        self.ui.lineEdit_mlz_karkas.setText(self.rec_veriler["karkas"]["adi"])
+        self.ui.comboBox_sactipi.setCurrentText(self.rec_veriler["sac_tipi"])
+        self.ui.doubleSpinBox_sac.setValue(self.rec_veriler["sac"])
+        self.ui.doubleSpinBox_frekans.setValue(self.rec_veriler["frekans"])
+        self.ui.doubleSpinBox_gauss.setValue(self.rec_veriler["gauss"])
+        self.ui.doubleSpinBox_c.setValue(self.rec_veriler["c_sac"])
+        self.ui.doubleSpinBox_nuvebosluk.setValue(self.rec_veriler["nuve_bosluk"])
+        self.ui.doubleSpinBox_primer_izo_deg.setValue(self.rec_veriler["primer_izo_deg"])
+        self.ui.doubleSpinBox_primer_izo_tur.setValue(self.rec_veriler["primer_izo_tur"])
+        self.ui.doubleSpinBox_sekonder_izo_deg.setValue(self.rec_veriler["sekonder_izo_deg"])
+        self.ui.doubleSpinBox_sekonder_izo_tur.setValue(self.rec_veriler["sekonder_izo_tur"])
+        self.ui.doubleSpinBox_pri_sek_izo_deg.setValue(self.rec_veriler["pri_sek_izo_deg"])
+        self.ui.doubleSpinBox_pri_sek_izo_tur.setValue(self.rec_veriler["pri_sek_izo_tur"])
+        self.ui.checkBox_ekran_sec.setChecked(bool(self.rec_veriler["ekran_sec"]))
+        self.ui.doubleSpinBox_ekran_izo_deg.setValue(self.rec_veriler["ekran_izo_deg"])
+        self.ui.checkBox_ekstra.setChecked(bool(self.rec_veriler["ekstra"]))
+        self.ui.doubleSpinBox_ekstra_izo_deg.setValue(self.rec_veriler["ekstra_izo_deg"])
+        self.ui.lineEdit_klemens_adi.setText(self.rec_veriler["klemens"]["adi"])
+        self.ui.doubleSpinBox_klemens_a_deg.setValue(self.rec_veriler["klemens"]["en"])
+        self.ui.doubleSpinBox_klemens_b_deg.setValue(self.rec_veriler["klemens"]["boy"])
+        self.ui.doubleSpinBox_klemens_akim.setValue(self.rec_veriler["klemens"]["akim"])
+        self.ui.lineEdit_ayak_adi.setText(self.rec_veriler["ayak"]["adi"])
+        self.ui.doubleSpinBox_ayak_a_deg.setValue(self.rec_veriler["ayak"]["en"])
+        self.ui.doubleSpinBox_ayak_b_deg.setValue(self.rec_veriler["ayak"]["boy"])
 
         for i in range(0, 10):
-            self.group_name_list_primer_kademe[i]=json.loads(data[28])[i]
-            self.group_name_list_sekonder_kademe[i]=json.loads(data[29])[i]
-            self.va_guclist[i].setValue(float(json.loads(data[32])[i]))
-            self.va_kademe_listesi[i].setCurrentText(str(int(json.loads(data[31])[i])))
+            self.group_name_list_primer_kademe[i]=self.rec_veriler["primer_group_list"][i]
+            self.group_name_list_sekonder_kademe[i]=self.rec_veriler["sekonder_group_list"][i]
+            self.va_guclist[i].setValue(float(self.rec_veriler["va_guclist"][i]))
+            self.va_kademe_listesi[i].setCurrentText(str(self.rec_veriler["va_altkademe"][i]))
 
             for y in range(0, 10):
-                self.va_group_elementlist[i][y]=json.loads(data[30])[i][y]
+                self.va_group_elementlist[i][y]=self.rec_veriler["va_group_list"][i][y]
 
         self.hesaplamalari_guncelle()
         self.va_kademe_guncelle()
@@ -1034,6 +1005,7 @@ class MyWindow(QMainWindow):
             self.ui.comboBox_va.setCurrentIndex(0)
             self.ui.comboBox_va.setEnabled(False)
             self.ui.comboBox_sek.setEnabled(True)
+            self.sekonder_veri_kumesi()
         elif mod==1:
             
             self.kademe_goster(object=self.ui.comboBox_sva1_kad, group_list=self.kademe_list_s1)
@@ -1042,6 +1014,7 @@ class MyWindow(QMainWindow):
             self.ui.comboBox_va.setEnabled(True)
             self.ui.comboBox_sek.setEnabled(False)
             self.ui.stackedWidget_2.setCurrentIndex(1)
+            self.sekonder_veri_kumesi()
         self.hesaplamalari_guncelle()
             # self.hesap_1_gnl(gl=self.group_name_list_sekonder_kademe,
             #         gl2=self.group_name_list_sekonder_2,
@@ -2830,6 +2803,50 @@ class MyWindow(QMainWindow):
         self.ui.doubleSpinBox_ayak_a_deg.setValue(a)
         
         self.olcu_hesapla()
+    def malzeme_listesi_yap(self):
+        malzeme_listesix =[]
+
+        for i in range (0,10):
+
+            for key,val in list(vt.malzeme_listesi["teller"].items()):
+                if self.group_name_list_primer_kademe[i][key]!="":
+                  malzeme_listesix.append({self.group_name_list_primer_kademe[i][key]:self.group_name_list_primer_kademe[i][val]})
+
+                if self.group_name_list_sekonder_kademe[i][key]!="":
+                  malzeme_listesix.append({self.group_name_list_sekonder_kademe[i][key]:self.group_name_list_sekonder_kademe[i][val]})
+                for y in range(0, 10):
+                    if self.va_group_elementlist[i][y][key]!="":
+                      malzeme_listesix.append({self.va_group_elementlist[i][y][key]:self.va_group_elementlist[i][y][val]})
+
+        counter = Counter()
+        for d in malzeme_listesix:
+            counter.update(d)
+
+        self.tum_malzeme_listesi = dict(counter)
+        self.kesit_listesi=[]
+        self.kesit_listesi.clear()
+        for mlz,value in self.tum_malzeme_listesi.items():
+
+            data1 = db.get_tell_byname( filter_value=mlz)
+            if data1!="":
+
+                self.kesit_listesi.append(str(data1[2],))
+
+            data2 = db.get_karetell_byname( filter_value=mlz)
+            if data2 != "":
+                self.kesit_listesi.append(str(data2[2])+"x"+str(data2[3]))
+
+            data3 = db.get_folyotell_byname(filter_value=mlz)
+            if data3 != "":
+                self.kesit_listesi.append(str(data3[2]) + "x" + str(data3[3]))
+
+            data4 = db.get_kapton_byname(filter_value=mlz)
+            if data4 != "":
+                self.kesit_listesi.append(str(data4[2]))
+        print(self.kesit_listesi)
+        return self.tum_malzeme_listesi
+        #self.group_name_list_sekonder_kademe
+        #self.va_group_elementlist
 # ======================  Genel Fonksiyonlar =========================
     def hesap_sarim_uzunlugu(self):
         self.primer_sarim_yukseklik_toplam =0.0
@@ -3109,6 +3126,7 @@ class MyWindow(QMainWindow):
         printout.va_guclist.append(self.guclist_1[7].value())
         printout.va_guclist.append(self.guclist_1[8].value())
         printout.va_guclist.append(self.guclist_1[9].value())
+        printout.mlz_listesi=self.tum_malzeme_listesi
     def printout_report(self):
         self.printout_veri_kumesi()
         
