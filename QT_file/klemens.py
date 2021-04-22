@@ -23,17 +23,13 @@ class Ui_Dialog(object):
         Dialog.resize(630, 502)
         self.tabWidget = QTabWidget(Dialog)
         self.tabWidget.setObjectName(u"tabWidget")
-        self.tabWidget.setGeometry(QRect(10, 10, 611, 481))
+        self.tabWidget.setGeometry(QRect(10, 10, 611, 451))
         font = QFont()
         font.setBold(True)
         font.setWeight(75)
         self.tabWidget.setFont(font)
         self.tab = QWidget()
         self.tab.setObjectName(u"tab")
-        self.pushButton_sec_klemens = QPushButton(self.tab)
-        self.pushButton_sec_klemens.setObjectName(u"pushButton_sec_klemens")
-        self.pushButton_sec_klemens.setGeometry(QRect(520, 421, 81, 31))
-        self.pushButton_sec_klemens.setFont(font)
         self.tableWidget_klemens = QTableWidget(self.tab)
         if (self.tableWidget_klemens.columnCount() < 5):
             self.tableWidget_klemens.setColumnCount(5)
@@ -53,6 +49,8 @@ class Ui_Dialog(object):
         self.tableWidget_klemens.setEditTriggers(QAbstractItemView.AnyKeyPressed)
         self.tableWidget_klemens.setSelectionMode(QAbstractItemView.SingleSelection)
         self.tableWidget_klemens.setSelectionBehavior(QAbstractItemView.SelectRows)
+        self.tableWidget_klemens.setSortingEnabled(True)
+        self.tableWidget_klemens.horizontalHeader().setStretchLastSection(True)
         self.tableWidget_klemens.verticalHeader().setProperty("showSortIndicator", False)
         self.label_5 = QLabel(self.tab)
         self.label_5.setObjectName(u"label_5")
@@ -175,7 +173,7 @@ class Ui_Dialog(object):
         self.lineEdit_ID_ayak.setGeometry(QRect(10, 50, 41, 24))
         self.lineEdit_ayak_name = QLineEdit(self.groupBox_2)
         self.lineEdit_ayak_name.setObjectName(u"lineEdit_ayak_name")
-        self.lineEdit_ayak_name.setGeometry(QRect(60, 50, 161, 24))
+        self.lineEdit_ayak_name.setGeometry(QRect(55, 50, 191, 24))
         self.doubleSpinBox_ayak_a = QDoubleSpinBox(self.groupBox_2)
         self.doubleSpinBox_ayak_a.setObjectName(u"doubleSpinBox_ayak_a")
         self.doubleSpinBox_ayak_a.setEnabled(True)
@@ -245,6 +243,14 @@ class Ui_Dialog(object):
         self.pushButton_sil_ayak.setGeometry(QRect(520, 80, 80, 41))
         self.pushButton_sil_ayak.setFont(font1)
         self.tabWidget.addTab(self.tab_2, "")
+        self.pushButton_sec_klemens = QPushButton(Dialog)
+        self.pushButton_sec_klemens.setObjectName(u"pushButton_sec_klemens")
+        self.pushButton_sec_klemens.setGeometry(QRect(380, 460, 81, 31))
+        self.pushButton_sec_klemens.setFont(font)
+        self.pushButton_sec = QPushButton(Dialog)
+        self.pushButton_sec.setObjectName(u"pushButton_sec")
+        self.pushButton_sec.setGeometry(QRect(540, 460, 81, 31))
+        self.pushButton_sec.setFont(font)
 
         self.retranslateUi(Dialog)
 
@@ -256,7 +262,6 @@ class Ui_Dialog(object):
 
     def retranslateUi(self, Dialog):
         Dialog.setWindowTitle(QCoreApplication.translate("Dialog", u"Dialog", None))
-        self.pushButton_sec_klemens.setText(QCoreApplication.translate("Dialog", u"Sec", None))
         ___qtablewidgetitem = self.tableWidget_klemens.horizontalHeaderItem(0)
         ___qtablewidgetitem.setText(QCoreApplication.translate("Dialog", u"ID", None));
         ___qtablewidgetitem1 = self.tableWidget_klemens.horizontalHeaderItem(1)
@@ -310,5 +315,7 @@ class Ui_Dialog(object):
         self.pushButton_kaydet_ayak.setText(QCoreApplication.translate("Dialog", u"Kaydet", None))
         self.pushButton_sil_ayak.setText(QCoreApplication.translate("Dialog", u"Sil", None))
         self.tabWidget.setTabText(self.tabWidget.indexOf(self.tab_2), QCoreApplication.translate("Dialog", u"Ayak", None))
+        self.pushButton_sec_klemens.setText(QCoreApplication.translate("Dialog", u"Sec", None))
+        self.pushButton_sec.setText(QCoreApplication.translate("Dialog", u"Sec", None))
     # retranslateUi
 

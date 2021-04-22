@@ -32,7 +32,7 @@ class Login(QDialog):
         super(Login, self).__init__(parent)
         self.ui=login_dialog()
         self.ui.setupUi(self)
-        self.setWindowTitle("Kullanıcı Girisi Sayfası")
+        self.setWindowTitle("Kullanıcı Girisi Sayfası @ Certificated")
         #self.db=db_sql.mydb()
 
 

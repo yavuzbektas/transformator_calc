@@ -3,23 +3,23 @@
 ################################################################################
 ## Form generated from reading UI file 'login.ui'
 ##
-## Created by: Qt User Interface Compiler version 5.14.1
+## Created by: Qt User Interface Compiler version 5.15.0
 ##
 ## WARNING! All changes made in this file will be lost when recompiling UI file!
 ################################################################################
 
-from PySide2.QtCore import (QCoreApplication, QMetaObject, QObject, QPoint,
-    QRect, QSize, QUrl, Qt)
+from PySide2.QtCore import (QCoreApplication, QDate, QDateTime, QMetaObject,
+    QObject, QPoint, QRect, QSize, QTime, QUrl, Qt)
 from PySide2.QtGui import (QBrush, QColor, QConicalGradient, QCursor, QFont,
-    QFontDatabase, QIcon, QLinearGradient, QPalette, QPainter, QPixmap,
-    QRadialGradient)
+    QFontDatabase, QIcon, QKeySequence, QLinearGradient, QPalette, QPainter,
+    QPixmap, QRadialGradient)
 from PySide2.QtWidgets import *
 
 import icons_rc
 
 class Ui_Dialog(object):
     def setupUi(self, Dialog):
-        if Dialog.objectName():
+        if not Dialog.objectName():
             Dialog.setObjectName(u"Dialog")
         Dialog.resize(398, 292)
         self.tabWidget = QTabWidget(Dialog)
@@ -44,7 +44,7 @@ class Ui_Dialog(object):
         self.label_2.setAlignment(Qt.AlignRight|Qt.AlignTrailing|Qt.AlignVCenter)
         self.horizontalLayoutWidget = QWidget(self.tab)
         self.horizontalLayoutWidget.setObjectName(u"horizontalLayoutWidget")
-        self.horizontalLayoutWidget.setGeometry(QRect(190, 150, 169, 31))
+        self.horizontalLayoutWidget.setGeometry(QRect(165, 150, 194, 31))
         self.horizontalLayout = QHBoxLayout(self.horizontalLayoutWidget)
         self.horizontalLayout.setObjectName(u"horizontalLayout")
         self.horizontalLayout.setContentsMargins(0, 0, 0, 0)
@@ -139,7 +139,7 @@ class Ui_Dialog(object):
     # setupUi
 
     def retranslateUi(self, Dialog):
-        Dialog.setWindowTitle(QCoreApplication.translate("Dialog", u"Dialog", None))
+        Dialog.setWindowTitle(QCoreApplication.translate("Dialog", u"Trafo Hesaplama Kullan\u0131c\u0131 Giri\u015fi @ Certificated", None))
         self.label.setText(QCoreApplication.translate("Dialog", u"Kullan\u0131c\u0131 Ad\u0131 :", None))
         self.label_2.setText(QCoreApplication.translate("Dialog", u"\u015eifre :", None))
         self.pb_login.setText(QCoreApplication.translate("Dialog", u"Giri\u015f", None))
@@ -170,7 +170,7 @@ class Ui_Dialog(object):
         self.pb_save.setText(QCoreApplication.translate("Dialog", u"Kaydet", None))
         self.pb_cancel.setText(QCoreApplication.translate("Dialog", u"\u0130ptal", None))
         self.tabWidget.setTabText(self.tabWidget.indexOf(self.tab_2), QCoreApplication.translate("Dialog", u"Kay\u0131t Ol", None))
-        self.label_7.setText(QCoreApplication.translate("Dialog", u"<html><head/><body><p align=\"center\"><span style=\" font-size:12pt; font-weight:600;\">Trafo Hesap  - </span><span style=\" font-size:12pt;\">V0.0</span></p></body></html>", None))
+        self.label_7.setText(QCoreApplication.translate("Dialog", u"<html><head/><body><p align=\"center\"><span style=\" font-size:12pt; font-weight:600;\">Trafo Hesap - </span><span style=\" font-size:12pt;\">V0.1</span></p></body></html>", None))
         self.label_6.setText("")
         self.label_8.setText("")
     # retranslateUi

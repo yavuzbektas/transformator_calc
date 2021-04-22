@@ -216,6 +216,11 @@ class GenelParamdialog(QDialog):
         self.ui.doubleSpinBox_gauss2.setValue(gauss)
         self.ui.doubleSpinBox_c2.setValue(c_deg)
 class Telselectdialog(QDialog):
+    """Tel Seçim Sınıfı
+
+    Args:
+        QDialog ([type]): [description]
+    """    
     def __init__(self, parent=None):
         super(Telselectdialog, self).__init__(parent)
         self.ui = Telselect_dialog()
@@ -255,7 +260,7 @@ class Telselectdialog(QDialog):
         self.ui.pushButton_kaydet_kapton.clicked.connect(self.kaptonsecim_kaydet)
         self.ui.pushButton_sil_kapton.clicked.connect(self.kaptonsecim_delete)
         self.ui.tableWidget_4.itemClicked.connect(self.callback_from_kaptonsecim_table)
-#  Tel Secim ----------------------
+
     def filter_telsecim_table(self):
         self.ui.lineEdit_3.text()
         self.ui.comboBox.currentIndex()
@@ -330,8 +335,8 @@ class Telselectdialog(QDialog):
         data = db.showall_teller()
         table_update(data, headers_teller, self.ui.tableWidget)
 
-#  KareTel Secim ----------------------
-    def filter_karetelsecim_table(self):
+
+    def filter_karetelsecim_table(self):#  KareTel Secim ----------------------
         self.ui.lineEdit_4.text()
         self.ui.comboBox_2.currentIndex()
 
@@ -606,12 +611,12 @@ class Klemensdialog(QDialog):
 
     def handle_button(self):
         self.ui.pushButton_ara_klemens.clicked.connect(self.filter_klemens_table)
-        self.ui.pushButton_sec_klemens.clicked.connect(self.klemens_select)
+        
         self.ui.tableWidget_klemens.itemClicked.connect(self.callback_from_klemens_table)
         self.ui.pushButton_ara_ayak.clicked.connect(self.filter_ayak_table)
-        self.ui.pushButton_sec_ayak.clicked.connect(self.ayak_select)
+       
         self.ui.tableWidget_ayak.itemClicked.connect(self.callback_from_ayak_table)
-
+        self.ui.pushButton_sec.clicked.connect(self.select_button_pressed)
         self.ui.pushButton_kaydet_klemens.clicked.connect(self.klemens_kaydet)
         self.ui.pushButton_sil_klemens.clicked.connect(self.klemens_delete)
         self.ui.pushButton_kaydet_ayak.clicked.connect(self.ayak_kaydet)
@@ -661,15 +666,9 @@ class Klemensdialog(QDialog):
         else:
             return False
 
-    def klemens_select(self):
-
+    def select_button_pressed(self):
         self.close()
-        return self.ui.doubleSpinBox_klemens_a.value(), self.ui.doubleSpinBox_klemens_b.value(),self.ui.doubleSpinBox_klemens_akim.value()
-
-    def ayak_select(self):
-
-        self.close()
-        return self.ui.doubleSpinBox_ayak_a.value(), self.ui.doubleSpinBox_ayak_b.value()
+    
 
     def klemens_delete(self):
         self.klemens_ID = int(self.ui.tableWidget_klemens.item(self.ui.tableWidget_klemens.currentRow(), 0).text())

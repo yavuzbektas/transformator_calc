@@ -19,7 +19,7 @@
      <x>10</x>
      <y>10</y>
      <width>611</width>
-     <height>481</height>
+     <height>451</height>
     </rect>
    </property>
    <property name="font">
@@ -35,25 +35,6 @@
     <attribute name="title">
      <string>Klemens</string>
     </attribute>
-    <widget class="QPushButton" name="pushButton_sec_klemens">
-     <property name="geometry">
-      <rect>
-       <x>520</x>
-       <y>421</y>
-       <width>81</width>
-       <height>31</height>
-      </rect>
-     </property>
-     <property name="font">
-      <font>
-       <weight>75</weight>
-       <bold>true</bold>
-      </font>
-     </property>
-     <property name="text">
-      <string>Sec</string>
-     </property>
-    </widget>
     <widget class="QTableWidget" name="tableWidget_klemens">
      <property name="geometry">
       <rect>
@@ -75,6 +56,12 @@
      <property name="selectionBehavior">
       <enum>QAbstractItemView::SelectRows</enum>
      </property>
+     <property name="sortingEnabled">
+      <bool>true</bool>
+     </property>
+     <attribute name="horizontalHeaderStretchLastSection">
+      <bool>true</bool>
+     </attribute>
      <attribute name="verticalHeaderShowSortIndicator" stdset="0">
       <bool>false</bool>
      </attribute>
@@ -542,9 +529,9 @@
      <widget class="QLineEdit" name="lineEdit_ayak_name">
       <property name="geometry">
        <rect>
-        <x>60</x>
+        <x>55</x>
         <y>50</y>
-        <width>161</width>
+        <width>191</width>
         <height>24</height>
        </rect>
       </property>
@@ -839,6 +826,44 @@
      </property>
     </widget>
    </widget>
+  </widget>
+  <widget class="QPushButton" name="pushButton_sec_klemens">
+   <property name="geometry">
+    <rect>
+     <x>380</x>
+     <y>460</y>
+     <width>81</width>
+     <height>31</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <weight>75</weight>
+     <bold>true</bold>
+    </font>
+   </property>
+   <property name="text">
+    <string>Sec</string>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="pushButton_sec">
+   <property name="geometry">
+    <rect>
+     <x>540</x>
+     <y>460</y>
+     <width>81</width>
+     <height>31</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <weight>75</weight>
+     <bold>true</bold>
+    </font>
+   </property>
+   <property name="text">
+    <string>Sec</string>
+   </property>
   </widget>
  </widget>
  <resources/>

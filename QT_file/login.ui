@@ -11,7 +11,7 @@
    </rect>
   </property>
   <property name="windowTitle">
-   <string>Dialog</string>
+   <string>Trafo Hesaplama Kullanıcı Girişi @ Certificated</string>
   </property>
   <widget class="QTabWidget" name="tabWidget">
    <property name="geometry">
@@ -91,9 +91,9 @@
     <widget class="QWidget" name="horizontalLayoutWidget">
      <property name="geometry">
       <rect>
-       <x>190</x>
+       <x>165</x>
        <y>150</y>
-       <width>169</width>
+       <width>194</width>
        <height>31</height>
       </rect>
      </property>
@@ -352,7 +352,7 @@
     <enum>QFrame::StyledPanel</enum>
    </property>
    <property name="text">
-    <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;center&quot;&gt;&lt;span style=&quot; font-size:12pt; font-weight:600;&quot;&gt;Trafo Hesap  - &lt;/span&gt;&lt;span style=&quot; font-size:12pt;&quot;&gt;V0.0&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+    <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;center&quot;&gt;&lt;span style=&quot; font-size:12pt; font-weight:600;&quot;&gt;Trafo Hesap - &lt;/span&gt;&lt;span style=&quot; font-size:12pt;&quot;&gt;V0.1&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
    </property>
   </widget>
   <widget class="QLabel" name="label_6">

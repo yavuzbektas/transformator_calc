@@ -498,8 +498,16 @@ class MyWindow(QMainWindow):
 
         self.window3.setWindowTitle("Klemens Seçim Sayfası")
         self.window3.show()
-        self.window3.ui.pushButton_sec_klemens.clicked.connect(lambda x:self.klemens_deger_al(klemens_name=self.window3.ui.lineEdit_klemens_name.text(),a=self.window3.ui.doubleSpinBox_klemens_a.value(),b=self.window3.ui.doubleSpinBox_klemens_b.value(),akim=self.window3.ui.doubleSpinBox_klemens_akim.value() ))
-        self.window3.ui.pushButton_sec_ayak.clicked.connect(lambda x:self.ayak_deger_al(ayak_name=self.window3.ui.lineEdit_ayak_name.text(),a=self.window3.ui.doubleSpinBox_ayak_a.value()))
+        
+        def klemens_data_tarnsfer():
+            if self.window3.ui.lineEdit_klemens_name.text()!="":
+                self.klemens_deger_al(klemens_name=self.window3.ui.lineEdit_klemens_name.text(),a=self.window3.ui.doubleSpinBox_klemens_a.value(),b=self.window3.ui.doubleSpinBox_klemens_b.value(),akim=self.window3.ui.doubleSpinBox_klemens_akim.value() )
+            
+            if self.window3.ui.lineEdit_ayak_name.text()!="":
+                self.ayak_deger_al(ayak_name=self.window3.ui.lineEdit_ayak_name.text(),a=self.window3.ui.doubleSpinBox_ayak_a.value())
+        self.window3.ui.pushButton_sec_klemens.clicked.connect(klemens_data_tarnsfer)
+        self.window3.ui.pushButton_sec_ayak.clicked.connect(klemens_data_tarnsfer)
+        self.window3.ui.pushButton_sec.clicked.connect(klemens_data_tarnsfer)
     def open_ayak(self):
         self.window3 = popup.Klemensdialog()
 
