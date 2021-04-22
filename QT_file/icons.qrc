@@ -1,0 +1,25 @@
+<RCC>
+    <qresource prefix="/">
+        <file>../staticfiles/icons/books.png</file>
+        <file>../staticfiles/icons/door_exit.png</file>
+        <file>../staticfiles/icons/login.png</file>
+        <file>../staticfiles/icons/repport.png</file>
+        <file>../staticfiles/icons/setting.png</file>
+        <file>../staticfiles/icons/Theme.png</file>
+        <file>../staticfiles/icons/user2.png</file>
+        <file>../staticfiles/icons/password1.png</file>
+        <file>../staticfiles/icons/barcode2.png</file>
+        <file>../staticfiles/icons/save2.png</file>
+        <file>../staticfiles/icons/edit2.png</file>
+        <file>../staticfiles/icons/warehouse.png</file>
+        <file>../staticfiles/icons/warning.png</file>
+        <file>../staticfiles/icons/delete1.png</file>
+        <file>../staticfiles/icons/user2.png</file>
+        <file>../staticfiles/icons/Users.png</file>
+        <file>../staticfiles/icons/delete3.png</file>
+        <file>../staticfiles/icons/delete4.png</file>
+        <file>../staticfiles/icons/update1.png</file>
+        <file>../staticfiles/icons/yavuz (1).png</file>
+        <file>../staticfiles/icons/checked.png</file>
+    </qresource>
+</RCC>
