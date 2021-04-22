@@ -1,11 +1,11 @@
 # #######################################
 
 __author__ = "Yavuz Bektaş & "
-__version__ = "1.0"
+__version__ = "1.1"
 __email__ = "yavuzbektas@gmail.com"
 __linkedin__ = "https://www.linkedin.com/in/yavuz-bekta%C5%9F-28659642/"
-__release_date__ = "2020.05.01"
-__github__ = ""
+__release_date__ = "2021.04.23"
+__github__ = "https://github.com/yavuzbektas/transformator_calc"
 # #######################################
 from PySide2.QtWidgets import QApplication,QMainWindow,QDialog,QMessageBox
 from QT_file.login import Ui_Dialog as login_dialog
