@@ -1,19 +1,7 @@
-# --------------------------------------------
-
-__author__ = "Yavuz Bektaş & "
-__version__ = "1.0"
-__email__ = "yavuzbektas@gmail.com"
-__linkedin__ = "https://www.linkedin.com/in/yavuz-bekta%C5%9F-28659642/"
-__release_date__ = "2020.05.01"
-__github__ = "Trafo Programı"
-# -------------------------------------------
 import  math
 from QT_file.mainwindow import Ui_MainWindow
 import db_sql,myConfig,printout
-
 from PySide2.QtWidgets import QMainWindow,QMessageBox, QTableWidgetItem
-
-
 import hesaplamalar  as hp
 import popups as popup
 import veri_tipi as vt
@@ -21,54 +9,9 @@ import json
 from collections import Counter
 import logging,logging.handlers
 
-# =====================================================================================================
 
-# ======================  tmesajlar =========================
-def error_msjbox( text, title):
-    msgBox = QMessageBox()
-    msgBox.setIcon(QMessageBox.Warning)
-    msgBox.setText(text)
-    msgBox.setWindowTitle(title)
-    msgBox.setStandardButtons(QMessageBox.Ok)
-    # mylog(text, type="error")
-    return msgBox.exec()
-def update_msjbox(text,title):
-    msgBox = QMessageBox()
-    msgBox.setIcon(QMessageBox.Information)
-    msgBox.setText(text)
-    msgBox.setWindowTitle(title)
-    msgBox.setStandardButtons(QMessageBox.Ok | QMessageBox.Cancel)
-
-    return msgBox.exec()
-def delete_msjbox(text,title):
-    msgBox = QMessageBox()
-    msgBox.setIcon(QMessageBox.Warning)
-    msgBox.setText(text)
-    msgBox.setWindowTitle(title)
-    msgBox.setStandardButtons(QMessageBox.Discard | QMessageBox.Cancel)
-    buttonY = msgBox.button(QMessageBox.Discard)
-    buttonY.setText('Delete')
-    return msgBox.exec()
-def clear_msjbox(text,title):
-    msgBox = QMessageBox()
-    msgBox.setIcon(QMessageBox.Warning)
-    msgBox.setText(text)
-    msgBox.setWindowTitle(title)
-    msgBox.setStandardButtons(QMessageBox.Discard | QMessageBox.Cancel)
-    buttonY = msgBox.button(QMessageBox.Discard)
-    buttonY.setText('Temizle')
-    return msgBox.exec()
-def warning_msjbox(text,title):
-    msgBox = QMessageBox()
-    msgBox.setIcon(QMessageBox.Warning)
-    msgBox.setText(text)
-    msgBox.setWindowTitle(title)
-    msgBox.setStandardButtons(QMessageBox.Ok | QMessageBox.Cancel)
-    buttonY = msgBox.button(QMessageBox.Ok)
-    buttonY.setText('Devam Et')
-    return msgBox.exec()
-# ======================  tablolar =========================
-db=db_sql.mydb()
+# ======================  Veri TAbanı Bağlantısı =========================
+db=db_sql.mydb() # veri tabanı bağlantısı
 # ===============================================
 class MyWindow(QMainWindow):
     def __init__(self,parent=None):
@@ -86,67 +29,7 @@ class MyWindow(QMainWindow):
         self.izolasyon_hesapla()
         self.bosluk_hesapla()
     def veri_kumeleri(self):
-        self.group_list_items = [self.ui.doubleSpinBox_akim1, self.ui.doubleSpinBox_akim2,
-                                 self.ui.doubleSpinBox_cap1,
-                                 self.ui.doubleSpinBox_cap2, self.ui.doubleSpinBox_sipir1,
-                                 self.ui.doubleSpinBox_kesit1,
-                                 self.ui.doubleSpinBox_sipir2, self.ui.doubleSpinBox_voltaj,
-                                 "self.ui.comboBox_folyotel",
-                                 "self.ui.comboBox_folyotel", "self.ui.comboBox_karetel",  # 10
-                                 self.ui.comboBox_teltipi,
-                                 self.ui.doubleSpinBox_folyotel11, self.ui.doubleSpinBox_folyotel12,
-                                 self.ui.doubleSpinBox_folyotel21, self.ui.doubleSpinBox_folyotel22,
-                                 self.ui.doubleSpinBox_folyotel31, self.ui.doubleSpinBox_folyotel32,
-                                 self.ui.doubleSpinBox_folyotel41, self.ui.doubleSpinBox_folyotel42,
-                                 self.ui.doubleSpinBox_kapton1, self.ui.doubleSpinBox_kapton2,
-                                 self.ui.doubleSpinBox_kapton3, self.ui.doubleSpinBox_kapton4,
-                                 self.ui.doubleSpinBox_karetel11, self.ui.doubleSpinBox_karetel12,
-                                 self.ui.doubleSpinBox_karetel21, self.ui.doubleSpinBox_karetel22,
-                                 self.ui.doubleSpinBox_karetel31, self.ui.doubleSpinBox_karetel32,
-                                 self.ui.doubleSpinBox_karetel41, self.ui.doubleSpinBox_karetel42,
-                                 # 31
-                                 "self.ui.comboBox_telkademe", self.ui.lineEdit_kademeadi,
-                                 self.ui.doubleSpinBox_kesit2,
-                                 self.ui.doubleSpinBox_tel_en, self.ui.doubleSpinBox_tel_yuk,
-                                 self.ui.doubleSpinBox_spirkat,  # 37
-                                 self.ui.doubleSpinBox_kat, self.ui.doubleSpinBox_katbosluk,
-                                 self.ui.doubleSpinBox_tel_uzunluk,
-                                 self.ui.doubleSpinBox_tel_agirlik,
-                                 self.ui.doubleSpinBox_sarim_yukseklik,
-                                 self.ui.doubleSpinBox_sonkat_spir, self.ui.checkBox_check_spir_man,
-                                 "self.ui.pushButton_h1_p_buton_21", "self.ui.pushButton_karetel",
-                                 "self.ui.pushButton_folyotel", "self.ui.pushButton_kapton",
-                                 self.ui.checkBox_check_spir_man,
-                                 self.ui.label_kesit_ok, self.ui.label_kesit_error,
-                                 self.ui.label_akim_ok, self.ui.label_akim_error,
-                                 self.ui.doubleSpinBox_mancap_1,  # 54
-                                 self.ui.doubleSpinBox_mancap_2, self.ui.doubleSpinBox_mancap_3,
-                                 self.ui.doubleSpinBox_mancap_4,
-                                 self.ui.lineEdit_mlz_tel_1, self.ui.lineEdit_mlz_tel_2,
-                                 self.ui.lineEdit_mlz_tel_3, self.ui.lineEdit_mlz_tel_4,
-                                 self.ui.lineEdit_mlz_karetel_1, self.ui.lineEdit_mlz_karetel_2,  # 63
-                                 self.ui.lineEdit_mlz_karetel_3, self.ui.lineEdit_mlz_karetel_4,
-                                 self.ui.lineEdit_mlz_folyotel_1, self.ui.lineEdit_mlz_folyotel_2,
-                                 self.ui.lineEdit_mlz_folyotel_3, self.ui.lineEdit_mlz_folyotel_4,
-                                 self.ui.lineEdit_mlz_kapton_1, self.ui.lineEdit_mlz_kapton_2,
-                                 self.ui.lineEdit_mlz_kapton_3, self.ui.lineEdit_mlz_kapton_4,  # 73
-                                 self.ui.groupBox_gb_check_tel_1,
-                                 self.ui.groupBox_gb_check_tel_2,
-                                 self.ui.groupBox_gb_check_tel_3,
-                                 self.ui.groupBox_gb_check_tel_4,
-                                 self.ui.groupBox_gb_check_karetel_1,
-                                 self.ui.groupBox_gb_check_karetel_2,
-                                 self.ui.groupBox_gb_check_karetel_3,
-                                 self.ui.groupBox_gb_check_karetel_4,
-                                 self.ui.groupBox_gb_check_folyotel_1,
-                                 self.ui.groupBox_gb_check_folyotel_2,
-                                 self.ui.groupBox_gb_check_folyotel_3,
-                                 self.ui.groupBox_gb_check_folyotel_4,
-                                 self.ui.groupBox_gb_check_kapton_1,
-                                 self.ui.groupBox_gb_check_kapton_2,
-                                 self.ui.groupBox_gb_check_kapton_3,
-                                 self.ui.groupBox_gb_check_kapton_4,
-                                 ]
+        
 
         self.group_list_primer_kademe_1 = vt.kademe.copy()
         self.group_list_primer_kademe_2 = vt.kademe.copy()
@@ -305,8 +188,6 @@ class MyWindow(QMainWindow):
 
         self.close()
         self.window.show()
-    def user_check_ok(self):
-        pass
     def hide_list(self,list_name):
         for i in list_name:
             i.setVisible(False)
@@ -407,7 +288,7 @@ class MyWindow(QMainWindow):
         self.malzeme_listesi_yap()
     # ======= Diyolog pencerelerin acilisi ===========================
     def tum_degerleri_temizle(self):
-        returnValue = clear_msjbox(
+        returnValue = popup.clear_msjbox(
             text="Tüm veri girisleri temizlenecektir..\nDevam Etmek için Temizle tuşuna basın",
             title="DİKKAT - Veriler silinecektir")
 
@@ -586,7 +467,7 @@ class MyWindow(QMainWindow):
                                                         gl_main=getattr(self,("group_name_list_sva"+str(index)+"_kademe")), kademe=int(
                         self.window3.ui.doubleSpinBox_kademe_no.value())))
         if self.window3.guc==0:
-            error_msjbox(title='Hesap Hatası', text='Lütfen Önce gücü giriniz.')
+            popup.error_msjbox(title='Hesap Hatası', text='Lütfen Önce gücü giriniz.')
             return False
         else:
             
@@ -633,7 +514,7 @@ class MyWindow(QMainWindow):
     def kesit_parametrelerini_al(self, window, gl_popup, gl_main,kademe):
 
         if gl_popup[kademe]["kesit_error"]==True or gl_popup[kademe]["akim_error"]==True:
-            returnValue = warning_msjbox(title='Kesit Değerleri Hatası', text='Kesit değerleri önerilen değerlerin altındadır. Devam etmek için buotana basın.')
+            returnValue = popup.warning_msjbox(title='Kesit Değerleri Hatası', text='Kesit değerleri önerilen değerlerin altındadır. Devam etmek için buotana basın.')
         else:
             returnValue = QMessageBox.Ok
         if returnValue == QMessageBox.Cancel:
@@ -654,7 +535,6 @@ class MyWindow(QMainWindow):
         self.window3.show()
         self.window3.ui.pushButton_sec.clicked.connect(lambda  x:self.izolasyon_verileri_guncelle(object=self.window3))
         self.izolasyon_deger_al(object=self.window3)
-
     def open_other_trafo(self,trafo_index):
         if trafo_index == 0:
             import myApp
@@ -2108,7 +1988,7 @@ class MyWindow(QMainWindow):
         self.ui.doubleSpinBox_total.setValue(self.ui.doubleSpinBox_sva1_guc.value()+self.ui.doubleSpinBox_sva2_guc.value()+self.ui.doubleSpinBox_sva3_guc.value()+self.ui.doubleSpinBox_sva4_guc.value()+self.ui.doubleSpinBox_sva5_guc.value()+self.ui.doubleSpinBox_sva6_guc.value()+self.ui.doubleSpinBox_sva7_guc.value()+self.ui.doubleSpinBox_sva8_guc.value()+self.ui.doubleSpinBox_sva9_guc.value()+self.ui.doubleSpinBox_sva10_guc.value())
         self.ui.doubleSpinBox_total_fark.setValue(self.ui.doubleSpinBox_guc.value()-self.ui.doubleSpinBox_total.value())
         if self.ui.doubleSpinBox_total.value()>self.ui.doubleSpinBox_guc.value():
-            error_msjbox(title='Kademe Güç değerleri Haatalı', text=f'Lütfen Toplam Güce uygun değerler giriniz.Girdiğiniz Güç {-self.ui.doubleSpinBox_total_fark.value()} kadar fazla.')
+            popup.error_msjbox(title='Kademe Güç değerleri Haatalı', text=f'Lütfen Toplam Güce uygun değerler giriniz.Girdiğiniz Güç {-self.ui.doubleSpinBox_total_fark.value()} kadar fazla.')
             self.ui.label_guc_err.setVisible(True)
             self.ui.doubleSpinBox_total_fark.setStyleSheet("background-color : red;")
         else:
@@ -2365,7 +2245,7 @@ class MyWindow(QMainWindow):
         kademe = int(sender.objectName().split("_")[len(sender.objectName().split("_"))-1])
 
         self.ui.stackedWidget_2.setCurrentIndex(kademe)
-# Mono Faz İzolasyon Trafosu - Primer Hesabı : Hesap_1   ===============
+    # Mono Faz İzolasyon Trafosu - Primer Hesabı    ===============
 
     def tel_deger_al(self, gl,object,type,index=1):
         if type == "tel":
@@ -2439,7 +2319,7 @@ class MyWindow(QMainWindow):
                     verim=self.ui.doubleSpinBox_karkas_verim.value(),
                     sarim="primer",
                     kademe=int(self.ui.comboBox.currentText()))
-# ======================  IZALASYONLAR =========================    
+    # ======================  İzolasyon Hesabı =========================    
     def izolasyon_verileri_guncelle(self,object):
         self.ui.doubleSpinBox_primer_izo_deg.setValue(object.ui.doubleSpinBox.value())
         self.ui.doubleSpinBox_sekonder_izo_deg.setValue(object.ui.doubleSpinBox_2.value())
@@ -2557,7 +2437,7 @@ class MyWindow(QMainWindow):
         self.ui.checkBox_ekran_sec.stateChanged.connect(self.hesaplamalari_guncelle)
         self.ui.checkBox_ekstra.stateChanged.connect(self.hesaplamalari_guncelle)
         self.ui.comboBox.currentTextChanged.connect(self.hesaplamalari_guncelle)
-# ======================  bosluk hesabı =========================  
+    # ======================  bosluk hesabı =========================  
     def bosluk_hesapla(self):
         self.izolasyon_hesapla()
         gl=self.group_name_list_primer_kademe
@@ -2617,7 +2497,7 @@ class MyWindow(QMainWindow):
             self.ui.label_Ac_ok_2.setVisible(False)
         else:
             pass
-# ======================  agırlık  hesabı ========================= 
+    # ======================  agırlık  hesabı ========================= 
     def agirlik_hesapla(self):
         gl=self.group_name_list_primer_kademe
         primer_al_agirlik=0
@@ -2763,7 +2643,7 @@ class MyWindow(QMainWindow):
         self.ui.doubleSpinBox_sekonderagirlik_al.setValue(sekonder_al_agirlik+sva1_al_agirlik+sva2_al_agirlik+sva3_al_agirlik+sva4_al_agirlik+sva5_al_agirlik+sva6_al_agirlik+sva7_al_agirlik+sva8_al_agirlik+sva9_al_agirlik+sva10_al_agirlik)
         
         self.ui.doubleSpinBox_sekonderagirlik_cu.setValue(sekonder_cu_agirlik+sva1_cu_agirlik+sva2_cu_agirlik+sva3_cu_agirlik+sva4_cu_agirlik+sva5_cu_agirlik+sva6_cu_agirlik+sva7_cu_agirlik+sva8_cu_agirlik+sva9_cu_agirlik+sva10_cu_agirlik)
-# ======================  olcu hesabı  =========================
+    # ======================  olcu hesabı  =========================
     def olcu_hesapla(self):
         self.ui.doubleSpinBox_olcu_a.setValue(self.ui.doubleSpinBox_karkas_en.value()*3)
         self.ui.doubleSpinBox_olcu_b.setValue(self.ui.doubleSpinBox_karkas_boy.value() +self.ui.doubleSpinBox_klemens_a_deg.value() + self.ui.doubleSpinBox_ayak_a_deg.value())
@@ -2859,7 +2739,7 @@ class MyWindow(QMainWindow):
         return self.tum_malzeme_listesi
         #self.group_name_list_sekonder_kademe
         #self.va_group_elementlist
-# ======================  Genel Fonksiyonlar =========================
+    # ======================  Genel Fonksiyonlar =========================
     def hesap_sarim_uzunlugu(self):
         self.primer_sarim_yukseklik_toplam =0.0
         self.sekonder_sarim_yukseklik_toplam =0.0
@@ -2941,7 +2821,7 @@ class MyWindow(QMainWindow):
     def voltaj_check(self,gl):
         for i in range(0,9):
             if gl[i]["voltaj"]>0 and gl[i]["voltaj"]>gl[i+1]["voltaj"] and gl[i+1]["voltaj"]>0:
-                error_msjbox(title='Voltaj Değerleri Hatalı',
+                popup.error_msjbox(title='Voltaj Değerleri Hatalı',
                              text=f'Lütfen Küçükten Büyüğe göre Voltaj Giriniz.Girdiğiniz {i} kademeli Voltaj değeri , {i+1} kademeli voltaj değerinden büyük olamaz. ')
                 gl[i]["voltaj"]=0
     def ekran_degistir(self,index):
@@ -2967,10 +2847,7 @@ class MyWindow(QMainWindow):
         elif object.metaObject().className()== "QPushButton":
             return True
         pass
-    def kademe_temizle(self,gl,kadame_sayisi=1):
-        for kademe in range (kadame_sayisi,10):
-            for index in range(0,58):
-                self.degerleri_temizle(gl[kademe][index])
+    
     def hesaplama_ekrani(self):
 
         self.index = self.ui.stackedWidget.currentIndex()
@@ -2987,21 +2864,7 @@ class MyWindow(QMainWindow):
         elif self.index==3 :  pass
 
         else :
-            self.ekran_degistir(index=0)
-
-    def object_multi_connect(self,object,arg):
-        if object.metaObject().className()== "QDoubleSpinBox":
-            return object.valueChanged.connect(arg)
-        elif object.metaObject().className()== "QComboBox":
-            return object.currentTextChanged.connect(arg)
-        elif object.metaObject().className()== "QLineEdit":
-            return object.textChanged.connect(arg)
-        elif object.metaObject().className()== "QPushButton":
-            return object.clicked.connect(arg)
-        elif object.metaObject().className()== "QCheckBox":
-            return object.stateChanged.connect(arg)
-        elif object.metaObject().className()== "QLabel":
-            return object.textChanged.connect(arg)
+            self.ekran_degistir(index=0) 
     def object_multi_value_set(self,object,object2):
         if type(object)==str:
             return False
@@ -3032,24 +2895,7 @@ class MyWindow(QMainWindow):
             return object.setChecked(0)
         elif object.metaObject().className()== "QLabel":
             return object.setVisible(0)
-    def sender_object_index(self):
-        sender = self.sender()
-        index = sender.objectName().split("_")[len(sender.objectName().split("_"))-1]
-    def object_multi_value_read(self,object):
-        if type(object)== str:
-            return object
-        elif object.metaObject().className()== "QDoubleSpinBox":
-            return object.value()
-        elif object.metaObject().className()== "QComboBox":
-            return object.currentText()
-        elif object.metaObject().className()== "QLineEdit":
-            return object.text()
-        elif object.metaObject().className()== "QPushButton":
-            return True
-        elif object.metaObject().className()== "QCheckBox":
-            return True
-        elif object.metaObject().className()== "QLabel":
-            return True
+    
     def printout_veri_kumesi(self):
         printout.primer_group_list =self.group_name_list_primer_kademe
         printout.sekonder_group_list = self.group_name_list_sekonder_kademe
@@ -3142,8 +2988,41 @@ class MyWindow(QMainWindow):
         printout.kesit_listesi=self.kesit_listesi
     def printout_report(self):
         self.printout_veri_kumesi()
-        
-
         printout.izolasyon_mono_printout()
 
 
+# def kademe_temizle(self,gl,kadame_sayisi=1):
+#         for kademe in range (kadame_sayisi,10):
+#             for index in range(0,58):
+#                 self.degerleri_temizle(gl[kademe][index])
+# def object_multi_connect(self,object,arg):
+    #     if object.metaObject().className()== "QDoubleSpinBox":
+    #         return object.valueChanged.connect(arg)
+    #     elif object.metaObject().className()== "QComboBox":
+    #         return object.currentTextChanged.connect(arg)
+    #     elif object.metaObject().className()== "QLineEdit":
+    #         return object.textChanged.connect(arg)
+    #     elif object.metaObject().className()== "QPushButton":
+    #         return object.clicked.connect(arg)
+    #     elif object.metaObject().className()== "QCheckBox":
+    #         return object.stateChanged.connect(arg)
+    #     elif object.metaObject().className()== "QLabel":
+    #          return object.textChanged.connect(arg)
+# def sender_object_index(self):
+    #     sender = self.sender()
+    #     index = sender.objectName().split("_")[len(sender.objectName().split("_"))-1]
+    # def object_multi_value_read(self,object):
+    #     if type(object)== str:
+    #         return object
+    #     elif object.metaObject().className()== "QDoubleSpinBox":
+    #         return object.value()
+    #     elif object.metaObject().className()== "QComboBox":
+    #         return object.currentText()
+    #     elif object.metaObject().className()== "QLineEdit":
+    #         return object.text()
+    #     elif object.metaObject().className()== "QPushButton":
+    #         return True
+    #     elif object.metaObject().className()== "QCheckBox":
+    #         return True
+    #     elif object.metaObject().className()== "QLabel":
+    #        return True
