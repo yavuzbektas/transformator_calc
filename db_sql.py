@@ -595,12 +595,8 @@ class mydb():
         data = self.fetchall(query)
         return data
     def get_tell_byname(self, filter_value):
-
-        criteria = "teller.tel_name"
-
-
-        query = "SELECT cap  FROM teller WHERE '%s' = '%s'".format(criteria, filter_value)
-        data = self.fetchall(query)
+        query = f"SELECT cap  FROM teller WHERE tel_name = '{filter_value}'"
+        data = self.fetchone(query)
         return data
     # folyoteel secimi
     def check_folyotel(self,values):
@@ -645,12 +641,8 @@ class mydb():
         data = self.fetchall(query)
         return data
     def get_folyotell_byname(self, filter_value):
-
-        criteria = "folyo_tel.tel_name"
-
-
-        query = "SELECT cap1,cap2  FROM folyo_tel WHERE '%s' = '%s'".format(criteria, filter_value)
-        data = self.fetchall(query)
+        query = f"SELECT cap1,cap2  FROM folyo_tel WHERE tel_name = '{filter_value}'"
+        data = self.fetchone(query)
         return data
     # karetel secimi
     def check_karetel(self, values):
@@ -696,12 +688,8 @@ class mydb():
         data = self.fetchall(query)
         return data
     def get_karetell_byname(self, filter_value):
-
-        criteria = "kare_tel.tel_name"
-
-
-        query = "SELECT cap1,cap2  FROM kare_tel WHERE '%s' = '%s'".format(criteria, filter_value)
-        data = self.fetchall(query)
+        query = f"SELECT cap1,cap2  FROM kare_tel WHERE tel_name = '{filter_value}'"
+        data = self.fetchone(query)
         return data
  # kapton secimi
     def check_kapton(self,values):
@@ -744,12 +732,8 @@ class mydb():
         data = self.fetchall(query)
         return data
     def get_kapton_byname(self, filter_value):
-
-        criteria = "kapton.tel_name"
-
-
-        query = "SELECT cap  FROM kapton WHERE '%s' = '%s'".format(criteria, filter_value)
-        data = self.fetchall(query)
+        query = f"SELECT cap  FROM kapton WHERE tel_name = '{filter_value}'"
+        data = self.fetchone(query)
         return data
  # tel_spir secimi
     def check_tel_spir(self,values):

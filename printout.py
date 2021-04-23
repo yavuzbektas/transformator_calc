@@ -81,6 +81,7 @@ sekonder_baglanti=""
 izolasyon_karsiligi=0
 va_guclist=[]
 mlz_listesi=[]
+kesit_listesi=[]
 # ====================================================
     
 def topline(ws,tarih,trafo_tipi=trafo_tipi):
@@ -110,7 +111,7 @@ def bottomline(ws, last_row=20, ekran_sec=ekran_sec, ekstra=ekstra):
 
     else:
         ekran_durum = chr(216) + " : "+ str(ekran_izo_deg)
-        ws.add_image(Image(IMAGE_DIR +'ekran_symbol.png'), "E" + str(12))
+        ws.add_image(Image(IMAGE_DIR +'ekran_symbol.png'), "H" + str(12))
     if ekstra_izo_deg=="" or ekstra_izo_deg==0.0:
         ekstra_durum="Yok"
     else:
@@ -438,7 +439,13 @@ def izolasyon_mono_printout():
         a20 = ws2.cell(row=start_row_list, column=2, value=key)
         a21 = ws2.cell(row=start_row_list, column=4, value=value)
         start_row_list+=1
+    
+    start_row_list=3
+    for kesit in kesit_listesi:
 
+        a20 = ws2.cell(row=start_row_list, column=3, value=kesit)
+        
+        start_row_list+=1
     try:
         wb_save(DIR=REPORT_DIR,name='izolasyon_mono.xlsx',wb=wb)
         file = REPORT_DIR+"izolasyon_mono.xlsx"
@@ -470,17 +477,17 @@ def izolasyon_trifaz_printout():
                         values=primer_group_list)
     # insert_image(ws=ws,start_row=11,start_col=3,kademe=primer_kademe,image=IMAGE_DIR +'b3.png')
     insert_image_trafo(ws=ws, last_row=max_number + 36, image=Image(IMAGE_DIR + "o_m.png"))
-    if primer_baglanti=="Yýldýz":
+    if primer_baglanti=="Yï¿½ldï¿½z":
 
         ws.add_image(Image(IMAGE_DIR + 'star.png'), "A" + str(12))
-    elif primer_baglanti=="Üçgen":
+    elif primer_baglanti=="ï¿½ï¿½gen":
         ws.add_image(Image(IMAGE_DIR + 'delta.png'), "A" + str(12))
     else:
         pass
-    if sekonder_baglanti=="Yýldýz":
+    if sekonder_baglanti=="Yï¿½ldï¿½z":
 
         ws.add_image(Image(IMAGE_DIR + 'star.png'), "F" + str(12))
-    elif sekonder_baglanti=="Üçgen":
+    elif sekonder_baglanti=="ï¿½ï¿½gen":
         ws.add_image(Image(IMAGE_DIR + 'delta.png'), "F" + str(12))
     else:
         pass
@@ -507,13 +514,13 @@ def ototrafo_monofaz_printout():
 
     insert_kademe_value(ws=ws, start_row=10 + primer_number, kademe_name="primer", kademe=primer_kademe,
                         values=primer_group_list)
-    a1 = ws.cell(row=max_number + 37, column=2, value=" Ýzolasyon Karsiligi : "+ str(round(izolasyon_karsiligi,2)) + " VA'dýr")
+    a1 = ws.cell(row=max_number + 37, column=2, value=" ï¿½zolasyon Karsiligi : "+ str(round(izolasyon_karsiligi,2)) + " VA'dï¿½r")
     a1.font = Font(size=12, bold=True)
     insert_image_trafo(ws=ws, last_row=max_number + 37, image=Image(IMAGE_DIR + "o_m.png"))
-    # if primer_baglanti=="Yýldýz":
+    # if primer_baglanti=="Yï¿½ldï¿½z":
     #
     #     ws.add_image(Image(IMAGE_DIR + 'star.png'), "A" + str(12))
-    # elif primer_baglanti=="Üçgen":
+    # elif primer_baglanti=="ï¿½ï¿½gen":
     #     ws.add_image(Image(IMAGE_DIR + 'delta.png'), "A" + str(12))
     # else:
     #     pass
@@ -542,13 +549,13 @@ def ototrafo_trifaz_printout():
     insert_kademe_value(ws=ws, start_row=10 + primer_number, kademe_name="primer", kademe=primer_kademe,
                         values=primer_group_list)
     a1 = ws.cell(row=max_number + 37, column=2,
-                 value=" Ýzolasyon Karsiligi : " + str(round(izolasyon_karsiligi, 2)) + " VA'dýr")
+                 value=" ï¿½zolasyon Karsiligi : " + str(round(izolasyon_karsiligi, 2)) + " VA'dï¿½r")
     a1.font = Font(size=12, bold=True)
     insert_image_trafo(ws=ws, last_row=max_number + 37, image=Image(IMAGE_DIR + "o_t.png"))
-    # if primer_baglanti=="Yýldýz":
+    # if primer_baglanti=="Yï¿½ldï¿½z":
     #
     #     ws.add_image(Image(IMAGE_DIR + 'star.png'), "A" + str(12))
-    # elif primer_baglanti=="Üçgen":
+    # elif primer_baglanti=="ï¿½ï¿½gen":
     #     ws.add_image(Image(IMAGE_DIR + 'delta.png'), "A" + str(12))
     # else:
     #     pass

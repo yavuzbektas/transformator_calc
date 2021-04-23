@@ -505,8 +505,7 @@ class MyWindow(QMainWindow):
             
             if self.window3.ui.lineEdit_ayak_name.text()!="":
                 self.ayak_deger_al(ayak_name=self.window3.ui.lineEdit_ayak_name.text(),a=self.window3.ui.doubleSpinBox_ayak_a.value())
-        self.window3.ui.pushButton_sec_klemens.clicked.connect(klemens_data_tarnsfer)
-        self.window3.ui.pushButton_sec_ayak.clicked.connect(klemens_data_tarnsfer)
+        
         self.window3.ui.pushButton_sec.clicked.connect(klemens_data_tarnsfer)
     def open_ayak(self):
         self.window3 = popup.Klemensdialog()
@@ -514,13 +513,14 @@ class MyWindow(QMainWindow):
         self.window3.setWindowTitle("Klemens Seçim Sayfası")
         self.window3.ui.tabWidget.setCurrentIndex(1)
         self.window3.show()
-        self.window3.ui.pushButton_sec_klemens.clicked.connect(
-            lambda x: self.klemens_deger_al(klemens_name=self.window3.ui.lineEdit_klemens_name.text(),
-                                            a=self.window3.ui.doubleSpinBox_klemens_a.value(),
-                                            b=self.window3.ui.doubleSpinBox_klemens_b.value()))
-        self.window3.ui.pushButton_sec_ayak.clicked.connect(
-            lambda x: self.ayak_deger_al(ayak_name=self.window3.ui.lineEdit_ayak_name.text(),
-                                         a=self.window3.ui.doubleSpinBox_ayak_a.value()))
+        def klemens_data_tarnsfer():
+            if self.window3.ui.lineEdit_klemens_name.text()!="":
+                self.klemens_deger_al(klemens_name=self.window3.ui.lineEdit_klemens_name.text(),a=self.window3.ui.doubleSpinBox_klemens_a.value(),b=self.window3.ui.doubleSpinBox_klemens_b.value(),akim=self.window3.ui.doubleSpinBox_klemens_akim.value() )
+            
+            if self.window3.ui.lineEdit_ayak_name.text()!="":
+                self.ayak_deger_al(ayak_name=self.window3.ui.lineEdit_ayak_name.text(),a=self.window3.ui.doubleSpinBox_ayak_a.value())
+        
+        self.window3.ui.pushButton_sec.clicked.connect(klemens_data_tarnsfer)
     def open_genel_parametre(self):
         self.window3 = popup.GenelParamdialog()
 
@@ -2829,29 +2829,33 @@ class MyWindow(QMainWindow):
         counter = Counter()
         for d in malzeme_listesix:
             counter.update(d)
-
+        
         self.tum_malzeme_listesi = dict(counter)
         self.kesit_listesi=[]
         self.kesit_listesi.clear()
-        for mlz,value in self.tum_malzeme_listesi.items():
-
-            data1 = db.get_tell_byname( filter_value=mlz)
-            if data1!="":
-
-                self.kesit_listesi.append(str(data1[2],))
-
-            data2 = db.get_karetell_byname( filter_value=mlz)
-            if data2 != "":
-                self.kesit_listesi.append(str(data2[2])+"x"+str(data2[3]))
-
-            data3 = db.get_folyotell_byname(filter_value=mlz)
-            if data3 != "":
-                self.kesit_listesi.append(str(data3[2]) + "x" + str(data3[3]))
-
-            data4 = db.get_kapton_byname(filter_value=mlz)
-            if data4 != "":
-                self.kesit_listesi.append(str(data4[2]))
-        print(self.kesit_listesi)
+        
+        for mlz in self.tum_malzeme_listesi.keys(): 
+            cap = db.get_tell_byname( filter_value=mlz)  
+            if cap!=None:
+                self.kesit_listesi.append(str(cap[0]))
+                cap=None
+                continue
+            kesit1,kesit2, = db.get_karetell_byname( filter_value=mlz)
+            
+            if kesit1 != None:
+                self.kesit_listesi.append(str(kesit1)+"x"+str(kesit2))
+                kesit1,kesit2,=None,None
+                continue
+            kesit3,kesit4, = db.get_folyotell_byname(filter_value=mlz)
+            if kesit3 != None:
+                self.kesit_listesi.append(str(kesit3) + "x" + str(kesit4))
+                kesit3,kesit4=None,None
+                continue
+            kesit5, = db.get_kapton_byname(filter_value=mlz)
+            if  kesit5 != None:
+                self.kesit_listesi.append(str( kesit5[0]))
+                kesit5=None
+                continue
         return self.tum_malzeme_listesi
         #self.group_name_list_sekonder_kademe
         #self.va_group_elementlist
@@ -3135,6 +3139,7 @@ class MyWindow(QMainWindow):
         printout.va_guclist.append(self.guclist_1[8].value())
         printout.va_guclist.append(self.guclist_1[9].value())
         printout.mlz_listesi=self.tum_malzeme_listesi
+        printout.kesit_listesi=self.kesit_listesi
     def printout_report(self):
         self.printout_veri_kumesi()
         
