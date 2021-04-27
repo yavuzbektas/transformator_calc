@@ -1,5 +1,5 @@
 
-pyside2-uic mainwindow2.ui > mainwindow.py
+:pyside2-uic mainwindow2.ui > mainwindow.py
 :pyside2-uic login.ui -o login.py
 :pyside2-uic about.ui > about.py
 :pyside2-uic reciepe.ui > reciepe.py
@@ -9,7 +9,7 @@ pyside2-uic mainwindow2.ui > mainwindow.py
 :pyside2-uic tel_select.ui > tel_select.py
 :pyside2-uic izolasyon.ui > izolasyon.py
 :pyside2-uic klemens.ui > klemens.py
-:pyside2-uic mainizole_trifaz.ui > mainizole_trifaz.py
+pyside2-uic mainizole_trifaz.ui > mainizole_trifaz.py
 :pyside2-uic mainoto_monofaz.ui > mainoto_monofaz.py
 :pyside2-uic mainoto_trifaz.ui > mainoto_trifaz.py
 

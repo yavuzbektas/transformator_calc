@@ -29,7 +29,7 @@
     </font>
    </property>
    <property name="currentIndex">
-    <number>1</number>
+    <number>0</number>
    </property>
    <widget class="QWidget" name="tab">
     <attribute name="title">
@@ -737,25 +737,6 @@
       <string>Ara</string>
      </property>
     </widget>
-    <widget class="QPushButton" name="pushButton_sec_ayak">
-     <property name="geometry">
-      <rect>
-       <x>520</x>
-       <y>422</y>
-       <width>80</width>
-       <height>31</height>
-      </rect>
-     </property>
-     <property name="font">
-      <font>
-       <weight>75</weight>
-       <bold>true</bold>
-      </font>
-     </property>
-     <property name="text">
-      <string>Sec</string>
-     </property>
-    </widget>
     <widget class="QComboBox" name="comboBox_ayak">
      <property name="geometry">
       <rect>
@@ -826,25 +807,6 @@
      </property>
     </widget>
    </widget>
-  </widget>
-  <widget class="QPushButton" name="pushButton_sec_klemens">
-   <property name="geometry">
-    <rect>
-     <x>380</x>
-     <y>460</y>
-     <width>81</width>
-     <height>31</height>
-    </rect>
-   </property>
-   <property name="font">
-    <font>
-     <weight>75</weight>
-     <bold>true</bold>
-    </font>
-   </property>
-   <property name="text">
-    <string>Sec</string>
-   </property>
   </widget>
   <widget class="QPushButton" name="pushButton_sec">
    <property name="geometry">

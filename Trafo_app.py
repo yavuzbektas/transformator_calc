@@ -74,7 +74,7 @@ class Login(QDialog):
                 
 
                 import myizole_trifaz
-                self.window =myizole_trifaz.IzoleTrifazwindow()
+                self.window =myizole_trifaz.MyWindow()
                 
                 # self.window.ui.lineEdit_2.setText(data[3])
                 # self.window.user_admin_check()

@@ -19,7 +19,7 @@ class MyWindow(QMainWindow):
         self.ui=Ui_MainWindow()
         self.ui.setupUi(self)
         self.veri_kumeleri()
-        self.setWindowTitle("Mono Faz Izolasyon Trafosu - Trafo Hesaplama Programı V0 ")
+        self.setWindowTitle("Mono Faz Izolasyon Trafosu - Trafo Hesaplama")
         self.handle_button()
         self.index=0
 
@@ -286,6 +286,7 @@ class MyWindow(QMainWindow):
         self.bosluk_hesapla()
         self.olcu_hesapla()
         self.malzeme_listesi_yap()
+        self.klemens_icon_update()
     # ======= Diyolog pencerelerin acilisi ===========================
     def tum_degerleri_temizle(self):
         returnValue = popup.clear_msjbox(
@@ -376,8 +377,8 @@ class MyWindow(QMainWindow):
         self.window3.ui.pushButton_sec.clicked.connect(lambda x:self.karkas_deger_al(object=self.window3))
     def open_klemens(self):
         self.window3 = popup.Klemensdialog()
-
         self.window3.setWindowTitle("Klemens Seçim Sayfası")
+        self.window3.ui.tabWidget.setCurrentIndex(0)
         self.window3.show()
         
         def klemens_data_tarnsfer():
@@ -390,7 +391,7 @@ class MyWindow(QMainWindow):
         self.window3.ui.pushButton_sec.clicked.connect(klemens_data_tarnsfer)
     def open_ayak(self):
         self.window3 = popup.Klemensdialog()
-
+        
         self.window3.setWindowTitle("Klemens Seçim Sayfası")
         self.window3.ui.tabWidget.setCurrentIndex(1)
         self.window3.show()
@@ -2645,10 +2646,52 @@ class MyWindow(QMainWindow):
         self.ui.doubleSpinBox_sekonderagirlik_cu.setValue(sekonder_cu_agirlik+sva1_cu_agirlik+sva2_cu_agirlik+sva3_cu_agirlik+sva4_cu_agirlik+sva5_cu_agirlik+sva6_cu_agirlik+sva7_cu_agirlik+sva8_cu_agirlik+sva9_cu_agirlik+sva10_cu_agirlik)
     # ======================  olcu hesabı  =========================
     def olcu_hesapla(self):
-        self.ui.doubleSpinBox_olcu_a.setValue(self.ui.doubleSpinBox_karkas_en.value()*3)
-        self.ui.doubleSpinBox_olcu_b.setValue(self.ui.doubleSpinBox_karkas_boy.value() +self.ui.doubleSpinBox_klemens_a_deg.value() + self.ui.doubleSpinBox_ayak_a_deg.value())
-        self.ui.doubleSpinBox_olcu_c.setValue(self.ui.doubleSpinBox_karkas_en.value()*2.5 +self.ui.doubleSpinBox_klemens_b_deg.value())
+        #self.ui.doubleSpinBox_olcu_a.setValue(self.ui.doubleSpinBox_karkas_en.value()*3)
+        #self.ui.doubleSpinBox_olcu_b.setValue(self.ui.doubleSpinBox_karkas_boy.value() +self.ui.doubleSpinBox_klemens_a_deg.value() + self.ui.doubleSpinBox_ayak_a_deg.value())
+        #self.ui.doubleSpinBox_olcu_c.setValue(self.ui.doubleSpinBox_karkas_en.value()*2.5 +self.ui.doubleSpinBox_klemens_b_deg.value())
+        a,b,c = hp.nuve_olcu_hesapla(
+            karkas_en = self.ui.doubleSpinBox_karkas_en.value(),
+            karkas_boy = self.ui.doubleSpinBox_karkas_boy.value(),
+            klemens_a = self.ui.doubleSpinBox_klemens_a_deg.value(),
+            klemens_b=self.ui.doubleSpinBox_klemens_b_deg.value(),
+            ayak_a=self.ui.doubleSpinBox_ayak_a_deg.value()
+            )
+        self.ui.doubleSpinBox_olcu_a.setValue(a)
+        self.ui.doubleSpinBox_olcu_b.setValue(  b)
+        self.ui.doubleSpinBox_olcu_c.setValue(  c)
+        self.trafoolcu_hesapla()    
+    def trafoolcu_hesapla(self):
+        if self.ui.comboBox_sactipi.currentIndex()==1:
+            sactipi="kesme_sac"
+            #self.ui.doubleSpinBox_trafoolcu_a.setValue( math.ceil(self.ui.doubleSpinBox_karkas_en.value()*2+2*(self.ui.doubleSpinBox_karkas_en.value()/2+self.ui.doubleSpinBox_nuvebosluk.value())))
+            #self.ui.doubleSpinBox_trafoolcu_c.setValue( math.ceil(self.ui.doubleSpinBox_karkas_yukseklik.value()+self.ui.doubleSpinBox_karkas_en.value()*0.15 +self.ui.doubleSpinBox_karkas_en.value()))
+            self.ui.doubleSpinBox_sacagirlik.setValue(0)
+        else:
+            sactipi="ei_sac"
+            #self.ui.doubleSpinBox_trafoolcu_a.setValue( math.ceil(self.ui.doubleSpinBox_karkas_en.value()*3))
+            #self.ui.doubleSpinBox_trafoolcu_c.setValue( math.ceil(self.ui.doubleSpinBox_karkas_en.value()*2.5 ))
+            self.ui.doubleSpinBox_sacagirlik.setValue(hp.sac_agirlik(karkas_en=self.ui.doubleSpinBox_karkas_en.value(),karkas_boy=self.ui.doubleSpinBox_karkas_boy.value()))
+
+        #self.ui.doubleSpinBox_trafoolcu_b.setValue(self.ui.doubleSpinBox_karkas_boy.value() +self.ui.doubleSpinBox_karkas_en.value())
         
+        #self.ui.doubleSpinBox_trafoolcu_d.setValue(self.ui.doubleSpinBox_trafoolcu_a.value()-self.ui.doubleSpinBox_karkas_en.value()/2-10)
+        #self.ui.doubleSpinBox_trafoolcu_e.setValue(self.ui.doubleSpinBox_karkas_boy.value()+self.ui.doubleSpinBox_karkas_en.value()/2+2+2)
+        #self.ui.doubleSpinBox_trafoolcu_f.setValue(0)
+        a,b,c,d,e,f  = hp.trafo_olcu_hesapla_1(
+            sac_tipi =sactipi,
+            karkas_en=self.ui.doubleSpinBox_karkas_en.value(),
+            karkas_boy=self.ui.doubleSpinBox_karkas_boy.value(),
+            karkas_yuk=self.ui.doubleSpinBox_karkas_yukseklik.value(),
+            nuve_bosluk=self.ui.doubleSpinBox_nuvebosluk.value()
+        )
+        self.ui.doubleSpinBox_trafoolcu_a.setValue(a)
+        self.ui.doubleSpinBox_trafoolcu_b.setValue(b)
+        self.ui.doubleSpinBox_trafoolcu_c.setValue(c)
+        self.ui.doubleSpinBox_trafoolcu_d.setValue(d)
+        self.ui.doubleSpinBox_trafoolcu_e.setValue(e)
+        self.ui.doubleSpinBox_trafoolcu_f.setValue(f)
+    # ======================  klemens ve Ayak Degerli  =========================
+    def klemens_icon_update(self):
         if self.ui.lineEdit_klemens_adi.text()!="":
             self.ui.label_klemens_error.setVisible(False)
             #self.ui.lineEdit_klemens.setText(self.ui.lineEdit_klemens_adi.text() + " / "+ str(int(self.ui.doubleSpinBox_klemens_a_deg.value())) + " / " + str(int(self.ui.doubleSpinBox_klemens_b_deg.value())))
@@ -2663,82 +2706,19 @@ class MyWindow(QMainWindow):
         else:
             self.ui.label_ayak_error.setVisible(True)
             #self.ui.lineEdit_ayak.setText("")
-        self.trafoolcu_hesapla()
-    def trafoolcu_hesapla(self):
-        if self.ui.comboBox_sactipi.currentIndex()==1:
-
-            self.ui.doubleSpinBox_trafoolcu_a.setValue( math.ceil(self.ui.doubleSpinBox_karkas_en.value()*2+2*(self.ui.doubleSpinBox_karkas_en.value()/2+self.ui.doubleSpinBox_nuvebosluk.value())))
-            self.ui.doubleSpinBox_trafoolcu_c.setValue( math.ceil(self.ui.doubleSpinBox_karkas_yukseklik.value()+self.ui.doubleSpinBox_karkas_en.value()*0.15 +self.ui.doubleSpinBox_karkas_en.value()))
-            self.ui.doubleSpinBox_sacagirlik.setValue(0)
-        else:
-            self.ui.doubleSpinBox_trafoolcu_a.setValue( math.ceil(self.ui.doubleSpinBox_karkas_en.value()*3))
-            self.ui.doubleSpinBox_trafoolcu_c.setValue( math.ceil(self.ui.doubleSpinBox_karkas_en.value()*2.5 ))
-            self.ui.doubleSpinBox_sacagirlik.setValue(hp.sac_agirlik(karkas_en=self.ui.doubleSpinBox_karkas_en.value(),karkas_boy=self.ui.doubleSpinBox_karkas_boy.value()))
-
-        self.ui.doubleSpinBox_trafoolcu_b.setValue(self.ui.doubleSpinBox_karkas_boy.value() +self.ui.doubleSpinBox_karkas_en.value())
-        
-        self.ui.doubleSpinBox_trafoolcu_d.setValue(self.ui.doubleSpinBox_trafoolcu_a.value()-self.ui.doubleSpinBox_karkas_en.value()/2-10)
-        self.ui.doubleSpinBox_trafoolcu_e.setValue(self.ui.doubleSpinBox_karkas_boy.value()+self.ui.doubleSpinBox_karkas_en.value()/2+2+2)
-        self.ui.doubleSpinBox_trafoolcu_f.setValue(0)
     def klemens_deger_al(self,klemens_name,a,b,akim):
         self.ui.lineEdit_klemens_adi.setText(klemens_name)
         self.ui.doubleSpinBox_klemens_a_deg.setValue(a)
         self.ui.doubleSpinBox_klemens_b_deg.setValue(b)
         self.ui.doubleSpinBox_klemens_akim.setValue(akim)
+        
         self.olcu_hesapla()
     def ayak_deger_al(self,ayak_name,a):
         self.ui.lineEdit_ayak_adi.setText(ayak_name)
         self.ui.doubleSpinBox_ayak_a_deg.setValue(a)
         
         self.olcu_hesapla()
-    def malzeme_listesi_yap(self):
-        malzeme_listesix =[]
-
-        for i in range (0,10):
-
-            for key,val in list(vt.malzeme_listesi["teller"].items()):
-                if self.group_name_list_primer_kademe[i][key]!="":
-                  malzeme_listesix.append({self.group_name_list_primer_kademe[i][key]:self.group_name_list_primer_kademe[i][val]})
-
-                if self.group_name_list_sekonder_kademe[i][key]!="":
-                  malzeme_listesix.append({self.group_name_list_sekonder_kademe[i][key]:self.group_name_list_sekonder_kademe[i][val]})
-                for y in range(0, 10):
-                    if self.va_group_elementlist[i][y][key]!="":
-                      malzeme_listesix.append({self.va_group_elementlist[i][y][key]:self.va_group_elementlist[i][y][val]})
-
-        counter = Counter()
-        for d in malzeme_listesix:
-            counter.update(d)
-        
-        self.tum_malzeme_listesi = dict(counter)
-        self.kesit_listesi=[]
-        self.kesit_listesi.clear()
-        
-        for mlz in self.tum_malzeme_listesi.keys(): 
-            cap = db.get_tell_byname( filter_value=mlz)  
-            if cap!=None:
-                self.kesit_listesi.append(str(cap[0]))
-                cap=None
-                continue
-            kesit1,kesit2, = db.get_karetell_byname( filter_value=mlz)
-            
-            if kesit1 != None:
-                self.kesit_listesi.append(str(kesit1)+"x"+str(kesit2))
-                kesit1,kesit2,=None,None
-                continue
-            kesit3,kesit4, = db.get_folyotell_byname(filter_value=mlz)
-            if kesit3 != None:
-                self.kesit_listesi.append(str(kesit3) + "x" + str(kesit4))
-                kesit3,kesit4=None,None
-                continue
-            kesit5, = db.get_kapton_byname(filter_value=mlz)
-            if  kesit5 != None:
-                self.kesit_listesi.append(str( kesit5[0]))
-                kesit5=None
-                continue
-        return self.tum_malzeme_listesi
-        #self.group_name_list_sekonder_kademe
-        #self.va_group_elementlist
+    
     # ======================  Genel Fonksiyonlar =========================
     def hesap_sarim_uzunlugu(self):
         self.primer_sarim_yukseklik_toplam =0.0
@@ -2895,7 +2875,55 @@ class MyWindow(QMainWindow):
             return object.setChecked(0)
         elif object.metaObject().className()== "QLabel":
             return object.setVisible(0)
-    
+    # ======================  Yazdırma Ayarları ve Malzeme Listesinin Çıkartılması  =========================
+    def malzeme_listesi_yap(self):
+        malzeme_listesix =[]
+
+        for i in range (0,10):
+
+            for key,val in list(vt.malzeme_listesi["teller"].items()):
+                if self.group_name_list_primer_kademe[i][key]!="":
+                  malzeme_listesix.append({self.group_name_list_primer_kademe[i][key]:self.group_name_list_primer_kademe[i][val]})
+
+                if self.group_name_list_sekonder_kademe[i][key]!="":
+                  malzeme_listesix.append({self.group_name_list_sekonder_kademe[i][key]:self.group_name_list_sekonder_kademe[i][val]})
+                for y in range(0, 10):
+                    if self.va_group_elementlist[i][y][key]!="":
+                      malzeme_listesix.append({self.va_group_elementlist[i][y][key]:self.va_group_elementlist[i][y][val]})
+
+        counter = Counter()
+        for d in malzeme_listesix:
+            counter.update(d)
+        
+        self.tum_malzeme_listesi = dict(counter)
+        self.kesit_listesi=[]
+        self.kesit_listesi.clear()
+        
+        for mlz in self.tum_malzeme_listesi.keys(): 
+            cap = db.get_tell_byname( filter_value=mlz)  
+            if cap!=None:
+                self.kesit_listesi.append(str(cap[0]))
+                cap=None
+                continue
+            kesit1,kesit2, = db.get_karetell_byname( filter_value=mlz)
+            
+            if kesit1 != None:
+                self.kesit_listesi.append(str(kesit1)+"x"+str(kesit2))
+                kesit1,kesit2,=None,None
+                continue
+            kesit3,kesit4, = db.get_folyotell_byname(filter_value=mlz)
+            if kesit3 != None:
+                self.kesit_listesi.append(str(kesit3) + "x" + str(kesit4))
+                kesit3,kesit4=None,None
+                continue
+            kesit5, = db.get_kapton_byname(filter_value=mlz)
+            if  kesit5 != None:
+                self.kesit_listesi.append(str( kesit5[0]))
+                kesit5=None
+                continue
+        return self.tum_malzeme_listesi
+        #self.group_name_list_sekonder_kademe
+        #self.va_group_elementlist
     def printout_veri_kumesi(self):
         printout.primer_group_list =self.group_name_list_primer_kademe
         printout.sekonder_group_list = self.group_name_list_sekonder_kademe
@@ -2992,9 +3020,9 @@ class MyWindow(QMainWindow):
 
 
 # def kademe_temizle(self,gl,kadame_sayisi=1):
-#         for kademe in range (kadame_sayisi,10):
-#             for index in range(0,58):
-#                 self.degerleri_temizle(gl[kademe][index])
+    #         for kademe in range (kadame_sayisi,10):
+    #             for index in range(0,58):
+    #                 self.degerleri_temizle(gl[kademe][index])
 # def object_multi_connect(self,object,arg):
     #     if object.metaObject().className()== "QDoubleSpinBox":
     #         return object.valueChanged.connect(arg)

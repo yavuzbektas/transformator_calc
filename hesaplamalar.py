@@ -159,9 +159,26 @@ def gauss_onerilen_hesapla(sac):
         c_deg = 7
     return gauss,c_deg
 
-
-
-
+def trafo_olcu_hesapla_1(sac_tipi,karkas_en,karkas_boy,karkas_yuk,nuve_bosluk):
+    if sac_tipi=="ei_sac":
+        olcu_a=math.ceil(karkas_en*2+2*(karkas_en/2+nuve_bosluk))
+        olcu_c=math.ceil(karkas_yuk+karkas_en*0.15+karkas_en)
+    elif sac_tipi=="kesme_sac":
+        olcu_a=math.ceil(karkas_en*3)
+        olcu_c=math.ceil(karkas_en*2.5)
+    else:
+        olcu_a=0
+        olcu_c=0
+    olcu_b = karkas_en+karkas_boy
+    olcu_d=olcu_a-karkas_en/2-10
+    olcu_e=karkas_boy+karkas_en/2+2+2
+    olcu_f=0
+    return (olcu_a,olcu_b,olcu_c,olcu_d,olcu_e,olcu_f)
+def nuve_olcu_hesapla(karkas_en,karkas_boy,klemens_a,klemens_b,ayak_a):
+    nuve_olcu_a=karkas_en*3
+    nuve_olcu_b=karkas_boy +klemens_a + ayak_a
+    nuve_olcu_c=karkas_en*2.5 +klemens_b
+    return (nuve_olcu_a,nuve_olcu_b,nuve_olcu_c)
 def trafo_hesap_1( gl, guc, frekans, 
                    gauss, karkas_en, karkas_boy, 
                    karkas_yuk, verim, sarim, 

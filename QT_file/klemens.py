@@ -223,10 +223,6 @@ class Ui_Dialog(object):
         self.pushButton_ara_ayak.setObjectName(u"pushButton_ara_ayak")
         self.pushButton_ara_ayak.setGeometry(QRect(430, 100, 80, 31))
         self.pushButton_ara_ayak.setFont(font)
-        self.pushButton_sec_ayak = QPushButton(self.tab_2)
-        self.pushButton_sec_ayak.setObjectName(u"pushButton_sec_ayak")
-        self.pushButton_sec_ayak.setGeometry(QRect(520, 422, 80, 31))
-        self.pushButton_sec_ayak.setFont(font)
         self.comboBox_ayak = QComboBox(self.tab_2)
         self.comboBox_ayak.addItem("")
         self.comboBox_ayak.addItem("")
@@ -243,10 +239,6 @@ class Ui_Dialog(object):
         self.pushButton_sil_ayak.setGeometry(QRect(520, 80, 80, 41))
         self.pushButton_sil_ayak.setFont(font1)
         self.tabWidget.addTab(self.tab_2, "")
-        self.pushButton_sec_klemens = QPushButton(Dialog)
-        self.pushButton_sec_klemens.setObjectName(u"pushButton_sec_klemens")
-        self.pushButton_sec_klemens.setGeometry(QRect(380, 460, 81, 31))
-        self.pushButton_sec_klemens.setFont(font)
         self.pushButton_sec = QPushButton(Dialog)
         self.pushButton_sec.setObjectName(u"pushButton_sec")
         self.pushButton_sec.setGeometry(QRect(540, 460, 81, 31))
@@ -254,7 +246,7 @@ class Ui_Dialog(object):
 
         self.retranslateUi(Dialog)
 
-        self.tabWidget.setCurrentIndex(0)
+        self.tabWidget.setCurrentIndex(1)
 
 
         QMetaObject.connectSlotsByName(Dialog)
@@ -306,7 +298,6 @@ class Ui_Dialog(object):
         self.label_12.setText(QCoreApplication.translate("Dialog", u"yuk", None))
         self.label_10.setText(QCoreApplication.translate("Dialog", u"Filitre", None))
         self.pushButton_ara_ayak.setText(QCoreApplication.translate("Dialog", u"Ara", None))
-        self.pushButton_sec_ayak.setText(QCoreApplication.translate("Dialog", u"Sec", None))
         self.comboBox_ayak.setItemText(0, QCoreApplication.translate("Dialog", u"Ayak", None))
         self.comboBox_ayak.setItemText(1, QCoreApplication.translate("Dialog", u"en", None))
         self.comboBox_ayak.setItemText(2, QCoreApplication.translate("Dialog", u"boy", None))
@@ -315,7 +306,6 @@ class Ui_Dialog(object):
         self.pushButton_kaydet_ayak.setText(QCoreApplication.translate("Dialog", u"Kaydet", None))
         self.pushButton_sil_ayak.setText(QCoreApplication.translate("Dialog", u"Sil", None))
         self.tabWidget.setTabText(self.tabWidget.indexOf(self.tab_2), QCoreApplication.translate("Dialog", u"Ayak", None))
-        self.pushButton_sec_klemens.setText(QCoreApplication.translate("Dialog", u"Sec", None))
         self.pushButton_sec.setText(QCoreApplication.translate("Dialog", u"Sec", None))
     # retranslateUi
 
