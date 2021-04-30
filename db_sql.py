@@ -108,6 +108,30 @@ TABLES['sac_tekfaz'] = ("CREATE TABLE `sac_tekfaz` ("
                            "`MLT_deg` REAL ,"
 
                            "`record_date` TIMESTAMP NULL DEFAULT CURRENT_TIMESTAMP)")
+TABLES['sac_trifaz'] = ("CREATE TABLE `sac_trifaz` ("
+                           "`id` INTEGER NOT NULL UNIQUE PRIMARY KEY  AUTOINCREMENT,"
+                           "`sac_olcu` REAL NOT NULL UNIQUE,"
+                           "`a_deg` REAL ,"
+                           "`b_deg` REAL ,"
+                           "`c_deg` REAL ,"
+                           "`d_deg` REAL ,"
+                           "`e_deg` REAL ,"
+                           "`f_deg` REAL ,"
+                           "`h_deg` REAL ,"
+                           "`i_deg` REAL ,"
+                           "`k1_deg` REAL ,"
+                           "`k2_deg` REAL ,"
+                           "`ag1_deg` REAL ,"
+                           "`ag2_deg` REAL ,"
+                           "`Ac_deg` REAL ,"
+                           "`Wa_deg` REAL ,"
+                           "`Ap_deg` REAL ,"
+                           "`Kg_deg` REAL ,"
+                           "`At_deg` REAL ,"
+                           "`MPL_deg` REAL ,"
+                           "`MLT_deg` REAL ,"
+
+                           "`record_date` TIMESTAMP NULL DEFAULT CURRENT_TIMESTAMP)")
 TABLES['recete'] = ("CREATE TABLE `recete` "
                    "(`id` INTEGER NOT NULL UNIQUE PRIMARY KEY AUTOINCREMENT,"
                    "`musteri_kodu` TEXT," 
@@ -304,7 +328,7 @@ DB_NAME= config_file.get("PATHS", "DB_DIR") +"\\"+ config_file.get("DATABASE", "
 HOST= config_file.get("DATABASE", "HOST")
 USERNAME=config_file.get("DATABASE", "USERNAME")
 PASSWORD= config_file.get("DATABASE", "PASSWORD")
-class mydb():
+class mydb(): 
     def __init__(self,host=HOST,username=USERNAME,password=PASSWORD,DB_NAME=DB_NAME):
         self.host=host
         self.username=username
@@ -390,7 +414,7 @@ class mydb():
         finally:
             self.cursor.close()
             self.db.close()
-# =========== USER ==========================
+    # =========== USER ==========================
     def check_user(self,values):
         self.connect_db()
         query = "SELECT id,username,password,usertype FROM users WHERE username='%s' AND password='%s'" % (values)
@@ -427,20 +451,19 @@ class mydb():
         data = self.fetchall(query)
         return data
 
-# =========== recete  ==========================
+    # =========== recete  ==========================
     def check_recete(self,values):
 
         query = "SELECT id,kullanici,musteri_adi,siparis_kodu, \
-                 guc,primer_list,sekonder_list,sva_list,rec_veriler" \
+                 guc,primer_list,sekonder_list,sva_list,rec_veriler,trafo_tipi" \
         " FROM recete WHERE siparis_kodu = '%s'" % values
 
         data = self.fetchone(query)
         return data
     def insert_recete(self,values):
         query = "INSERT INTO recete (kullanici,musteri_adi,siparis_kodu, \
-                 guc,primer_list,sekonder_list,sva_list,rec_veriler) VALUES ( " \
-                "'%s','%s','%s','%f','%s','%s','%s'," \
-                "'%s' )" % values
+                 guc,primer_list,sekonder_list,sva_list,rec_veriler,trafo_tipi) VALUES ( " \
+                "'%s','%s','%s','%f','%s','%s','%s','%s','%s' )" % values
         try:
             data = self.commit_db(query)
         except Exception as err:
@@ -449,7 +472,7 @@ class mydb():
         return True
     def calldata_with_id_recete(self,id):
         query = "SELECT recete.id,kullanici,musteri_adi,siparis_kodu, \
-                 guc,primer_list,sekonder_list,sva_list,recete.record_date, rec_veriler " \
+                 guc,primer_list,sekonder_list,sva_list,recete.record_date, rec_veriler,trafo_tipi " \
                 "FROM recete  WHERE recete.id = '%d'" % (id,)
         data = self.fetchone(query)
         return data
@@ -459,18 +482,18 @@ class mydb():
         return data
     def update_recete(self,value):
         query = "UPDATE  recete SET " \
-                "kullanici='%s',musteri_adi='%s',siparis_kodu='%s',guc='%f',primer_list='%s',sekonder_list='%s',sva_list='%s',rec_veriler='%s'" \
+                "kullanici='%s',musteri_adi='%s',siparis_kodu='%s',guc='%f',primer_list='%s',sekonder_list='%s',sva_list='%s',rec_veriler='%s' ,trafo_tipi='%s' " \
                 "WHERE id='%d'" % (value)
         data = self.commit_db(query)
         return data
     def showall_recete(self):
-        query = "SELECT recete.id,kullanici,musteri_adi,siparis_kodu ,guc,primer_list,sekonder_list,sva_list,recete.record_date,rec_veriler " \
+        query = "SELECT recete.id,kullanici,musteri_adi,siparis_kodu ,guc,primer_list,sekonder_list,sva_list,recete.record_date,rec_veriler,trafo_tipi " \
                 " FROM recete "
         data = self.fetchall(query)
         return data
     def showfilter_recete(self, filter_value, index=0):
         index1,index2=index
-        filter1,filter2=filter_value
+        filter1,filter2,trafo_tipi=filter_value
         if index1 == 1:
             criteria1 = "recete.kullanici"
         elif index1 == 2:
@@ -493,19 +516,23 @@ class mydb():
             criteria2 = "recete.record_date"
         else:
             criteria2 = ""
-        if index2 >0:
+        if index1 >0 and index2 >0:
             query = "SELECT id,kullanici,musteri_adi,siparis_kodu, \
                  guc,primer_list,sekonder_list,sva_list,record_date " \
-                " FROM recete WHERE {} LIKE '{}%' AND {} LIKE '{}%'".format(criteria1,filter1,criteria2,filter2)
-        else:
+                " FROM recete WHERE {} LIKE '{}%' AND {} LIKE '{}%' AND recete.trafo_tipi = '{}'".format(criteria1,filter1,criteria2,filter2,trafo_tipi)
+        elif index1 >0 and index2 ==0:
             query = "SELECT id,kullanici,musteri_adi,siparis_kodu, \
                              guc,primer_list,sekonder_list,sva_list,record_date " \
-                    " FROM recete WHERE {} LIKE '{}%' ".format(criteria1, filter1)
+                    " FROM recete WHERE {} LIKE '{}%' AND recete.trafo_tipi = '{}'".format(criteria1, filter1,trafo_tipi)
+        else: 
+            query = "SELECT id,kullanici,musteri_adi,siparis_kodu, \
+                             guc,primer_list,sekonder_list,sva_list,record_date " \
+                    " FROM recete WHERE  recete.trafo_tipi = '{}'".format(trafo_tipi)
         data = self.fetchall(query)
         return data
-# =========== logs  ==========================
+    # =========== logs  ==========================
 
-# =========== karkas==========================
+    # =========== karkas==========================
 
     def check_karkas(self,values):
         query = "SELECT id,karkas_name,en,boy,ozellik_1,ozellik_2 FROM karkas WHERE karkas_name='%s'" % values
@@ -552,7 +579,7 @@ class mydb():
         data = self.fetchall(query)
         return data
 
-# =========== TELLER ==========================
+    # =========== TELLER ==========================
     # tel secimi
     def check_teller(self,values):
         query = "SELECT id,tel_name,cap,ozellik_1,ozellik_2 FROM teller WHERE tel_name='%s'" % values
@@ -781,7 +808,7 @@ class mydb():
         query = "SELECT id,tel_cap,a_deg,b_deg,c_deg,cu_deg,al_deg,record_date  FROM tel_spir WHERE {} LIKE '{}'".format(criteria, filter_value)
         data = self.fetchall(query)
         return data
-# klemens secimi   
+    # klemens secimi   
     def check_klemens(self,values):
         query = "SELECT id,klemens_name,en,boy,yuk,akim FROM klemens WHERE klemens_name='%s'" % values
         data = self.fetchone(query)
@@ -824,7 +851,7 @@ class mydb():
         data = self.fetchall(query)
         return data
 
-# ayak secimi   
+    # ayak secimi   
     def check_ayak(self,values):
         query = "SELECT id,ayak_name,en,boy,yuk FROM ayak WHERE ayak_name='%s'" % values
         data = self.fetchone(query)
@@ -865,7 +892,7 @@ class mydb():
         data = self.fetchall(query)
         return data
 
-# sac_tekfaz secimi   
+    # sac_tekfaz secimi   
     def check_sac_tekfaz(self,values):
         query = "SELECT id,sac_olcu,a_deg,b_deg,c_deg,d_deg,e_deg,f_deg,h_deg,i_deg,k1_deg,k2_deg,ag1_deg,ag2_deg,Ac_deg,Wa_deg,Ap_deg,Kg_deg,At_deg,MPL_deg,MLT_deg FROM sac_tekfaz WHERE sac_olcu='%s'" % values
         data = self.fetchone(query)
@@ -905,5 +932,48 @@ class mydb():
         return data
     def show_nearest_value_tekfaz(self, filter_value):
         query = "SELECT *  FROM sac_tekfaz  WHERE sac_tekfaz.sac_olcu ORDER BY ABS(sac_tekfaz.sac_olcu - {}) LIMIT 1 ".format( filter_value)
+        data = self.fetchall(query)
+        return data
+
+# sac_trifaz secimi   
+    def check_sac_trifaz(self,values):
+        query = "SELECT id,sac_olcu,a_deg,b_deg,c_deg,d_deg,e_deg,f_deg,h_deg,i_deg,k1_deg,k2_deg,ag1_deg,ag2_deg,Ac_deg,Wa_deg,Ap_deg,Kg_deg,At_deg,MPL_deg,MLT_deg FROM sac_trifaz WHERE sac_olcu='%s'" % values
+        data = self.fetchone(query)
+        return data
+    def insert_sac_trifaz(self,values):
+        query = "INSERT INTO sac_trifaz (sac_olcu,a_deg,b_deg,c_deg,d_deg,e_deg,f_deg,h_deg,i_deg,k1_deg,k2_deg,ag1_deg,ag2_deg,Ac_deg,Wa_deg,Ap_deg,Kg_deg,At_deg,MPL_deg,MLT_deg ) VALUES ( '%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s')" % values
+        data = self.commit_db(query)
+        return data
+    def calldata_with_id_sac_trifaz(self,id):
+        query =  "SELECT id,sac_olcu,a_deg,b_deg,c_deg,d_deg,e_deg,f_deg,h_deg,i_deg,k1_deg,k2_deg,ag1_deg,ag2_deg,Ac_deg,Wa_deg,Ap_deg,Kg_deg,At_deg,MPL_deg,MLT_deg,record_date FROM sac_trifaz WHERE sac_trifaz.id = '%s'" % (id,)
+        data = self.fetchone(query)
+        return data
+    def delete_sac_trifaz(self,value):
+        query = "DELETE FROM sac_trifaz WHERE id='%s'" % (value,)
+        data = self.commit_db(query)
+        return data
+    def update_sac_trifaz(self,value):
+        query = "UPDATE  sac_trifaz SET sac_olcu='%s',a_deg='%s',b_deg='%s',c_deg='%s',d_deg='%s',e_deg='%s',f_deg='%s',h_deg='%s',i_deg='%s',k1_deg='%s',k2_deg='%s',ag1_deg='%s',ag2_deg='%s',Ac_deg='%s',Wa_deg='%s',Ap_deg='%s',Kg_deg='%s',At_deg='%s',MPL_deg='%s',MLT_deg='%s'"\
+                "WHERE id='%s'" % (value)
+        data = self.commit_db(query)
+        return data
+    def showall_sac_trifaz(self):
+        query = "SELECT id,sac_olcu,a_deg,b_deg,c_deg,d_deg,e_deg,f_deg,h_deg,i_deg,k1_deg,k2_deg,ag1_deg,ag2_deg,Ac_deg,Wa_deg,Ap_deg,Kg_deg,At_deg,MPL_deg,MLT_deg,record_date  FROM sac_trifaz "
+        data = self.fetchall(query)
+        return data
+    def showfiltersac_trifaz(self, filter_value, index=0):
+        if index == 0:
+            criteria = "sac_trifaz.sac_olcu"
+        elif index == 1: criteria ="sac_trifaz.a_deg"
+        elif index == 2:  criteria = "sac_trifaz.b_deg"
+
+        else:
+            criteria = ""
+
+        query = "SELECT *  FROM sac_trifaz  WHERE {} LIKE {}%) LIMIT 1 ".format(criteria, filter_value)
+        data = self.fetchall(query)
+        return data
+    def show_nearest_value_trifaz(self, filter_value):
+        query = "SELECT *  FROM sac_trifaz  WHERE sac_trifaz.sac_olcu ORDER BY ABS(sac_trifaz.sac_olcu - {}) LIMIT 1 ".format( filter_value)
         data = self.fetchall(query)
         return data

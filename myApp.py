@@ -363,9 +363,11 @@ class MyWindow(QMainWindow):
     def open_recete(self):
         self.window3 = popup.Reciepedialog()
         self.recete_veri_kumesi(self.window3)
-        self.window3.setWindowTitle("Recete Sayfası Sayfası")
+        
+        self.window3.setWindowTitle("Recete Sayfası - İzolasyon MonoFaz Trafoları ")
 
         self.window3.read_data_from_mainwindow()
+        self.window3.filter_recete_table()
         self.window3.show()
         #self.window3.read_data_app_write_field(self.window3.data)
         self.window3.ui.pushButton_sec.clicked.connect(lambda x:self.recete_deger_al(self.window3))
@@ -418,7 +420,7 @@ class MyWindow(QMainWindow):
         sender = self.sender()
         baglanti_turu= sender.objectName().split("_")[2]
         index=0
-        
+        self.window3.trafoTipi="mono_izole"
         if baglanti_turu=="p":
             self.window3.kademe = int(sender.objectName().split("_")[len(sender.objectName().split("_"))-1])
             self.window3.guc = self.ui.doubleSpinBox_guc.value()
@@ -548,7 +550,7 @@ class MyWindow(QMainWindow):
         elif trafo_index == 1:
 
             import myizole_trifaz
-            self.window = myizole_trifaz.IzoleTrifazwindow()
+            self.window = myizole_trifaz.MyWindow()
 
             self.window.ui.lineEdit_user.setText(self.ui.lineEdit_user.text())
             self.close()
@@ -638,7 +640,7 @@ class MyWindow(QMainWindow):
         veri_kumesi.rec_veriler["va_group_list"][8] = self.group_name_list_sva9_kademe
                                    
         veri_kumesi.rec_veriler["guc"] = self.ui.doubleSpinBox_guc.value()
-        veri_kumesi.rec_veriler["trafo_tipi" ]= " Izolasyon Trafosu Mono Faz "
+        veri_kumesi.rec_veriler["trafo_tipi" ]= " Izolasyon Trafosu Mono Faz " # bunu hiç değiştirme aksi hlde veri tabanındakilere ulasamazsın
 
         veri_kumesi.rec_veriler["primer_kademe" ]= int(self.ui.comboBox.currentText())
         veri_kumesi.rec_veriler[ "sekonder_kademe"] = int(self.ui.comboBox_sek.currentText())

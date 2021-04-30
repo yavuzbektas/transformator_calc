@@ -106,6 +106,7 @@ kademe={
     "agr_kapton_2":0.0,
     "agr_kapton_3":0.0,
     "agr_kapton_4":0.0,
+    
     }
 list1 ={
     "kademe1": 0.0, "kademe2": 0.0, "kademe3": 0.0, "kademe4": 0.0, "kademe5": 0.0, "kademe6": 0.0, "kademe7": 0.0, "kademe8": 0.0, "kademe9": 0.0, "kademe10": 0.0}
