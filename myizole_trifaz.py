@@ -544,7 +544,7 @@ class MyWindow(QMainWindow):
         veri_kumesi.rec_veriler["pri_sek_izo_tur" ]= self.ui.doubleSpinBox_pri_sek_izo_tur.value()
         veri_kumesi.rec_veriler["ekran_sec" ]= self.ui.checkBox_ekran_sec.isChecked()
         veri_kumesi.rec_veriler["ekstra" ]= self.ui.checkBox_ekstra.isChecked()
-        
+        veri_kumesi.rec_veriler["sac_tipi"] =self.ui.comboBox_sactipi.currentText()
     def recete_deger_al(self,window):
         data = db.calldata_with_id_recete(window.ui.doubleSpinBox_ID.value())
         if data == None:
@@ -979,7 +979,30 @@ class MyWindow(QMainWindow):
                 sekonder_cu_agirlik += gl[i]["tel_agirlik"]
         sekonder_al_agirlik = hp.tel_agirlik_trifaz(sekonder_al_agirlik)   # trifazlarda 3 faz oldugundan 3 ile carpılıyor
         sekonder_cu_agirlik = hp.tel_agirlik_trifaz(sekonder_cu_agirlik) # trifazlarda 3 faz oldugundan 3 ile carpılıyor
-        
+        if self.ui.comboBox_sactipi.currentIndex()==1:
+            sactipi="kesme_sac"
+            self.ui.doubleSpinBox_sacagirlik.setValue(0)
+        else:
+            sactipi="ei_sac"
+        yan_sac_agirlik=hp.yanSacAgirlik_hesap_1(
+            sac_tipi=sactipi,
+            karkas_en=self.ui.doubleSpinBox_karkas_en.value(),
+            toplam_sarim_Yukseklik = self.primer_sarim_yukseklik_toplam + self.sekonder_sarim_yukseklik_toplam,
+            primer_izolasyon=self.primer_izolasyon,
+            nuveBosluk=self.ui.doubleSpinBox_nuvebosluk.value()
+        )
+        gobekSac_agirlik=hp.gobekSacAgirlik_hesap_1(
+            sac_tipi=sactipi,
+            karkas_en=self.ui.doubleSpinBox_karkas_en.value(),
+            karkas_yuk=self.ui.doubleSpinBox_karkas_yukseklik.value())
+        self.ui.doubleSpinBox_kesmeSacAgirlik.setValue( hp.kesmeSacAgirlik_hesap_1(
+            sac_tipi=sactipi,
+            karkas_en=self.ui.doubleSpinBox_karkas_en.value(),
+            karkas_boy=self.ui.doubleSpinBox_karkas_boy.value(),
+            nuve_bosluk=self.ui.doubleSpinBox_nuvebosluk.value(),
+            gobek_sac = gobekSac_agirlik,
+            yan_sac=yan_sac_agirlik,
+            sac_yogunluk=self.ui.doubleSpinBox_sacYogunluk.value() ))
         # Hesaplanan degerler ekrana yazdırılıyor ---------------------------------------
         self.ui.doubleSpinBox_toplamagirlik_al.setValue(primer_al_agirlik+sekonder_al_agirlik)
         self.ui.doubleSpinBox_toplamagirlik_cu.setValue(primer_cu_agirlik+sekonder_cu_agirlik)
@@ -989,37 +1012,28 @@ class MyWindow(QMainWindow):
         self.ui.doubleSpinBox_sekonderagirlik_cu.setValue(sekonder_cu_agirlik)
     # ======================  olcu hesabı  =========================
     def olcu_hesapla(self):
-        #self.ui.doubleSpinBox_olcu_a.setValue(self.ui.doubleSpinBox_karkas_en.value()*3)
-        #self.ui.doubleSpinBox_olcu_b.setValue(self.ui.doubleSpinBox_karkas_boy.value() +self.ui.doubleSpinBox_klemens_a_deg.value() + self.ui.doubleSpinBox_ayak_a_deg.value())
-        #self.ui.doubleSpinBox_olcu_c.setValue(self.ui.doubleSpinBox_karkas_en.value()*2.5 +self.ui.doubleSpinBox_klemens_b_deg.value())
-        a,b,c = hp.nuve_olcu_hesapla(
-            karkas_en = self.ui.doubleSpinBox_karkas_en.value(),
-            karkas_boy = self.ui.doubleSpinBox_karkas_boy.value(),
-            klemens_a = self.ui.doubleSpinBox_klemens_a_deg.value(),
-            klemens_b=self.ui.doubleSpinBox_klemens_b_deg.value(),
-            ayak_a=self.ui.doubleSpinBox_ayak_a_deg.value()
-            )
-        self.ui.doubleSpinBox_olcu_a.setValue(a)
-        self.ui.doubleSpinBox_olcu_b.setValue(  b)
-        self.ui.doubleSpinBox_olcu_c.setValue(  c)
+        
+        # a,b,c = hp.nuve_olcu_hesapla(
+        #     karkas_en = self.ui.doubleSpinBox_karkas_en.value(),
+        #     karkas_boy = self.ui.doubleSpinBox_karkas_boy.value(),
+        #     klemens_a = self.ui.doubleSpinBox_klemens_a_deg.value(),
+        #     klemens_b=self.ui.doubleSpinBox_klemens_b_deg.value(),
+        #     ayak_a=self.ui.doubleSpinBox_ayak_a_deg.value()
+        #     )
+        # self.ui.doubleSpinBox_olcu_a.setValue(a)
+        # self.ui.doubleSpinBox_olcu_b.setValue(  b)
+        # self.ui.doubleSpinBox_olcu_c.setValue(  c)
         self.trafoolcu_hesapla()    
     def trafoolcu_hesapla(self):
         if self.ui.comboBox_sactipi.currentIndex()==1:
             sactipi="kesme_sac"
-            #self.ui.doubleSpinBox_trafoolcu_a.setValue( math.ceil(self.ui.doubleSpinBox_karkas_en.value()*2+2*(self.ui.doubleSpinBox_karkas_en.value()/2+self.ui.doubleSpinBox_nuvebosluk.value())))
-            #self.ui.doubleSpinBox_trafoolcu_c.setValue( math.ceil(self.ui.doubleSpinBox_karkas_yukseklik.value()+self.ui.doubleSpinBox_karkas_en.value()*0.15 +self.ui.doubleSpinBox_karkas_en.value()))
             self.ui.doubleSpinBox_sacagirlik.setValue(0)
         else:
             sactipi="ei_sac"
-            #self.ui.doubleSpinBox_trafoolcu_a.setValue( math.ceil(self.ui.doubleSpinBox_karkas_en.value()*3))
-            #self.ui.doubleSpinBox_trafoolcu_c.setValue( math.ceil(self.ui.doubleSpinBox_karkas_en.value()*2.5 ))
+            
             self.ui.doubleSpinBox_sacagirlik.setValue(hp.sac_agirlik_trifaz(karkas_en=self.ui.doubleSpinBox_karkas_en.value(),karkas_boy=self.ui.doubleSpinBox_karkas_boy.value()))
 
-        #self.ui.doubleSpinBox_trafoolcu_b.setValue(self.ui.doubleSpinBox_karkas_boy.value() +self.ui.doubleSpinBox_karkas_en.value())
         
-        #self.ui.doubleSpinBox_trafoolcu_d.setValue(self.ui.doubleSpinBox_trafoolcu_a.value()-self.ui.doubleSpinBox_karkas_en.value()/2-10)
-        #self.ui.doubleSpinBox_trafoolcu_e.setValue(self.ui.doubleSpinBox_karkas_boy.value()+self.ui.doubleSpinBox_karkas_en.value()/2+2+2)
-        #self.ui.doubleSpinBox_trafoolcu_f.setValue(0)
         a,b,c,d,e,f  = hp.trafo_olcu_hesapla_1(
             sac_tipi =sactipi,
             karkas_en=self.ui.doubleSpinBox_karkas_en.value(),
@@ -1233,35 +1247,13 @@ class MyWindow(QMainWindow):
     def printout_veri_kumesi(self):
         printout.primer_group_list =self.group_name_list_primer_kademe
         printout.sekonder_group_list = self.group_name_list_sekonder_kademe
-        printout.va_group_list_1 = self.group_name_list_sva1_kademe
-        printout.va_group_list_2 = self.group_name_list_sva2_kademe
-        printout.va_group_list_3 = self.group_name_list_sva3_kademe
-        printout.va_group_list_4 = self.group_name_list_sva4_kademe
-        printout.va_group_list_5 = self.group_name_list_sva5_kademe
-        printout.va_group_list_6 = self.group_name_list_sva6_kademe
-        printout.va_group_list_7 = self.group_name_list_sva7_kademe
-        printout.va_group_list_8 = self.group_name_list_sva8_kademe
-        printout.va_group_list_9 = self.group_name_list_sva9_kademe
-        printout.va_group_list_10 = self.group_name_list_sva10_kademe
-
-        printout.va_group_list=[printout.va_group_list_1,printout.va_group_list_2,printout.va_group_list_3,printout.va_group_list_4,printout.va_group_list_5,printout.va_group_list_6,printout.va_group_list_7,printout.va_group_list_8,printout.va_group_list_9,printout.va_group_list_10]
+        
         printout.guc = self.ui.doubleSpinBox_guc.value()
-        printout.trafo_tipi = " Izolasyon Trafosu Mono Faz Hesap Ozeti"
+        printout.trafo_tipi = " Izolasyon Trafosu Trifaz Hesap Ozeti"
 
         printout.primer_kademe = int(self.ui.comboBox.currentText())
         printout.sekonder_kademe = int(self.ui.comboBox_sek.currentText())
-        printout.va_kademe = int(self.ui.comboBox_va.currentText())
-        printout.va_altkademe = [int(self.ui.comboBox_sva1_kad.currentText()),
-                                 int(self.ui.comboBox_sva2_kad.currentText()),
-                                 int(self.ui.comboBox_sva3_kad.currentText()),
-                                 int(self.ui.comboBox_sva4_kad.currentText()),
-                                 int(self.ui.comboBox_sva5_kad.currentText()),
-                                 int(self.ui.comboBox_sva6_kad.currentText()),
-                                 int(self.ui.comboBox_sva7_kad.currentText()),
-                                 int(self.ui.comboBox_sva8_kad.currentText()),
-                                 int(self.ui.comboBox_sva9_kad.currentText()),
-                                 int(self.ui.comboBox_sva10_kad.currentText())]
-        printout.va_enabled = self.ui.radioButton_vadagilim.isChecked()
+        
         printout.guc = str(self.ui.doubleSpinBox_guc.value()) + " VA"
         printout.gauss = str(self.ui.doubleSpinBox_gauss.value())
         printout.sac = str(self.ui.doubleSpinBox_sac.value()) + " mm"
@@ -1308,16 +1300,7 @@ class MyWindow(QMainWindow):
         printout.ekran_sec = self.ui.checkBox_ekran_sec.isChecked()
         printout.ekstra = self.ui.checkBox_ekstra.isChecked()
         printout.va_guclist.clear()
-        printout.va_guclist.append(self.guclist_1[0].value())
-        printout.va_guclist.append(self.guclist_1[1].value())
-        printout.va_guclist.append(self.guclist_1[2].value())
-        printout.va_guclist.append(self.guclist_1[3].value())
-        printout.va_guclist.append(self.guclist_1[4].value())
-        printout.va_guclist.append(self.guclist_1[5].value())
-        printout.va_guclist.append(self.guclist_1[6].value())
-        printout.va_guclist.append(self.guclist_1[7].value())
-        printout.va_guclist.append(self.guclist_1[8].value())
-        printout.va_guclist.append(self.guclist_1[9].value())
+        
         printout.mlz_listesi=self.tum_malzeme_listesi
         printout.kesit_listesi=self.kesit_listesi
     def printout_report(self):

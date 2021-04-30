@@ -402,7 +402,7 @@ def insert_image_trafo(ws,last_row,image):
 def izolasyon_mono_printout():
     wb = load_workbook(REPORT_DIR+ 'demo.xlsx')
     ws=wb.active
-    topline(ws=ws,tarih=datetime.datetime.now())
+    topline(ws=ws,tarih=datetime.datetime.now(),trafo_tipi=trafo_tipi)
     
     bottomline(ws=ws,last_row=30)
     max_number,primer_number,sek_number,va_number=find_last_row(ws=ws,primer_kademe=primer_kademe,sekonder_kademe=sekonder_kademe,va_kademe=va_kademe,va_altkademe=va_altkademe,va_enabled=va_enabled)

@@ -193,6 +193,33 @@ def nuve_olcu_hesapla(karkas_en,karkas_boy,klemens_a,klemens_b,ayak_a):
     nuve_olcu_b=karkas_boy +klemens_a + ayak_a
     nuve_olcu_c=karkas_en*2.5 +klemens_b
     return (nuve_olcu_a,nuve_olcu_b,nuve_olcu_c)
+def yanSacAgirlik_hesap_1(sac_tipi,karkas_en,toplam_sarim_Yukseklik,primer_izolasyon,nuveBosluk):
+    yanSac=0
+    if sac_tipi=="ei_sac":
+        yanSac=0
+    elif sac_tipi=="kesme_sac":    
+        yanSac=math.ceil(karkas_en+(2*(toplam_sarim_Yukseklik+karkas_en*0.05+primer_izolasyon + nuveBosluk)))
+    else:
+        yanSac=0
+    return yanSac
+def gobekSacAgirlik_hesap_1(sac_tipi,karkas_en,karkas_yuk):
+    gobekSac=0
+    if sac_tipi=="ei_sac":
+        gobekSac=karkas_en*3
+    elif sac_tipi=="kesme_sac":    
+        gobekSac=karkas_yuk+karkas_en*0.15
+    else:
+        gobekSac=0
+    return gobekSac
+def kesmeSacAgirlik_hesap_1(sac_tipi,karkas_en,karkas_boy,nuve_bosluk,gobek_sac,yan_sac,sac_yogunluk):
+    kesmeSac=0
+    if sac_tipi=="ei_sac":
+        kesmeSac=0
+    elif sac_tipi=="kesme_sac":    
+        kesmeSac=(3*((gobek_sac+(karkas_en*2))*karkas_boy*karkas_en)+(4*(yan_sac-karkas_en)*karkas_boy*karkas_en))/10**9*sac_yogunluk
+    else:
+        kesmeSac=0
+    return kesmeSac    
 def trafo_hesap_1( gl, guc, frekans, 
                    gauss, karkas_en, karkas_boy, 
                    karkas_yuk, verim, sarim, 

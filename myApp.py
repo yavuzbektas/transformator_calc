@@ -679,6 +679,7 @@ class MyWindow(QMainWindow):
         veri_kumesi.rec_veriler["ekstra" ]= self.ui.checkBox_ekstra.isChecked()
         veri_kumesi.rec_veriler["va_guclist"]=[guc.value() for guc in self.va_guclist]
         veri_kumesi.rec_veriler["va_altkademe"] = [float(kademe.currentText()) for kademe in self.va_kademe_listesi]
+        veri_kumesi.rec_veriler["sac_tipi"] =self.ui.comboBox_sactipi.currentText()
     def recete_deger_al(self,window):
         data = db.calldata_with_id_recete(window.ui.doubleSpinBox_ID.value())
         if data == None:
@@ -2646,6 +2647,30 @@ class MyWindow(QMainWindow):
         self.ui.doubleSpinBox_sekonderagirlik_al.setValue(sekonder_al_agirlik+sva1_al_agirlik+sva2_al_agirlik+sva3_al_agirlik+sva4_al_agirlik+sva5_al_agirlik+sva6_al_agirlik+sva7_al_agirlik+sva8_al_agirlik+sva9_al_agirlik+sva10_al_agirlik)
         
         self.ui.doubleSpinBox_sekonderagirlik_cu.setValue(sekonder_cu_agirlik+sva1_cu_agirlik+sva2_cu_agirlik+sva3_cu_agirlik+sva4_cu_agirlik+sva5_cu_agirlik+sva6_cu_agirlik+sva7_cu_agirlik+sva8_cu_agirlik+sva9_cu_agirlik+sva10_cu_agirlik)
+        if self.ui.comboBox_sactipi.currentIndex()==1:
+            sactipi="kesme_sac"
+            self.ui.doubleSpinBox_sacagirlik.setValue(0)
+        else:
+            sactipi="ei_sac"
+        yan_sac_agirlik=hp.yanSacAgirlik_hesap_1(
+                sac_tipi=sactipi,
+                karkas_en=self.ui.doubleSpinBox_karkas_en.value(),
+                toplam_sarim_Yukseklik = self.primer_sarim_yukseklik_toplam + self.sekonder_sarim_yukseklik_toplam,
+                primer_izolasyon=self.primer_izolasyon,
+                nuveBosluk=self.ui.doubleSpinBox_nuvebosluk.value()
+            )
+        gobekSac_agirlik=hp.gobekSacAgirlik_hesap_1(
+                sac_tipi=sactipi,
+                karkas_en=self.ui.doubleSpinBox_karkas_en.value(),
+                karkas_yuk=self.ui.doubleSpinBox_karkas_yukseklik.value())
+        self.ui.doubleSpinBox_kesmeSacAgirlik.setValue( hp.kesmeSacAgirlik_hesap_1(
+                sac_tipi=sactipi,
+                karkas_en=self.ui.doubleSpinBox_karkas_en.value(),
+                karkas_boy=self.ui.doubleSpinBox_karkas_boy.value(),
+                nuve_bosluk=self.ui.doubleSpinBox_nuvebosluk.value(),
+                gobek_sac = gobekSac_agirlik,
+                yan_sac=yan_sac_agirlik,
+                sac_yogunluk=self.ui.doubleSpinBox_sacYogunluk.value() ))
     # ======================  olcu hesabı  =========================
     def olcu_hesapla(self):
         #self.ui.doubleSpinBox_olcu_a.setValue(self.ui.doubleSpinBox_karkas_en.value()*3)
