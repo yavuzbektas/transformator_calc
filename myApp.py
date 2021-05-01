@@ -2932,18 +2932,21 @@ class MyWindow(QMainWindow):
                 self.kesit_listesi.append(str(cap[0]))
                 cap=None
                 continue
-            kesit1,kesit2, = db.get_karetell_byname( filter_value=mlz)
             
-            if kesit1 != None:
+            data = db.get_karetell_byname( filter_value=mlz)
+            
+            if data != None:
+                kesit1,kesit2 = data
                 self.kesit_listesi.append(str(kesit1)+"x"+str(kesit2))
                 kesit1,kesit2,=None,None
                 continue
-            kesit3,kesit4, = db.get_folyotell_byname(filter_value=mlz)
-            if kesit3 != None:
+            data = db.get_folyotell_byname(filter_value=mlz)
+            if data != None:
+                kesit3,kesit4= data
                 self.kesit_listesi.append(str(kesit3) + "x" + str(kesit4))
                 kesit3,kesit4=None,None
                 continue
-            kesit5, = db.get_kapton_byname(filter_value=mlz)
+            kesit5 = db.get_kapton_byname(filter_value=mlz)
             if  kesit5 != None:
                 self.kesit_listesi.append(str( kesit5[0]))
                 kesit5=None
@@ -3003,7 +3006,11 @@ class MyWindow(QMainWindow):
             self.ui.doubleSpinBox_karkas_boy.value()) + " x " + str(self.ui.doubleSpinBox_karkas_yukseklik.value())
         printout.trafo_olcu = str(self.ui.doubleSpinBox_trafoolcu_a.value()) + " x " + str(
             self.ui.doubleSpinBox_trafoolcu_b.value()) + " x " + str(self.ui.doubleSpinBox_trafoolcu_c.value())
-        printout.sac_agirlik = str(self.ui.doubleSpinBox_sacagirlik.value()) + " kg"
+        if self.ui.doubleSpinBox_kesmeSacAgirlik.value()>0:
+            
+            printout.sac_agirlik = str(self.ui.doubleSpinBox_kesmeSacAgirlik.value()) + " kg (Kesme Sac)"
+        else:
+            printout.sac_agirlik = str(self.ui.doubleSpinBox_sacagirlik.value()) + " kg (Hazır Sac)"
         printout.klemens = self.ui.lineEdit_klemens_adi.text() + " / "+ str(self.ui.doubleSpinBox_klemens_a_deg.value()) + " / "+str(self.ui.doubleSpinBox_klemens_b_deg.value())
         printout.ayak = self.ui.lineEdit_ayak_adi.text()
         printout.a_deg = str(self.ui.doubleSpinBox_olcu_a.value()) + " mm"

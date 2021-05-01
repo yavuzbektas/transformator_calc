@@ -718,7 +718,7 @@ class mydb():
         query = f"SELECT cap1,cap2  FROM kare_tel WHERE tel_name = '{filter_value}'"
         data = self.fetchone(query)
         return data
- # kapton secimi
+    # kapton secimi
     def check_kapton(self,values):
         query = "SELECT id,kapton_name,cap,ozellik_1 FROM kapton WHERE kapton_name='%s'" % values
         data = self.fetchone(query)
@@ -759,10 +759,10 @@ class mydb():
         data = self.fetchall(query)
         return data
     def get_kapton_byname(self, filter_value):
-        query = f"SELECT cap  FROM kapton WHERE tel_name = '{filter_value}'"
+        query = f"SELECT cap  FROM kapton WHERE kapton_name = '{filter_value}'"
         data = self.fetchone(query)
         return data
- # tel_spir secimi
+    # tel_spir secimi
     def check_tel_spir(self,values):
         query = "SELECT id,tel_cap,a_deg,b_deg,c_deg,cu_deg,al_deg FROM tel_spir WHERE tel_cap='%s'" % values
         data = self.fetchone(query)

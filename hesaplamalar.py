@@ -188,6 +188,21 @@ def trafo_olcu_hesapla_1(sac_tipi,karkas_en,karkas_boy,karkas_yuk,nuve_bosluk):
     olcu_e=karkas_boy+karkas_en/2+2+2
     olcu_f=0
     return (olcu_a,olcu_b,olcu_c,olcu_d,olcu_e,olcu_f)
+def trafo_olcu_hesapla_2(sac_tipi,karkas_en,karkas_boy,karkas_yuk,nuve_bosluk,sarim_yukseklik_toplam,primer_izolasyon):
+    if sac_tipi=="ei_sac":
+        olcu_a=math.ceil(karkas_en*6 )
+        olcu_c=math.ceil(3*karkas_en+2*karkas_en)
+    elif sac_tipi=="kesme_sac":
+        olcu_a=math.ceil(karkas_en*3+4*(karkas_en/2+nuve_bosluk)+2*(sarim_yukseklik_toplam +karkas_en*0.05+primer_izolasyon ))
+        olcu_c=math.ceil(karkas_yuk+karkas_en*0.15+2*karkas_en)
+    else:
+        olcu_a=0
+        olcu_c=0
+    olcu_b = karkas_boy+2*karkas_en*0.7+2
+    olcu_d=olcu_a-karkas_en
+    olcu_e=karkas_boy+karkas_en*0.7+5+1
+    olcu_f=0
+    return (olcu_a,olcu_b,olcu_c,olcu_d,olcu_e,olcu_f)
 def nuve_olcu_hesapla(karkas_en,karkas_boy,klemens_a,klemens_b,ayak_a):
     nuve_olcu_a=karkas_en*3
     nuve_olcu_b=karkas_boy +klemens_a + ayak_a

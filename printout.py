@@ -1,4 +1,4 @@
-# -*- coding: cp1254 -*-
+
 # Scripted t by Yavuz BEKTAS
 # 2020
 
@@ -452,51 +452,65 @@ def izolasyon_mono_printout():
         os.startfile(file)
     except Exception as err:
         print(err)
-
 def izolasyon_trifaz_printout():
-    wb = load_workbook(REPORT_DIR + 'demo.xlsx')
-    ws = wb.active
-    topline(ws=ws, tarih=datetime.datetime.now(),trafo_tipi = " Izolasyon Trafosu TriFaz Hesap Ozeti")
+    wb = load_workbook(REPORT_DIR+ 'demo.xlsx')
+    ws=wb.active
+    topline(ws=ws,tarih=datetime.datetime.now(),trafo_tipi=trafo_tipi)
+    
+    bottomline(ws=ws,last_row=30)
+    max_number,primer_number,sek_number,va_number=find_last_row(ws=ws,primer_kademe=primer_kademe,sekonder_kademe=sekonder_kademe,va_kademe=va_kademe,va_altkademe=va_altkademe,va_enabled=va_enabled)
 
-    bottomline(ws=ws, last_row=20)
-    max_number, primer_number, sek_number, va_number = find_last_row(ws=ws, primer_kademe=primer_kademe,
-                                                                     sekonder_kademe=sekonder_kademe,
-                                                                     va_kademe=va_kademe, va_altkademe=va_altkademe,
-                                                                     va_enabled=va_enabled)
+    insert_row(ws=ws,start_row=30,number=max_number+4)
+    ws.merge_cells(start_row=max_number+4+31, start_column=2, end_column=5, end_row=max_number+4+31)
+    ws.merge_cells(start_row=max_number+4+32, start_column=2, end_column=5, end_row=max_number+4+32)
+    ws.merge_cells(start_row=max_number+4+33, start_column=2, end_column=5, end_row=max_number+4+33)
+    ws.merge_cells(start_row=max_number+4+34, start_column=2, end_column=5, end_row=max_number+4+34)
+    ws.merge_cells(start_row=max_number+4+35, start_column=2, end_column=5, end_row=max_number+4+35)
+    ws.merge_cells(start_row=max_number+4+36, start_column=2, end_column=5, end_row=max_number+4+36)
+    start_row=va_number
+    
+    insert_kademe_value(ws=ws,start_row=10+sek_number,kademe_name="sekonder",kademe=sekonder_kademe,values=sekonder_group_list)
+    
+    insert_kademe_value(ws=ws,start_row=10+primer_number,kademe_name="primer",kademe=primer_kademe,values=primer_group_list)
+    
+    insert_image_trafo(ws=ws,last_row=max_number+46,image=Image(IMAGE_DIR +"o_t.png"))
+    
+    if primer_baglanti=="Yıldız":
+        ws.add_image(Image(IMAGE_DIR + 'star.png'), "G" + str(12))
+    elif primer_baglanti=="Üçgen":
+        ws.add_image(Image(IMAGE_DIR + 'delta.png'), "G" + str(12))
+    else:
+        print("Bağlantı seçimi hatalı : ",primer_baglanti)
+    if sekonder_baglanti=="Yıldız":
 
-    insert_row(ws=ws, start_row=20, number=max_number + 4)
-    merge_cols(ws=ws, start_row=0, start_column=2, end_column=7, last_row=31 + max_number)
-    merge_cols(ws=ws, start_row=0, start_column=2, end_column=7, last_row=34 + max_number)
-
-
-    insert_kademe_value(ws=ws, start_row=10 + sek_number, kademe_name="sekonder", kademe=sekonder_kademe,
-                        values=sekonder_group_list)
-    # insert_image(ws=ws,start_row=11+sek_number,start_col=6,kademe=sekonder_kademe,image=IMAGE_DIR +'b3.png')
-
-    insert_kademe_value(ws=ws, start_row=10 + primer_number, kademe_name="primer", kademe=primer_kademe,
-                        values=primer_group_list)
-    # insert_image(ws=ws,start_row=11,start_col=3,kademe=primer_kademe,image=IMAGE_DIR +'b3.png')
-    insert_image_trafo(ws=ws, last_row=max_number + 36, image=Image(IMAGE_DIR + "o_m.png"))
-    if primer_baglanti=="Y�ld�z":
-
-        ws.add_image(Image(IMAGE_DIR + 'star.png'), "A" + str(12))
-    elif primer_baglanti=="��gen":
-        ws.add_image(Image(IMAGE_DIR + 'delta.png'), "A" + str(12))
+        ws.add_image(Image(IMAGE_DIR + 'star.png'), "O" + str(12))
+    elif sekonder_baglanti=="Üçgen":
+        ws.add_image(Image(IMAGE_DIR + 'delta.png'), "O" + str(12))
     else:
         pass
-    if sekonder_baglanti=="Y�ld�z":
+    ws2=wb.get_sheet_by_name("M_Listesi")
+    start_row_list=3
+    for key,value in mlz_listesi.items():
 
-        ws.add_image(Image(IMAGE_DIR + 'star.png'), "F" + str(12))
-    elif sekonder_baglanti=="��gen":
-        ws.add_image(Image(IMAGE_DIR + 'delta.png'), "F" + str(12))
-    else:
-        pass
+        a20 = ws2.cell(row=start_row_list, column=2, value=key)
+        a21 = ws2.cell(row=start_row_list, column=4, value=value)
+        start_row_list+=1
+    
+    start_row_list=3
+    for kesit in kesit_listesi:
+
+        a20 = ws2.cell(row=start_row_list, column=3, value=kesit)
+        
+        start_row_list+=1
+    
     try:
-        wb_save(DIR=REPORT_DIR, name='izolasyon_trifaz.xlsx', wb=wb)
-        file = REPORT_DIR + "izolasyon_trifaz.xlsx"
+        wb_save(DIR=REPORT_DIR,name='izolasyon_trifaz.xlsx',wb=wb)
+        file = REPORT_DIR+"izolasyon_trifaz.xlsx"
         os.startfile(file)
     except Exception as err:
         print(err)
+    
+
 def ototrafo_monofaz_printout():
     wb = load_workbook(REPORT_DIR + 'demo.xlsx')
     ws = wb.active
@@ -514,7 +528,7 @@ def ototrafo_monofaz_printout():
 
     insert_kademe_value(ws=ws, start_row=10 + primer_number, kademe_name="primer", kademe=primer_kademe,
                         values=primer_group_list)
-    a1 = ws.cell(row=max_number + 37, column=2, value=" �zolasyon Karsiligi : "+ str(round(izolasyon_karsiligi,2)) + " VA'd�r")
+    a1 = ws.cell(row=max_number + 37, column=2, value=" izolasyon Karsiligi : "+ str(round(izolasyon_karsiligi,2)) + " VA'dır")
     a1.font = Font(size=12, bold=True)
     insert_image_trafo(ws=ws, last_row=max_number + 37, image=Image(IMAGE_DIR + "o_m.png"))
     # if primer_baglanti=="Y�ld�z":

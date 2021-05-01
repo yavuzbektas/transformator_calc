@@ -411,7 +411,15 @@ class MyWindow(QMainWindow):
         self.window3 = popup.Izolasyondialog()
 
         self.window3.setWindowTitle("Izolasyon Parametreleri Sayfası")
-
+        self.window3.ui.doubleSpinBox_2.setVisible(False)
+        self.window3.ui.doubleSpinBox_7.setVisible(False)
+        #self.window3.ui.doubleSpinBox_3.setVisible(False)
+        #self.window3.ui.doubleSpinBox_8.setVisible(False)
+        self.window3.ui.label_2.setVisible(False)
+        #self.window3.ui.label_3.setVisible(False)
+        self.window3.ui.label_7.setVisible(False)
+        #self.window3.ui.label_8.setVisible(False)
+        
         self.window3.show()
         self.window3.ui.pushButton_sec.clicked.connect(lambda  x:self.izolasyon_verileri_guncelle(object=self.window3))
         self.izolasyon_deger_al(object=self.window3)
@@ -1034,12 +1042,14 @@ class MyWindow(QMainWindow):
             self.ui.doubleSpinBox_sacagirlik.setValue(hp.sac_agirlik_trifaz(karkas_en=self.ui.doubleSpinBox_karkas_en.value(),karkas_boy=self.ui.doubleSpinBox_karkas_boy.value()))
 
         
-        a,b,c,d,e,f  = hp.trafo_olcu_hesapla_1(
+        a,b,c,d,e,f  = hp.trafo_olcu_hesapla_2(
             sac_tipi =sactipi,
             karkas_en=self.ui.doubleSpinBox_karkas_en.value(),
             karkas_boy=self.ui.doubleSpinBox_karkas_boy.value(),
             karkas_yuk=self.ui.doubleSpinBox_karkas_yukseklik.value(),
-            nuve_bosluk=self.ui.doubleSpinBox_nuvebosluk.value()
+            nuve_bosluk=self.ui.doubleSpinBox_nuvebosluk.value(),
+            sarim_yukseklik_toplam =self.primer_sarim_yukseklik_toplam + self.sekonder_sarim_yukseklik_toplam,
+            primer_izolasyon= self.primer_izolasyon,
         )
         self.ui.doubleSpinBox_trafoolcu_a.setValue(a)
         self.ui.doubleSpinBox_trafoolcu_b.setValue(b)
@@ -1225,18 +1235,21 @@ class MyWindow(QMainWindow):
                 self.kesit_listesi.append(str(cap[0]))
                 cap=None
                 continue
-            kesit1,kesit2, = db.get_karetell_byname( filter_value=mlz)
             
-            if kesit1 != None:
+            data = db.get_karetell_byname( filter_value=mlz)
+            
+            if data != None:
+                kesit1,kesit2 = data
                 self.kesit_listesi.append(str(kesit1)+"x"+str(kesit2))
                 kesit1,kesit2,=None,None
                 continue
-            kesit3,kesit4, = db.get_folyotell_byname(filter_value=mlz)
-            if kesit3 != None:
+            data = db.get_folyotell_byname(filter_value=mlz)
+            if data != None:
+                kesit3,kesit4= data
                 self.kesit_listesi.append(str(kesit3) + "x" + str(kesit4))
                 kesit3,kesit4=None,None
                 continue
-            kesit5, = db.get_kapton_byname(filter_value=mlz)
+            kesit5 = db.get_kapton_byname(filter_value=mlz)
             if  kesit5 != None:
                 self.kesit_listesi.append(str( kesit5[0]))
                 kesit5=None
@@ -1247,13 +1260,13 @@ class MyWindow(QMainWindow):
     def printout_veri_kumesi(self):
         printout.primer_group_list =self.group_name_list_primer_kademe
         printout.sekonder_group_list = self.group_name_list_sekonder_kademe
-        
+        printout.primer_baglanti = self.ui.comboBox_baglanti_primer.currentText()
         printout.guc = self.ui.doubleSpinBox_guc.value()
         printout.trafo_tipi = " Izolasyon Trafosu Trifaz Hesap Ozeti"
 
         printout.primer_kademe = int(self.ui.comboBox.currentText())
         printout.sekonder_kademe = int(self.ui.comboBox_sek.currentText())
-        
+        printout.sekonder_baglanti = self.ui.comboBox_baglanti_sekonder.currentText()
         printout.guc = str(self.ui.doubleSpinBox_guc.value()) + " VA"
         printout.gauss = str(self.ui.doubleSpinBox_gauss.value())
         printout.sac = str(self.ui.doubleSpinBox_sac.value()) + " mm"
@@ -1274,7 +1287,11 @@ class MyWindow(QMainWindow):
             self.ui.doubleSpinBox_karkas_boy.value()) + " x " + str(self.ui.doubleSpinBox_karkas_yukseklik.value())
         printout.trafo_olcu = str(self.ui.doubleSpinBox_trafoolcu_a.value()) + " x " + str(
             self.ui.doubleSpinBox_trafoolcu_b.value()) + " x " + str(self.ui.doubleSpinBox_trafoolcu_c.value())
-        printout.sac_agirlik = str(self.ui.doubleSpinBox_sacagirlik.value()) + " kg"
+        if self.ui.doubleSpinBox_kesmeSacAgirlik.value()>0:
+            
+            printout.sac_agirlik = str(self.ui.doubleSpinBox_kesmeSacAgirlik.value()) + " kg (Kesme Sac)"
+        else:
+            printout.sac_agirlik = str(self.ui.doubleSpinBox_sacagirlik.value()) + " kg (Hazır Sac)"
         printout.klemens = self.ui.lineEdit_klemens_adi.text() + " / "+ str(self.ui.doubleSpinBox_klemens_a_deg.value()) + " / "+str(self.ui.doubleSpinBox_klemens_b_deg.value())
         printout.ayak = self.ui.lineEdit_ayak_adi.text()
         printout.a_deg = str(self.ui.doubleSpinBox_olcu_a.value()) + " mm"
@@ -1305,5 +1322,5 @@ class MyWindow(QMainWindow):
         printout.kesit_listesi=self.kesit_listesi
     def printout_report(self):
         self.printout_veri_kumesi()
-        printout.izolasyon_mono_printout()
+        printout.izolasyon_trifaz_printout()
 
