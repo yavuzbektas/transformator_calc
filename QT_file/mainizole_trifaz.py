@@ -3076,6 +3076,7 @@ class Ui_MainWindow(object):
         self.label_78.setGeometry(QRect(10, 30, 211, 16))
         self.doubleSpinBox_sekonder_izo_deg = QDoubleSpinBox(self.groupBox_17)
         self.doubleSpinBox_sekonder_izo_deg.setObjectName(u"doubleSpinBox_sekonder_izo_deg")
+        self.doubleSpinBox_sekonder_izo_deg.setEnabled(False)
         self.doubleSpinBox_sekonder_izo_deg.setGeometry(QRect(10, 110, 91, 25))
         self.doubleSpinBox_sekonder_izo_deg.setValue(0.190000000000000)
         self.label_79 = QLabel(self.groupBox_17)
@@ -3083,6 +3084,7 @@ class Ui_MainWindow(object):
         self.label_79.setGeometry(QRect(10, 90, 261, 16))
         self.doubleSpinBox_pri_sek_izo_deg = QDoubleSpinBox(self.groupBox_17)
         self.doubleSpinBox_pri_sek_izo_deg.setObjectName(u"doubleSpinBox_pri_sek_izo_deg")
+        self.doubleSpinBox_pri_sek_izo_deg.setEnabled(True)
         self.doubleSpinBox_pri_sek_izo_deg.setGeometry(QRect(10, 170, 91, 25))
         self.doubleSpinBox_pri_sek_izo_deg.setValue(0.190000000000000)
         self.label_80 = QLabel(self.groupBox_17)
@@ -3113,6 +3115,7 @@ class Ui_MainWindow(object):
         self.label_83.setGeometry(QRect(121, 53, 31, 16))
         self.doubleSpinBox_sekonder_izo_tur = QDoubleSpinBox(self.groupBox_17)
         self.doubleSpinBox_sekonder_izo_tur.setObjectName(u"doubleSpinBox_sekonder_izo_tur")
+        self.doubleSpinBox_sekonder_izo_tur.setEnabled(False)
         self.doubleSpinBox_sekonder_izo_tur.setGeometry(QRect(160, 110, 51, 25))
         self.doubleSpinBox_sekonder_izo_tur.setDecimals(0)
         self.label_114 = QLabel(self.groupBox_17)
@@ -3120,6 +3123,7 @@ class Ui_MainWindow(object):
         self.label_114.setGeometry(QRect(121, 113, 31, 16))
         self.doubleSpinBox_pri_sek_izo_tur = QDoubleSpinBox(self.groupBox_17)
         self.doubleSpinBox_pri_sek_izo_tur.setObjectName(u"doubleSpinBox_pri_sek_izo_tur")
+        self.doubleSpinBox_pri_sek_izo_tur.setEnabled(True)
         self.doubleSpinBox_pri_sek_izo_tur.setGeometry(QRect(160, 170, 51, 25))
         self.doubleSpinBox_pri_sek_izo_tur.setDecimals(0)
         self.label_166 = QLabel(self.groupBox_17)
@@ -3834,7 +3838,7 @@ class Ui_MainWindow(object):
 
         self.retranslateUi(MainWindow)
 
-        self.stackedWidget.setCurrentIndex(0)
+        self.stackedWidget.setCurrentIndex(1)
         self.tabWidget_4.setCurrentIndex(0)
 
 
