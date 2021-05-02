@@ -551,7 +551,7 @@ def ototrafo_trifaz_printout():
     topline(ws=ws,tarih=datetime.datetime.now(),trafo_tipi=trafo_tipi)
     
     bottomline(ws=ws,last_row=30)
-    max_number,primer_number,sek_number,va_number=find_last_row(ws=ws,primer_kademe=primer_kademe,sekonder_kademe=sekonder_kademe,va_kademe=va_kademe,va_altkademe=va_altkademe,va_enabled=va_enabled)
+    max_number,primer_number,sek_number,va_number=find_last_row(ws=ws,primer_kademe=primer_kademe,sekonder_kademe=0,va_kademe=0,va_altkademe=0,va_enabled=False)
 
     insert_row(ws=ws,start_row=30,number=max_number+4)
     ws.merge_cells(start_row=max_number+4+31, start_column=2, end_column=5, end_row=max_number+4+31)
@@ -560,7 +560,7 @@ def ototrafo_trifaz_printout():
     ws.merge_cells(start_row=max_number+4+34, start_column=2, end_column=5, end_row=max_number+4+34)
     ws.merge_cells(start_row=max_number+4+35, start_column=2, end_column=5, end_row=max_number+4+35)
     ws.merge_cells(start_row=max_number+4+36, start_column=2, end_column=5, end_row=max_number+4+36)
-    start_row=va_number
+    start_row=0
     
    
     
@@ -570,7 +570,7 @@ def ototrafo_trifaz_printout():
     
     if primer_baglanti=="Yıldız":
         ws.add_image(Image(IMAGE_DIR + 'star.png'), "G" + str(12))
-    elif primer_baglanti=="Üçgen":
+    elif primer_baglanti=="MYV":
         ws.add_image(Image(IMAGE_DIR + 'delta.png'), "G" + str(12))
     else:
         print("Bağlantı seçimi hatalı : ",primer_baglanti)
@@ -599,12 +599,6 @@ def ototrafo_trifaz_printout():
     
 
 
-    try:
-        wb_save(DIR=REPORT_DIR, name='izolasyon_trifaz.xlsx', wb=wb)
-        file = REPORT_DIR + "izolasyon_trifaz.xlsx"
-        os.startfile(file)
-    except Exception as err:
-        print(err)
 if __name__ == '__main__':
     pass    
 #izolasyon_mono_printout()

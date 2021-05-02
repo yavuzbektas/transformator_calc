@@ -309,7 +309,7 @@ class OtoTrifazwindow(QMainWindow):
         sender = self.sender()
         baglanti_turu= sender.objectName().split("_")[2]
         index=0
-        self.window3.trafoTipi="trifaz_izole"
+        self.window3.trafoTipi="trifaz_oto"
         
         if baglanti_turu=="p":
             self.window3.baglanti=self.ui.comboBox_baglanti_primer.currentText()
@@ -375,12 +375,12 @@ class OtoTrifazwindow(QMainWindow):
         self.window3.setWindowTitle("Izolasyon Parametreleri Sayfası")
         self.window3.ui.doubleSpinBox_2.setVisible(False)
         self.window3.ui.doubleSpinBox_7.setVisible(False)
-        #self.window3.ui.doubleSpinBox_3.setVisible(False)
-        #self.window3.ui.doubleSpinBox_8.setVisible(False)
+        self.window3.ui.doubleSpinBox_3.setVisible(False)
+        self.window3.ui.doubleSpinBox_8.setVisible(False)
         self.window3.ui.label_2.setVisible(False)
-        #self.window3.ui.label_3.setVisible(False)
+        self.window3.ui.label_3.setVisible(False)
         self.window3.ui.label_7.setVisible(False)
-        #self.window3.ui.label_8.setVisible(False)
+        self.window3.ui.label_8.setVisible(False)
         
         self.window3.show()
         self.window3.ui.pushButton_sec.clicked.connect(lambda  x:self.izolasyon_verileri_guncelle(object=self.window3))
@@ -828,13 +828,20 @@ class OtoTrifazwindow(QMainWindow):
         
     # ======================  olcu hesabı  =========================
     def olcu_hesapla(self):
-        
-        a,b,c = hp.nuve_olcu_hesapla(
+        if self.ui.comboBox_sactipi.currentIndex()==1:
+            sactipi="kesme_sac"
+            self.ui.doubleSpinBox_sacagirlik.setValue(0)
+        else:
+            sactipi="ei_sac"
+        a,b,c = hp.nuve_olcu_hesapla_2(
+            sac_tipi=sactipi,
             karkas_en = self.ui.doubleSpinBox_karkas_en.value(),
             karkas_boy = self.ui.doubleSpinBox_karkas_boy.value(),
             klemens_a = self.ui.doubleSpinBox_klemens_a_deg.value(),
             klemens_b=self.ui.doubleSpinBox_klemens_b_deg.value(),
-            ayak_a=self.ui.doubleSpinBox_ayak_a_deg.value()
+            ayak_a=self.ui.doubleSpinBox_ayak_a_deg.value(),
+            nuve_bosluk=self.ui.doubleSpinBox_nuvebosluk.value(),
+            sarim_yukseklik_toplam =self.primer_sarim_yukseklik_toplam
             )
         self.ui.doubleSpinBox_olcu_a.setValue(a)
         self.ui.doubleSpinBox_olcu_b.setValue(  b)
@@ -852,7 +859,7 @@ class OtoTrifazwindow(QMainWindow):
                 karkas_boy=self.ui.doubleSpinBox_karkas_boy.value()))
 
         
-        a,b,c,d,e,f  = hp.trafo_olcu_hesapla_2(
+        a,b,c,d,e,f  = hp.trafo_olcu_hesapla_3(
             sac_tipi =sactipi,
             karkas_en=self.ui.doubleSpinBox_karkas_en.value(),
             karkas_boy=self.ui.doubleSpinBox_karkas_boy.value(),
@@ -909,7 +916,7 @@ class OtoTrifazwindow(QMainWindow):
         self.hesap_sarim_uzunlugu()
         self.izolasyon_hesapla()
         self.voltaj_check(gl=gl)
-        hp.trafo_hesap_trifaz_izole(gl, guc, frekans,
+        hp.trafo_hesap_trifaz_oto(gl, guc, frekans,
                          gauss, karkas_en, karkas_boy,
                          karkas_yuk, verim, sarim,
                          primer_sarim_yukseklik_toplam=self.primer_sarim_yukseklik_toplam,
