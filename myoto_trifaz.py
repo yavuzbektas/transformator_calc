@@ -1,3 +1,4 @@
+# ======================  Oto Trifaz Trafo =========================
 import  math
 from QT_file.mainoto_trifaz import Ui_MainWindow
 import db_sql,myConfig,printout
@@ -253,7 +254,7 @@ class OtoTrifazwindow(QMainWindow):
     def open_recete(self):
         self.window3 = popup.Reciepedialog()
         self.recete_veri_kumesi(self.window3)
-        self.window3.setWindowTitle("Recete Sayfası - İzolasyon Trifaz  Trafoları ")
+        self.window3.setWindowTitle("Recete Sayfası - Oto Trifaz  Trafoları ")
 
         self.window3.read_data_from_mainwindow()
         self.window3.show()
@@ -380,7 +381,7 @@ class OtoTrifazwindow(QMainWindow):
         self.window3.ui.label_2.setVisible(False)
         self.window3.ui.label_3.setVisible(False)
         self.window3.ui.label_7.setVisible(False)
-        self.window3.ui.label_8.setVisible(False)
+        #self.window3.ui.label_8.setVisible(False)
         
         self.window3.show()
         self.window3.ui.pushButton_sec.clicked.connect(lambda  x:self.izolasyon_verileri_guncelle(object=self.window3))

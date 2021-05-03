@@ -2721,7 +2721,7 @@ class Ui_MainWindow(object):
         self.label_15.setText(QCoreApplication.translate("MainWindow", u"\u00c7ap :", None))
         self.label_16.setText(QCoreApplication.translate("MainWindow", u"Ak\u0131m :", None))
         self.comboBox_baglanti_primer.setItemText(0, QCoreApplication.translate("MainWindow", u"Y\u0131ld\u0131z", None))
-        self.comboBox_baglanti_primer.setItemText(1, QCoreApplication.translate("MainWindow", u"\u00dc\u00e7gen", None))
+        self.comboBox_baglanti_primer.setItemText(1, QCoreApplication.translate("MainWindow", u"MYV", None))
 
         self.label_12.setText(QCoreApplication.translate("MainWindow", u"Ba\u011flant\u0131", None))
         self.tabWidget_4.setTabText(self.tabWidget_4.indexOf(self.tab_13), QCoreApplication.translate("MainWindow", u"Primer", None))

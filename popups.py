@@ -1520,7 +1520,14 @@ class KesitParamdialog(QDialog):
                         primer_izolasyon=self.primer_izolasyon,
                         baglanti=self.baglanti,
                         kademe=kademe)
-        
+        elif self.trafoTipi=="monofaz_oto":
+            hp.trafo_hesap_monofaz_oto(gl, guc, frekans,
+                        gauss, karkas_en, karkas_boy,
+                        karkas_yuk, verim, sarim,
+                        primer_sarim_yukseklik_toplam=self.primer_sarim_yukseklik_toplam,
+                        primer_izolasyon=self.primer_izolasyon,
+                        baglanti=self.baglanti,
+                        kademe=kademe)
         self.load_selected_kademe(kademe=kademe)
         # for i in range (0,self.max_kademe):
         #
@@ -1652,7 +1659,10 @@ class Reciepedialog(QDialog):
             if returnValue == QMessageBox.Discard:
                 db.delete_recete(int(self.ui.doubleSpinBox_ID.value() ))
 
-                data = db.showall_recete()
+                data = db.showfilter_recete(
+            index=(self.ui.comboBox_filter1.currentIndex(),self.ui.comboBox_filter2.currentIndex()),
+            filter_value=(self.ui.lineEdit_ara_text1.text(),self.ui.lineEdit_ara_text2.text(),self.ui.lineEdit_trafo_tipi.text()))
+
                 table_update(data, headers_recete, self.ui.tableWidget)
                 self.clear_recete_fields()
     def clear_recete_fields(self):
