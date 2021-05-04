@@ -36,7 +36,7 @@
      <enum>QFrame::StyledPanel</enum>
     </property>
     <property name="currentIndex">
-     <number>1</number>
+     <number>0</number>
     </property>
     <widget class="QWidget" name="izolasyon_m_p">
      <widget class="QGroupBox" name="groupBox_26">
@@ -13779,6 +13779,7 @@ Kaydet/Seç</string>
      <addaction name="separator"/>
      <addaction name="actionMono_Faz"/>
      <addaction name="actionTri_Faz"/>
+     <addaction name="actionMonoUI"/>
     </widget>
     <widget class="QMenu" name="menu_nt_Trafosu">
      <property name="title">
@@ -13931,6 +13932,11 @@ Kaydet/Seç</string>
    </property>
    <property name="shortcut">
     <string>F1</string>
+   </property>
+  </action>
+  <action name="actionMonoUI">
+   <property name="text">
+    <string>MonoUI</string>
    </property>
   </action>
  </widget>

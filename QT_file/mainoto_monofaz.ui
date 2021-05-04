@@ -9110,6 +9110,7 @@ Kaydet/Seç</string>
      <addaction name="separator"/>
      <addaction name="actionMono_Faz"/>
      <addaction name="actionTri_Faz"/>
+     <addaction name="actionMonoUI"/>
     </widget>
     <widget class="QMenu" name="menu_nt_Trafosu">
      <property name="title">
@@ -9262,6 +9263,11 @@ Kaydet/Seç</string>
    </property>
    <property name="shortcut">
     <string>F1</string>
+   </property>
+  </action>
+  <action name="actionMonoUI">
+   <property name="text">
+    <string>MonoUI</string>
    </property>
   </action>
  </widget>

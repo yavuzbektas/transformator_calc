@@ -146,7 +146,14 @@ recete_veri =  {
     "ekran_sec" : False,
     "ekstra" : False,
     "trafo_tipi":"",
-    "kullanici":""
+    "kullanici":"",
+    "alAkimYog":0.0,
+    "alYogunluk":0.0,
+    "cuAkimYog":0.0,
+    "cuYogunluk":0.0,
+    "diAkimYog":0.0,
+    "diYogunluk":0.0,
+    "sacYogunluk":0.0,
 }   
 malzeme_listesi = {"teller":{
                     "mlz_tel_1":"agr_tel_1",

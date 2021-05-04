@@ -10,7 +10,7 @@
 :pyside2-uic izolasyon.ui > izolasyon.py
 :pyside2-uic klemens.ui > klemens.py
 :pyside2-uic mainizole_trifaz.ui > mainizole_trifaz.py
-pyside2-uic mainoto_monofaz.ui > mainoto_monofaz.py
+:pyside2-uic mainoto_monofaz.ui > mainoto_monofaz.py
 pyside2-uic mainoto_trifaz.ui > mainoto_trifaz.py
 
 :pyside2-uic mainharmonik.ui > mainharmonik.py

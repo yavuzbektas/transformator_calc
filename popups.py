@@ -1528,6 +1528,14 @@ class KesitParamdialog(QDialog):
                         primer_izolasyon=self.primer_izolasyon,
                         baglanti=self.baglanti,
                         kademe=kademe)
+        elif self.trafoTipi=="monofazUI_izole":
+            hp.trafo_hesap_monoFazUI_izole(gl, guc, frekans,
+                        gauss, karkas_en, karkas_boy,
+                        karkas_yuk, verim, sarim,
+                        primer_sarim_yukseklik_toplam=self.primer_sarim_yukseklik_toplam,
+                        primer_izolasyon=self.primer_izolasyon,
+                        baglanti=self.baglanti,
+                        kademe=kademe)
         self.load_selected_kademe(kademe=kademe)
         # for i in range (0,self.max_kademe):
         #

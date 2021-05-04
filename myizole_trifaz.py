@@ -174,6 +174,7 @@ class MyWindow(QMainWindow):
         self.ui.actionHarmonik_Trafosu.triggered.connect(lambda x: self.open_other_trafo(8))
         self.ui.actionUPS_Trafosu.triggered.connect(lambda x: self.open_other_trafo(9))
         self.ui.action_nt.triggered.connect(lambda x: self.open_other_trafo(10))
+        self.ui.actionMonoUI.triggered.connect(lambda x: self.open_other_trafo(10))
         # ======= signals ===========================
         self.primer_object_signals()
         self.sekonder_object_signals()
@@ -384,7 +385,7 @@ class MyWindow(QMainWindow):
         self.window3.cu_yog = self.ui.doubleSpinBox_58.value()
         self.window3.al_yog = self.ui.doubleSpinBox_62.value()
         self.window3.di_yog = self.ui.doubleSpinBox_64.value()   
-
+        self.window3.primer_izolasyon = self.primer_izolasyon
         self.window3.primer_sarim_yukseklik_toplam = self.primer_sarim_yukseklik_toplam
         self.window3.sekonder_sarim_yukseklik_toplam = self.sekonder_sarim_yukseklik_toplam
 
@@ -435,7 +436,7 @@ class MyWindow(QMainWindow):
         elif trafo_index == 1:
 
             import myizole_trifaz
-            self.window = myizole_trifaz.IzoleTrifazwindow()
+            self.window = myizole_trifaz.MyWindow()()
 
             self.window.ui.lineEdit_user.setText(self.ui.lineEdit_user.text())
             self.close()
@@ -553,6 +554,13 @@ class MyWindow(QMainWindow):
         veri_kumesi.rec_veriler["ekran_sec" ]= self.ui.checkBox_ekran_sec.isChecked()
         veri_kumesi.rec_veriler["ekstra" ]= self.ui.checkBox_ekstra.isChecked()
         veri_kumesi.rec_veriler["sac_tipi"] =self.ui.comboBox_sactipi.currentText()
+        veri_kumesi.rec_veriler["alAkimYog"] =self.ui.doubleSpinBox_62.value()
+        veri_kumesi.rec_veriler["alYogunluk"] =self.ui.doubleSpinBox_63.value()
+        veri_kumesi.rec_veriler["cuAkimYog"] =self.ui.doubleSpinBox_58.value()
+        veri_kumesi.rec_veriler["cuYogunluk"] =self.ui.doubleSpinBox_59.value()
+        veri_kumesi.rec_veriler["diAkimYog"] =self.ui.doubleSpinBox_64.value()
+        veri_kumesi.rec_veriler["diYogunluk"] =self.ui.doubleSpinBox_65.value()
+        veri_kumesi.rec_veriler["sacYogunluk"] =self.ui.doubleSpinBox_sacYogunluk.value()
     def recete_deger_al(self,window):
         data = db.calldata_with_id_recete(window.ui.doubleSpinBox_ID.value())
         if data == None:
@@ -593,7 +601,13 @@ class MyWindow(QMainWindow):
         self.ui.lineEdit_ayak_adi.setText(self.rec_veriler["ayak"]["adi"])
         self.ui.doubleSpinBox_ayak_a_deg.setValue(self.rec_veriler["ayak"]["en"])
         self.ui.doubleSpinBox_ayak_b_deg.setValue(self.rec_veriler["ayak"]["boy"])
-
+        self.ui.doubleSpinBox_62.setValue(self.rec_veriler["alAkimYog"])
+        self.ui.doubleSpinBox_63.setValue(self.rec_veriler["alYogunluk"])
+        self.ui.doubleSpinBox_58.setValue(self.rec_veriler["cuAkimYog"])
+        self.ui.doubleSpinBox_59.setValue(self.rec_veriler["cuYogunluk"])
+        self.ui.doubleSpinBox_64.setValue(self.rec_veriler["diAkimYog"])
+        self.ui.doubleSpinBox_65.setValue(self.rec_veriler["diYogunluk"])
+        self.ui.doubleSpinBox_sacYogunluk.setValue(self.rec_veriler["sacYogunluk"])
         for i in range(0, 10):
             self.group_name_list_primer_kademe[i]=self.rec_veriler["primer_group_list"][i]
             self.group_name_list_sekonder_kademe[i]=self.rec_veriler["sekonder_group_list"][i]
@@ -802,7 +816,7 @@ class MyWindow(QMainWindow):
         for i in range(0,10):
             self.button_list_sekonder[i].clicked.connect(self.open_kesit_hesaplama)
 
-   # Mono Faz İzolasyon Trafosu - Primer Hesabı    ===============
+    # Mono Faz İzolasyon Trafosu - Primer Hesabı    ===============
 
     def tel_deger_al(self, gl,object,type,index=1):
         if type == "tel":

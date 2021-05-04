@@ -174,6 +174,7 @@ class OtoTrifazwindow(QMainWindow):
         self.ui.actionHarmonik_Trafosu.triggered.connect(lambda x: self.open_other_trafo(8))
         self.ui.actionUPS_Trafosu.triggered.connect(lambda x: self.open_other_trafo(9))
         self.ui.action_nt.triggered.connect(lambda x: self.open_other_trafo(10))
+        self.ui.actionMonoUI.triggered.connect(lambda x: self.open_other_trafo(10))
         # ======= signals ===========================
         self.primer_object_signals()
         
@@ -347,7 +348,7 @@ class OtoTrifazwindow(QMainWindow):
         self.window3.cu_yog = self.ui.doubleSpinBox_58.value()
         self.window3.al_yog = self.ui.doubleSpinBox_62.value()
         self.window3.di_yog = self.ui.doubleSpinBox_64.value()   
-
+        self.window3.primer_izolasyon = self.primer_izolasyon
         self.window3.primer_sarim_yukseklik_toplam = self.primer_sarim_yukseklik_toplam
         
 
@@ -398,7 +399,7 @@ class OtoTrifazwindow(QMainWindow):
         elif trafo_index == 1:
 
             import myizole_trifaz
-            self.window = myizole_trifaz.IzoleTrifazwindow()
+            self.window = myizole_trifaz.MyWindow()()
 
             self.window.ui.lineEdit_user.setText(self.ui.lineEdit_user.text())
             self.close()
@@ -516,6 +517,14 @@ class OtoTrifazwindow(QMainWindow):
         veri_kumesi.rec_veriler["ekran_sec" ]= self.ui.checkBox_ekran_sec.isChecked()
         veri_kumesi.rec_veriler["ekstra" ]= self.ui.checkBox_ekstra.isChecked()
         veri_kumesi.rec_veriler["sac_tipi"] =self.ui.comboBox_sactipi.currentText()
+        veri_kumesi.rec_veriler["alAkimYog"] =self.ui.doubleSpinBox_62.value()
+        veri_kumesi.rec_veriler["alYogunluk"] =self.ui.doubleSpinBox_63.value()
+        veri_kumesi.rec_veriler["cuAkimYog"] =self.ui.doubleSpinBox_58.value()
+        veri_kumesi.rec_veriler["cuYogunluk"] =self.ui.doubleSpinBox_59.value()
+        veri_kumesi.rec_veriler["diAkimYog"] =self.ui.doubleSpinBox_64.value()
+        veri_kumesi.rec_veriler["diYogunluk"] =self.ui.doubleSpinBox_65.value()
+        veri_kumesi.rec_veriler["sacYogunluk"] =self.ui.doubleSpinBox_sacYogunluk.value()
+    
     def recete_deger_al(self,window):
         data = db.calldata_with_id_recete(window.ui.doubleSpinBox_ID.value())
         if data == None:
@@ -554,7 +563,13 @@ class OtoTrifazwindow(QMainWindow):
         self.ui.lineEdit_ayak_adi.setText(self.rec_veriler["ayak"]["adi"])
         self.ui.doubleSpinBox_ayak_a_deg.setValue(self.rec_veriler["ayak"]["en"])
         self.ui.doubleSpinBox_ayak_b_deg.setValue(self.rec_veriler["ayak"]["boy"])
-
+        self.ui.doubleSpinBox_62.setValue(self.rec_veriler["alAkimYog"])
+        self.ui.doubleSpinBox_63.setValue(self.rec_veriler["alYogunluk"])
+        self.ui.doubleSpinBox_58.setValue(self.rec_veriler["cuAkimYog"])
+        self.ui.doubleSpinBox_59.setValue(self.rec_veriler["cuYogunluk"])
+        self.ui.doubleSpinBox_64.setValue(self.rec_veriler["diAkimYog"])
+        self.ui.doubleSpinBox_65.setValue(self.rec_veriler["diYogunluk"])
+        self.ui.doubleSpinBox_sacYogunluk.setValue(self.rec_veriler["sacYogunluk"])
         for i in range(0, 10):
             self.group_name_list_primer_kademe[i]=self.rec_veriler["primer_group_list"][i]
             
@@ -601,8 +616,12 @@ class OtoTrifazwindow(QMainWindow):
         self.karkas_hesaplama()
     def karkas_hesaplama(self):
         self.ui.doubleSpinBox_karkas_yuk_oto.setValue(hp.karkas_yuk_2(karkas_en=self.ui.doubleSpinBox_karkas_en.value()))
-        self.ui.doubleSpinBox_karkas_cm_oto.setValue(hp.karkas_Ac_oto_2(c=self.ui.doubleSpinBox_c.value(),
-                                                                   guc=self.ui.doubleSpinBox_guc.value(),
+        
+        gl=self.group_name_list_primer_kademe
+        print(gl[0]["akim1"],gl[0]["voltaj"])
+        self.ui.doubleSpinBox_karkas_cm_oto.setValue(hp.karkas_Ac_oto_4(c=self.ui.doubleSpinBox_c.value(),
+                                                                   akim=gl[0]["akim1"],
+                                                                   gerilim=gl[0]["voltaj"],
                                                                    frekans=self.ui.doubleSpinBox_frekans.value()))
         self.ui.doubleSpinBox_karkas_cm.setValue(hp.karkas_Ac(karkas_en=self.ui.doubleSpinBox_karkas_en.value(),
                                                            karkas_boy=self.ui.doubleSpinBox_karkas_boy.value()))
@@ -984,7 +1003,7 @@ class OtoTrifazwindow(QMainWindow):
         if self.index==0 :
             self.ekran_degistir(index=1)
 
-            self.kademe_goster(object=self.ui.comboBox_sek, group_list=self.kademe_list_4)
+           
 
 
         elif self.index==1 :  pass

@@ -231,6 +231,7 @@ class MyWindow(QMainWindow):
         self.ui.actionHarmonik_Trafosu.triggered.connect(lambda x: self.open_other_trafo(8))
         self.ui.actionUPS_Trafosu.triggered.connect(lambda x: self.open_other_trafo(9))
         self.ui.action_nt.triggered.connect(lambda x: self.open_other_trafo(10))
+        self.ui.actionMonoUI.triggered.connect(lambda x: self.open_other_trafo(10))
         # ======= signals ===========================
         self.primer_object_signals()
         self.sekonder_object_signals()
@@ -624,6 +625,7 @@ class MyWindow(QMainWindow):
             self.close()
             self.window.show()
             self.window.ui.stackedWidget.setCurrentIndex(0)
+        
     # ========== RECETE ==========================
     def recete_veri_kumesi(self,veri_kumesi):
         veri_kumesi.rec_veriler["kullanici"] = self.ui.lineEdit_user.text()
@@ -680,6 +682,13 @@ class MyWindow(QMainWindow):
         veri_kumesi.rec_veriler["va_guclist"]=[guc.value() for guc in self.va_guclist]
         veri_kumesi.rec_veriler["va_altkademe"] = [float(kademe.currentText()) for kademe in self.va_kademe_listesi]
         veri_kumesi.rec_veriler["sac_tipi"] =self.ui.comboBox_sactipi.currentText()
+        veri_kumesi.rec_veriler["alAkimYog"] =self.ui.doubleSpinBox_62.value()
+        veri_kumesi.rec_veriler["alYogunluk"] =self.ui.doubleSpinBox_63.value()
+        veri_kumesi.rec_veriler["cuAkimYog"] =self.ui.doubleSpinBox_58.value()
+        veri_kumesi.rec_veriler["cuYogunluk"] =self.ui.doubleSpinBox_59.value()
+        veri_kumesi.rec_veriler["diAkimYog"] =self.ui.doubleSpinBox_64.value()
+        veri_kumesi.rec_veriler["diYogunluk"] =self.ui.doubleSpinBox_65.value()
+        veri_kumesi.rec_veriler["sacYogunluk"] =self.ui.doubleSpinBox_sacYogunluk.value()
     def recete_deger_al(self,window):
         data = db.calldata_with_id_recete(window.ui.doubleSpinBox_ID.value())
         if data == None:
@@ -725,7 +734,13 @@ class MyWindow(QMainWindow):
         self.ui.lineEdit_ayak_adi.setText(self.rec_veriler["ayak"]["adi"])
         self.ui.doubleSpinBox_ayak_a_deg.setValue(self.rec_veriler["ayak"]["en"])
         self.ui.doubleSpinBox_ayak_b_deg.setValue(self.rec_veriler["ayak"]["boy"])
-
+        self.ui.doubleSpinBox_62.setValue(self.rec_veriler["alAkimYog"])
+        self.ui.doubleSpinBox_63.setValue(self.rec_veriler["alYogunluk"])
+        self.ui.doubleSpinBox_58.setValue(self.rec_veriler["cuAkimYog"])
+        self.ui.doubleSpinBox_59.setValue(self.rec_veriler["cuYogunluk"])
+        self.ui.doubleSpinBox_64.setValue(self.rec_veriler["diAkimYog"])
+        self.ui.doubleSpinBox_65.setValue(self.rec_veriler["diYogunluk"])
+        self.ui.doubleSpinBox_sacYogunluk.setValue(self.rec_veriler["sacYogunluk"])
         for i in range(0, 10):
             self.group_name_list_primer_kademe[i]=self.rec_veriler["primer_group_list"][i]
             self.group_name_list_sekonder_kademe[i]=self.rec_veriler["sekonder_group_list"][i]
@@ -2951,6 +2966,7 @@ class MyWindow(QMainWindow):
                 self.kesit_listesi.append(str( kesit5[0]))
                 kesit5=None
                 continue
+        
         return self.tum_malzeme_listesi
         #self.group_name_list_sekonder_kademe
         #self.va_group_elementlist

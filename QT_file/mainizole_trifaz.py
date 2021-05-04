@@ -63,6 +63,8 @@ class Ui_MainWindow(object):
         self.actionSaclar.setObjectName(u"actionSaclar")
         self.actionHakk_mda = QAction(MainWindow)
         self.actionHakk_mda.setObjectName(u"actionHakk_mda")
+        self.actionMonoUI = QAction(MainWindow)
+        self.actionMonoUI.setObjectName(u"actionMonoUI")
         self.centralwidget = QWidget(MainWindow)
         self.centralwidget.setObjectName(u"centralwidget")
         self.stackedWidget = QStackedWidget(self.centralwidget)
@@ -3825,6 +3827,7 @@ class Ui_MainWindow(object):
         self.menu_zalasyon_Trafosu.addSeparator()
         self.menu_zalasyon_Trafosu.addAction(self.actionMono_Faz)
         self.menu_zalasyon_Trafosu.addAction(self.actionTri_Faz)
+        self.menu_zalasyon_Trafosu.addAction(self.actionMonoUI)
         self.menu_nt_Trafosu.addAction(self.action_sont_Mono_Faz)
         self.menu_nt_Trafosu.addAction(self.action_sont_Tri_Faz)
         self.menu_ok_Trafosu.addAction(self.action_sok_Mono_Faz)
@@ -3838,7 +3841,7 @@ class Ui_MainWindow(object):
 
         self.retranslateUi(MainWindow)
 
-        self.stackedWidget.setCurrentIndex(1)
+        self.stackedWidget.setCurrentIndex(0)
         self.tabWidget_4.setCurrentIndex(0)
 
 
@@ -3870,6 +3873,7 @@ class Ui_MainWindow(object):
 #if QT_CONFIG(shortcut)
         self.actionHakk_mda.setShortcut(QCoreApplication.translate("MainWindow", u"F1", None))
 #endif // QT_CONFIG(shortcut)
+        self.actionMonoUI.setText(QCoreApplication.translate("MainWindow", u"MonoUI", None))
         self.groupBox_26.setTitle(QCoreApplication.translate("MainWindow", u"Karkas Parametreleri", None))
         self.label_56.setText(QCoreApplication.translate("MainWindow", u"En:", None))
         self.label_57.setText(QCoreApplication.translate("MainWindow", u"Boy:", None))
