@@ -3897,6 +3897,7 @@ class Ui_MainWindow(object):
         self.label_146.setText(QCoreApplication.translate("MainWindow", u"Sac Tipi :", None))
         self.label_154.setText(QCoreApplication.translate("MainWindow", u"Sarg\u0131-nuve\n"
 " bosluk", None))
+        self.lineEdit_mlz_karkas.setText("")
         self.label_61.setText(QCoreApplication.translate("MainWindow", u"Kod:", None))
         self.label_kesmeSacAgirlik.setText(QCoreApplication.translate("MainWindow", u"Kesme Sac Agirl\u0131k:", None))
         self.groupBox_20.setTitle(QCoreApplication.translate("MainWindow", u"Trafo \u00d6l\u00e7\u00fcleri", None))
@@ -4189,7 +4190,7 @@ class Ui_MainWindow(object):
         self.pushButton.setText(QCoreApplication.translate("MainWindow", u"Hesaplar", None))
         self.menuMenu.setTitle(QCoreApplication.translate("MainWindow", u"Menu", None))
         self.menuTrafo_Tipleri.setTitle(QCoreApplication.translate("MainWindow", u"Trafo Tipleri", None))
-        self.menu_zalasyon_Trafosu.setTitle(QCoreApplication.translate("MainWindow", u"\u0130zalasyon Trafosu", None))
+        self.menu_zalasyon_Trafosu.setTitle(QCoreApplication.translate("MainWindow", u"\u0130zolasyon Trafosu", None))
         self.menu_nt_Trafosu.setTitle(QCoreApplication.translate("MainWindow", u"\u015e\u00f6nt Trafosu", None))
         self.menu_ok_Trafosu.setTitle(QCoreApplication.translate("MainWindow", u"\u015eok Trafosu", None))
         self.menuOto_Trafosu.setTitle(QCoreApplication.translate("MainWindow", u"Oto Trafosu", None))

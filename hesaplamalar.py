@@ -4,20 +4,57 @@ db=db_sql.mydb()
 # ======================  Formüller =========================
 def spir_hesap_1(gerilim, frekans, gauss, karkas_en, karkas_boy, verim, Kf=4.44):
     # spir= gerilim * * (10 ** 8)) / (Kf * frekans * gauss *  (en * boy / 100))) / (verim / 100)
-    return ((gerilim * (10 ** 8)) / (Kf * frekans * gauss * (karkas_en * karkas_boy / 100))) / (verim / 100)
+    try : 
+        sonuc = ((gerilim * (10 ** 8)) / (Kf * frekans * gauss * (karkas_en * karkas_boy / 100))) / (verim / 100)
+    except Exception as error:
+        print(error)
+        sonuc=0
+    return sonuc
 def spir_hesap_2(gerilim, frekans, gauss, karkas_en, karkas_boy, verim, Kf=4.44):
     # spir= gerilim * * (10 ** 8)) / (Kf * frekans * gauss *  (en * boy / 100))) / (verim / 100)
-    return ((gerilim * (10 ** 8)) / (Kf * frekans * gauss * (karkas_en * karkas_boy / 100)))
+    try : 
+        sonuc =((gerilim * (10 ** 8)) / (Kf * frekans * gauss * (karkas_en * karkas_boy / 100)))
+    except Exception as error:
+        print(error)
+        sonuc=0
+    return sonuc
 def spir_hesap_3(gerilim, frekans, gauss, karkas_en, karkas_boy, verim, Kf=4.44):
-    return round(((gerilim * (10 ** 8)) / (Kf * frekans * gauss * (karkas_en * karkas_boy / 100)*math.sqrt(3)))/(verim/100) ,2)
+    try : 
+        sonuc =round(((gerilim * (10 ** 8)) / (Kf * frekans * gauss * (karkas_en * karkas_boy / 100)*math.sqrt(3)))/(verim/100) ,2)
+    except Exception as error:
+        print(error)
+        sonuc=0
+    return sonuc 
 def spir_hesap_4(gerilim, frekans, gauss, karkas_en, karkas_boy, verim, Kf=4.44):
-    return round(((gerilim * (10 ** 8)) / (Kf * frekans * gauss * (karkas_en * karkas_boy / 100))) / (verim / 100),2)
+    try : 
+        sonuc =round(((gerilim * (10 ** 8)) / (Kf * frekans * gauss * (karkas_en * karkas_boy / 100))) / (verim / 100),2)
+    except Exception as error:
+        print(error)
+        sonuc=0
+    return sonuc 
 def spir_hesap_5(gerilim, frekans, gauss, karkas_en, karkas_boy, verim, Kf=4.44):
-    return round(((gerilim * (10 ** 8)) / (Kf * frekans * gauss * (karkas_en * karkas_boy / 100)*math.sqrt(3)))/ (verim / 100) ,0)
+    try : 
+        sonuc =round(((gerilim * (10 ** 8)) / (Kf * frekans * gauss * (karkas_en * karkas_boy / 100)*math.sqrt(3)))/ (verim / 100) ,0)
+    except Exception as error:
+        print(error)
+        sonuc=0
+    return sonuc 
 def spir_hesap_6(gerilim, frekans, gauss, karkas_en, karkas_boy, verim, Kf=4.44):
-    return round(((gerilim * (10 ** 8)) / (Kf * frekans * gauss * (karkas_en * karkas_boy / 100))) / (verim / 100),0)
+    try : 
+        sonuc =round(((gerilim * (10 ** 8)) / (Kf * frekans * gauss * (karkas_en * karkas_boy / 100))) / (verim / 100),0)
+    
+    except Exception as error:
+        print(error)
+        sonuc=0
+    return sonuc 
 def spir_hesap_7(gerilim, frekans, gauss, karkas_en, karkas_boy, verim, Kf=4.44):
-    return round(((gerilim/2 * (10 ** 8)) / (Kf * frekans * gauss * (karkas_en * karkas_boy / 100))) / (verim / 100),2)
+    try : 
+        sonuc =round(((gerilim/2 * (10 ** 8)) / (Kf * frekans * gauss * (karkas_en * karkas_boy / 100))) / (verim / 100),2)
+    
+    except Exception as error:
+        print(error)
+        sonuc=0
+    return sonuc 
 def akim_hesap_1(guc, gerilim):
     return guc / gerilim
 def akim_hesap_2(kesit, akim_yogunlugu):
@@ -37,7 +74,12 @@ def kesit_hesap_2(cap):  # çap değerine göre
 def kesit_hesap_3(kenar1, kenar2):
     return kenar1 * kenar2
 def cap_hesap_1(kesit):
-    return math.sqrt(kesit * 4 / math.pi)
+    try:
+       sonuc= math.sqrt(kesit * 4 / math.pi)
+    except Exception as error:
+        print(error)
+        sonuc=0
+    return sonuc
 def akim_yogunlugu_1(tel_turu, cu_par=3, cu_yog=8700, al_par=1.6, al_yog=2700, dig_par=1, dig_yog=8700):
     if tel_turu == "Cu":
         global akim_yogunlugu
@@ -1559,24 +1601,24 @@ def trafo_hesap_trifaz_oto( gl, guc, frekans,
                 if i == 0:
                     akim_2=0
                     
-                    if gl[1]["voltaj"]>0:
-                        akim_2=gl[1]["akim1"]
-                    elif gl[2]["voltaj"]>0:
-                        akim_2=gl[2]["akim1"]
-                    elif gl[3]["voltaj"]>0:
-                        akim_2=gl[3]["akim1"]
-                    elif gl[4]["voltaj"]>0:
-                        akim_2=gl[4]["akim1"]
-                    elif gl[5]["voltaj"]>0:
-                        akim_2=gl[5]["akim1"]
-                    elif gl[6]["voltaj"]>0:
-                        akim_2=gl[6]["akim1"]
+                    if gl[9]["voltaj"]>0:
+                        akim_2=gl[9]["akim1"]
+                    elif gl[8]["voltaj"]>0:
+                        akim_2=gl[8]["akim1"]
                     elif gl[7]["voltaj"]>0:
                         akim_2=gl[7]["akim1"]
-                    elif gl[8]["voltaj"]>0:
-                        akim_2=gl[82]["akim1"]
-                    elif gl[9]["voltaj"]>0:
-                        akim_2=gl[9]["akim1"]
+                    elif gl[6]["voltaj"]>0:
+                        akim_2=gl[6]["akim1"]
+                    elif gl[5]["voltaj"]>0:
+                        akim_2=gl[5]["akim1"]
+                    elif gl[4]["voltaj"]>0:
+                        akim_2=gl[4]["akim1"]
+                    elif gl[3]["voltaj"]>0:
+                        akim_2=gl[3]["akim1"]
+                    elif gl[2]["voltaj"]>0:
+                        akim_2=gl[2]["akim1"]
+                    elif gl[1]["voltaj"]>0:
+                        akim_2=gl[1]["akim1"]
                     else :
                         akim_2=0
                     if baglanti=="Yıldız":            
@@ -2072,24 +2114,24 @@ def trafo_hesap_monofaz_oto( gl, guc, frekans,
                 if i == 0:
                     akim_2=0
                     
-                    if gl[1]["voltaj"]>0:
-                        akim_2=gl[1]["akim1"]
-                    elif gl[2]["voltaj"]>0:
-                        akim_2=gl[2]["akim1"]
-                    elif gl[3]["voltaj"]>0:
-                        akim_2=gl[3]["akim1"]
-                    elif gl[4]["voltaj"]>0:
-                        akim_2=gl[4]["akim1"]
-                    elif gl[5]["voltaj"]>0:
-                        akim_2=gl[5]["akim1"]
-                    elif gl[6]["voltaj"]>0:
-                        akim_2=gl[6]["akim1"]
+                    if gl[9]["voltaj"]>0:
+                        akim_2=gl[9]["akim1"]
+                    elif gl[8]["voltaj"]>0:
+                        akim_2=gl[8]["akim1"]
                     elif gl[7]["voltaj"]>0:
                         akim_2=gl[7]["akim1"]
-                    elif gl[8]["voltaj"]>0:
-                        akim_2=gl[82]["akim1"]
-                    elif gl[9]["voltaj"]>0:
-                        akim_2=gl[9]["akim1"]
+                    elif gl[6]["voltaj"]>0:
+                        akim_2=gl[6]["akim1"]
+                    elif gl[5]["voltaj"]>0:
+                        akim_2=gl[5]["akim1"]
+                    elif gl[4]["voltaj"]>0:
+                        akim_2=gl[4]["akim1"]
+                    elif gl[3]["voltaj"]>0:
+                        akim_2=gl[3]["akim1"]
+                    elif gl[2]["voltaj"]>0:
+                        akim_2=gl[2]["akim1"]
+                    elif gl[1]["voltaj"]>0:
+                        akim_2=gl[1]["akim1"]
                     else :
                         akim_2=0
                              

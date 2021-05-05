@@ -226,16 +226,20 @@ class Telselectdialog(QDialog):
         self.ui = Telselect_dialog()
         self.ui.setupUi(self)
         self.handle_button()
+        self.teltipi=""
         # self.db=db_sql.mydb()
-        data = db.showall_teller()
+        #data = db.showall_teller()
+        #table_update(data, headers_teller, self.ui.tableWidget)
+        
+    def update_all_table(self):
+        data = db.showfilter_teller(index=2, filter_value=self.teltipi)
         table_update(data, headers_teller, self.ui.tableWidget)
-        data = db.showall_karetel()
+        data = db.showfilter_karetel(index=3, filter_value=self.teltipi)
         table_update(data, headers_kare_tel, self.ui.tableWidget_2)
         data = db.showall_folyotel()
         table_update(data, headers_folyotel_tel, self.ui.tableWidget_3)
         data = db.showall_kapton()
         table_update(data, headers_kapton, self.ui.tableWidget_4)
-
     def handle_button(self):
         self.ui.pushButton_ara_tel.clicked.connect(self.filter_telsecim_table)
         self.ui.pushButton_sec_tel.clicked.connect(self.telsecim_select)
@@ -264,9 +268,7 @@ class Telselectdialog(QDialog):
     def filter_telsecim_table(self):
         self.ui.lineEdit_3.text()
         self.ui.comboBox.currentIndex()
-
         data = db.showfilter_teller(index=self.ui.comboBox.currentIndex(), filter_value=self.ui.lineEdit_3.text())
-
         table_update(data, headers_teller, self.ui.tableWidget)
 
     def callback_from_telsecim_table(self):
@@ -778,7 +780,7 @@ class KesitParamdialog(QDialog):
         self.karkas_yukseklik = 120.0
         self.c = 7.0
         self.karkas_verim = 100.0
-        self.gauss = 15000.0
+        self.gauss =15000.0
         self.cu_yog = 3.0
         self.al_yog = 3.0
         self.dig_yog = 3.0
@@ -895,7 +897,7 @@ class KesitParamdialog(QDialog):
                                      self.ui.doubleSpinBox_kapton_agirlik_3,
                                      self.ui.doubleSpinBox_kapton_agirlik_4,
                                       ]
-
+        
         self.group_list_kademe_1 = vt.kademe.copy()
         self.group_list_kademe_2 = vt.kademe.copy()
         self.group_list_kademe_3 = vt.kademe.copy()
@@ -989,7 +991,7 @@ class KesitParamdialog(QDialog):
             for key in vt.kademe.keys():
                 gl[i][key]=self.group_name_list_kademe[i][key]
     def load_selected_kademe(self,kademe):
-
+        self.ui.doubleSpinBox_gauss.setValue(self.gauss)
         self.ui.doubleSpinBox_voltaj.setValue(self.group_name_list_kademe[kademe]["voltaj"])
         self.ui.doubleSpinBox_akim1.setValue(self.group_name_list_kademe[kademe]["akim1"])
         self.ui.doubleSpinBox_akim2.setValue( self.group_name_list_kademe[kademe]["akim2"])
@@ -1301,7 +1303,7 @@ class KesitParamdialog(QDialog):
         self.ui.doubleSpinBox_kapton_agirlik_4.setValue( 0)
     def select_tel_gb(self):
         sender = self.sender()
-        kademe = self.kademe
+        kademe = int(self.ui.doubleSpinBox_kademe_no.value())
         gb_kademe = int(sender.objectName().split("_")[len(sender.objectName().split("_")) - 1])
         tel_type = sender.objectName().split("_")[len(sender.objectName().split("_")) - 2]
         if sender.isChecked():
@@ -1450,9 +1452,14 @@ class KesitParamdialog(QDialog):
             pass
     def open_telsecim(self, gl, type="tel", index=1, kademe=1):
         self.window2 = Telselectdialog()
-
+        print(gl[index]["teltipi"])
+        if gl[index]["teltipi"]=="Al":
+           self.window2.teltipi="ALUMINYUM"
+        else:
+            self.window2.teltipi="BAKIR"
+        self.window2.update_all_table()
         if type == "tel":
-
+            
             self.window2.setWindowTitle("Yuvarlak Tel Seçim Sayfası")
             self.window2.ui.tabWidget.setCurrentIndex(0)
             self.window2.show()

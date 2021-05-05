@@ -358,7 +358,7 @@ class OtoTrifazwindow(QMainWindow):
     def kesit_parametrelerini_al(self, window, gl_popup, gl_main,kademe):
 
         if gl_popup[kademe]["kesit_error"]==True or gl_popup[kademe]["akim_error"]==True:
-            returnValue = popup.warning_msjbox(title='Kesit Değerleri Hatası', text='Kesit değerleri önerilen değerlerin altındadır. Devam etmek için buotana basın.')
+            returnValue = popup.warning_msjbox(title='Kesit Değerleri Hatası', text='Kesit değerleri önerilen değerlerin altındadır. Devam etmek için butona basın.')
         else:
             returnValue = QMessageBox.Ok
         if returnValue == QMessageBox.Cancel:
@@ -618,7 +618,6 @@ class OtoTrifazwindow(QMainWindow):
         self.ui.doubleSpinBox_karkas_yuk_oto.setValue(hp.karkas_yuk_2(karkas_en=self.ui.doubleSpinBox_karkas_en.value()))
         
         gl=self.group_name_list_primer_kademe
-        print(gl[0]["akim1"],gl[0]["voltaj"])
         self.ui.doubleSpinBox_karkas_cm_oto.setValue(hp.karkas_Ac_oto_4(c=self.ui.doubleSpinBox_c.value(),
                                                                    akim=gl[0]["akim1"],
                                                                    gerilim=gl[0]["voltaj"],
@@ -1123,9 +1122,9 @@ class OtoTrifazwindow(QMainWindow):
             self.ui.doubleSpinBox_trafoolcu_b.value()) + " x " + str(self.ui.doubleSpinBox_trafoolcu_c.value())
         if self.ui.doubleSpinBox_kesmeSacAgirlik.value()>0:
             
-            printout.sac_agirlik = str(self.ui.doubleSpinBox_kesmeSacAgirlik.value()) + " kg (Kesme Sac)"
+            printout.sac_agirlik = str(self.ui.doubleSpinBox_kesmeSacAgirlik.value()) + " kg"
         else:
-            printout.sac_agirlik = str(self.ui.doubleSpinBox_sacagirlik.value()) + " kg (Hazır Sac)"
+            printout.sac_agirlik = str(self.ui.doubleSpinBox_sacagirlik.value()) + " kg"
         printout.klemens = self.ui.lineEdit_klemens_adi.text() + " / "+ str(self.ui.doubleSpinBox_klemens_a_deg.value()) + " / "+str(self.ui.doubleSpinBox_klemens_b_deg.value())
         printout.ayak = self.ui.lineEdit_ayak_adi.text()
         printout.a_deg = str(self.ui.doubleSpinBox_olcu_a.value()) + " mm"
@@ -1152,6 +1151,8 @@ class OtoTrifazwindow(QMainWindow):
         
         printout.mlz_listesi=self.tum_malzeme_listesi
         printout.kesit_listesi=self.kesit_listesi
+        printout.sac_tipi=self.ui.comboBox_sactipi.currentText()
+        printout.karkas_kod=self.ui.lineEdit_mlz_karkas.text()
     def printout_report(self):
         self.printout_veri_kumesi()
         printout.ototrafo_trifaz_printout()

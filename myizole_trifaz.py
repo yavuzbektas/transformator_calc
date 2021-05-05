@@ -395,7 +395,7 @@ class MyWindow(QMainWindow):
     def kesit_parametrelerini_al(self, window, gl_popup, gl_main,kademe):
 
         if gl_popup[kademe]["kesit_error"]==True or gl_popup[kademe]["akim_error"]==True:
-            returnValue = popup.warning_msjbox(title='Kesit Değerleri Hatası', text='Kesit değerleri önerilen değerlerin altındadır. Devam etmek için buotana basın.')
+            returnValue = popup.warning_msjbox(title='Kesit Değerleri Hatası', text='Kesit değerleri önerilen değerlerin altındadır. Devam etmek için butona basın.')
         else:
             returnValue = QMessageBox.Ok
         if returnValue == QMessageBox.Cancel:
@@ -1303,9 +1303,11 @@ class MyWindow(QMainWindow):
             self.ui.doubleSpinBox_trafoolcu_b.value()) + " x " + str(self.ui.doubleSpinBox_trafoolcu_c.value())
         if self.ui.doubleSpinBox_kesmeSacAgirlik.value()>0:
             
-            printout.sac_agirlik = str(self.ui.doubleSpinBox_kesmeSacAgirlik.value()) + " kg (Kesme Sac)"
+            printout.sac_agirlik = str(self.ui.doubleSpinBox_kesmeSacAgirlik.value()) + " kg" 
+            
         else:
-            printout.sac_agirlik = str(self.ui.doubleSpinBox_sacagirlik.value()) + " kg (Hazır Sac)"
+            printout.sac_agirlik = str(self.ui.doubleSpinBox_sacagirlik.value()) + " kg" 
+            
         printout.klemens = self.ui.lineEdit_klemens_adi.text() + " / "+ str(self.ui.doubleSpinBox_klemens_a_deg.value()) + " / "+str(self.ui.doubleSpinBox_klemens_b_deg.value())
         printout.ayak = self.ui.lineEdit_ayak_adi.text()
         printout.a_deg = str(self.ui.doubleSpinBox_olcu_a.value()) + " mm"
@@ -1334,6 +1336,8 @@ class MyWindow(QMainWindow):
         
         printout.mlz_listesi=self.tum_malzeme_listesi
         printout.kesit_listesi=self.kesit_listesi
+        printout.sac_tipi=self.ui.comboBox_sactipi.currentText()
+        printout.karkas_kod=self.ui.lineEdit_mlz_karkas.text()
     def printout_report(self):
         self.printout_veri_kumesi()
         printout.izolasyon_trifaz_printout()

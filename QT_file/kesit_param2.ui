@@ -3284,6 +3284,69 @@
       </widget>
      </widget>
     </widget>
+    <widget class="QLabel" name="label_469">
+     <property name="geometry">
+      <rect>
+       <x>159</x>
+       <y>13</y>
+       <width>57</width>
+       <height>16</height>
+      </rect>
+     </property>
+     <property name="layoutDirection">
+      <enum>Qt::LeftToRight</enum>
+     </property>
+     <property name="text">
+      <string>Gauss:</string>
+     </property>
+     <property name="alignment">
+      <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+     </property>
+    </widget>
+    <widget class="QDoubleSpinBox" name="doubleSpinBox_gauss">
+     <property name="enabled">
+      <bool>false</bool>
+     </property>
+     <property name="geometry">
+      <rect>
+       <x>220</x>
+       <y>10</y>
+       <width>70</width>
+       <height>25</height>
+      </rect>
+     </property>
+     <property name="baseSize">
+      <size>
+       <width>0</width>
+       <height>5</height>
+      </size>
+     </property>
+     <property name="font">
+      <font>
+       <pointsize>7</pointsize>
+       <weight>75</weight>
+       <bold>true</bold>
+      </font>
+     </property>
+     <property name="layoutDirection">
+      <enum>Qt::LeftToRight</enum>
+     </property>
+     <property name="autoFillBackground">
+      <bool>false</bool>
+     </property>
+     <property name="alignment">
+      <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+     </property>
+     <property name="buttonSymbols">
+      <enum>QAbstractSpinBox::NoButtons</enum>
+     </property>
+     <property name="decimals">
+      <number>0</number>
+     </property>
+     <property name="maximum">
+      <double>9999999.000000000000000</double>
+     </property>
+    </widget>
    </widget>
    <widget class="QLineEdit" name="lineEdit_kademeadi">
     <property name="enabled">

@@ -6060,39 +6060,6 @@
           <string>Akım :</string>
          </property>
         </widget>
-        <widget class="QComboBox" name="comboBox_baglanti_primer">
-         <property name="geometry">
-          <rect>
-           <x>220</x>
-           <y>20</y>
-           <width>81</width>
-           <height>24</height>
-          </rect>
-         </property>
-         <item>
-          <property name="text">
-           <string>Yıldız</string>
-          </property>
-         </item>
-         <item>
-          <property name="text">
-           <string>MYV</string>
-          </property>
-         </item>
-        </widget>
-        <widget class="QLabel" name="label_12">
-         <property name="geometry">
-          <rect>
-           <x>160</x>
-           <y>20</y>
-           <width>61</width>
-           <height>21</height>
-          </rect>
-         </property>
-         <property name="text">
-          <string>Bağlantı</string>
-         </property>
-        </widget>
        </widget>
       </widget>
      </widget>
@@ -8783,7 +8750,41 @@
       </widget>
      </widget>
     </widget>
-    <widget class="QWidget" name="tel_veritipleri"/>
+    <widget class="QWidget" name="tel_veritipleri">
+     <widget class="QComboBox" name="comboBox_baglanti_primer">
+      <property name="geometry">
+       <rect>
+        <x>1180</x>
+        <y>70</y>
+        <width>81</width>
+        <height>24</height>
+       </rect>
+      </property>
+      <item>
+       <property name="text">
+        <string>Yıldız</string>
+       </property>
+      </item>
+      <item>
+       <property name="text">
+        <string>MYV</string>
+       </property>
+      </item>
+     </widget>
+     <widget class="QLabel" name="label_12">
+      <property name="geometry">
+       <rect>
+        <x>1120</x>
+        <y>70</y>
+        <width>61</width>
+        <height>21</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Bağlantı</string>
+      </property>
+     </widget>
+    </widget>
    </widget>
    <widget class="QGroupBox" name="groupBox_27">
     <property name="geometry">
@@ -9138,7 +9139,7 @@ Kaydet/Seç</string>
     </property>
     <widget class="QMenu" name="menu_zalasyon_Trafosu">
      <property name="title">
-      <string>İzalasyon Trafosu</string>
+      <string>İzolasyon Trafosu</string>
      </property>
      <addaction name="separator"/>
      <addaction name="actionMono_Faz"/>

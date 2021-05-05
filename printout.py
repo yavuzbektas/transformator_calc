@@ -56,8 +56,10 @@ s_tel_cu_ag= ""
 toplam_ag = ""
 toplam_cu = ""
 karkas = ""
+karkas_kod=""
 trafo_olcu = ""
 sac_agirlik =""
+sac_tipi=""
 klemens = ""
 ayak = ""
 a_deg = 0
@@ -102,7 +104,7 @@ def topline(ws,tarih,trafo_tipi=trafo_tipi):
 
     ws.cell(row=3, column=12, value=karkas)
     a=ws.cell(row=4, column=12, value=trafo_olcu)
-    ws.cell(row=6, column=12, value=sac_agirlik)
+    ws.cell(row=6, column=12, value=sac_agirlik +"(" +sac_tipi+")")
     ws.cell(row=5, column=12, value=klemens+" - "+ayak)
 
 def bottomline(ws, last_row=20, ekran_sec=ekran_sec, ekstra=ekstra):
@@ -398,7 +400,24 @@ def insert_kademe_value(ws,start_row,kademe_name,kademe,values,image=(IMAGE_DIR 
         ws.add_image(Image(image), adress + str(start_row+1-i*img_row_size))
 def insert_image_trafo(ws,last_row,image):
     ws.add_image(image, "B"+str(last_row+2))
+def mlz_listesi_olustur(ws2,start_row_list):
+    start_row_list=3
+    for key,value in mlz_listesi.items():
 
+        a20 = ws2.cell(row=start_row_list, column=2, value=key)
+        a21 = ws2.cell(row=start_row_list, column=4, value=value)
+        start_row_list+=1
+    a20 = ws2.cell(row=start_row_list, column=2, value=karkas_kod)  # karkas kodu
+    a21 = ws2.cell(row=start_row_list, column=3, value=karkas) # karkas olculeri
+    a22 = ws2.cell(row=start_row_list+1, column=2, value=sac_tipi)  # sac tipi,
+    a23 = ws2.cell(row=start_row_list+1, column=3, value=sac)  # sac olcu
+    a24 = ws2.cell(row=start_row_list+1, column=4, value=sac_agirlik) # sac agirliği
+    start_row_list=3
+    for kesit in kesit_listesi:
+
+        a20 = ws2.cell(row=start_row_list, column=3, value=kesit)
+        
+        start_row_list+=1
 def izolasyon_mono_printout():
     wb = load_workbook(REPORT_DIR+ 'demo.xlsx')
     ws=wb.active
@@ -434,18 +453,7 @@ def izolasyon_mono_printout():
     
     ws2=wb.get_sheet_by_name("M_Listesi")
     start_row_list=3
-    for key,value in mlz_listesi.items():
-
-        a20 = ws2.cell(row=start_row_list, column=2, value=key)
-        a21 = ws2.cell(row=start_row_list, column=4, value=value)
-        start_row_list+=1
-    
-    start_row_list=3
-    for kesit in kesit_listesi:
-
-        a20 = ws2.cell(row=start_row_list, column=3, value=kesit)
-        
-        start_row_list+=1
+    mlz_listesi_olustur(ws2,start_row_list)
     try:
         wb_save(DIR=REPORT_DIR,name='izolasyon_mono.xlsx',wb=wb)
         file = REPORT_DIR+"izolasyon_mono.xlsx"
@@ -490,58 +498,14 @@ def izolasyon_trifaz_printout():
         pass
     ws2=wb.get_sheet_by_name("M_Listesi")
     start_row_list=3
-    for key,value in mlz_listesi.items():
-
-        a20 = ws2.cell(row=start_row_list, column=2, value=key)
-        a21 = ws2.cell(row=start_row_list, column=4, value=value)
-        start_row_list+=1
-    
-    start_row_list=3
-    for kesit in kesit_listesi:
-
-        a20 = ws2.cell(row=start_row_list, column=3, value=kesit)
-        
-        start_row_list+=1
-    
+    mlz_listesi_olustur(ws2,start_row_list)
     try:
         wb_save(DIR=REPORT_DIR,name='izolasyon_trifaz.xlsx',wb=wb)
         file = REPORT_DIR+"izolasyon_trifaz.xlsx"
         os.startfile(file)
     except Exception as err:
         print(err)
-def ototrafo_monofaz_printout():
-    wb = load_workbook(REPORT_DIR + 'demo.xlsx')
-    ws = wb.active
-    topline(ws=ws, tarih=datetime.datetime.now(),trafo_tipi = " Oto Trafosu MonoFaz Hesap Ozeti")
 
-    bottomline(ws=ws, last_row=20)
-    max_number, primer_number, sek_number, va_number = find_last_row(ws=ws, primer_kademe=primer_kademe,
-                                                                     sekonder_kademe=0,
-                                                                     va_kademe=0, va_altkademe=va_altkademe,
-                                                                     va_enabled=False)
-
-    insert_row(ws=ws, start_row=20, number=max_number + 4)
-    merge_cols(ws=ws, start_row=0, start_column=2, end_column=7, last_row=31 + max_number)
-    merge_cols(ws=ws, start_row=0, start_column=2, end_column=7, last_row=34 + max_number)
-
-    insert_kademe_value(ws=ws, start_row=10 + primer_number, kademe_name="primer", kademe=primer_kademe,
-                        values=primer_group_list)
-    a1 = ws.cell(row=max_number + 37, column=2, value=" izolasyon Karsiligi : "+ str(round(izolasyon_karsiligi,2)) + " VA'dır")
-    a1.font = Font(size=12, bold=True)
-    insert_image_trafo(ws=ws, last_row=max_number + 37, image=Image(IMAGE_DIR + "o_m.png"))
-    # if primer_baglanti=="Y�ld�z":
-    #
-    #     ws.add_image(Image(IMAGE_DIR + 'star.png'), "A" + str(12))
-    # elif primer_baglanti=="��gen":
-    #     ws.add_image(Image(IMAGE_DIR + 'delta.png'), "A" + str(12))
-    # else:
-    #     pass
-
-    try:
-        wb_save(DIR=REPORT_DIR, name='izolasyon_trifaz.xlsx', wb=wb)
-        file = REPORT_DIR + "izolasyon_trifaz.xlsx"
-        os.startfile(file)
-    except Exception as err:
         print(err)
 def ototrafo_trifaz_printout():
     wb = load_workbook(REPORT_DIR+ 'demo.xlsx')
@@ -575,18 +539,7 @@ def ototrafo_trifaz_printout():
     
     ws2=wb.get_sheet_by_name("M_Listesi")
     start_row_list=3
-    for key,value in mlz_listesi.items():
-
-        a20 = ws2.cell(row=start_row_list, column=2, value=key)
-        a21 = ws2.cell(row=start_row_list, column=4, value=value)
-        start_row_list+=1
-    
-    start_row_list=3
-    for kesit in kesit_listesi:
-
-        a20 = ws2.cell(row=start_row_list, column=3, value=kesit)
-        
-        start_row_list+=1
+    mlz_listesi_olustur(ws2,start_row_list)
     
     try:
         wb_save(DIR=REPORT_DIR,name='oto_trifaz.xlsx',wb=wb)
@@ -626,18 +579,7 @@ def ototrafo_monofaz_printout():
     
     ws2=wb.get_sheet_by_name("M_Listesi")
     start_row_list=3
-    for key,value in mlz_listesi.items():
-
-        a20 = ws2.cell(row=start_row_list, column=2, value=key)
-        a21 = ws2.cell(row=start_row_list, column=4, value=value)
-        start_row_list+=1
-    
-    start_row_list=3
-    for kesit in kesit_listesi:
-
-        a20 = ws2.cell(row=start_row_list, column=3, value=kesit)
-        
-        start_row_list+=1
+    mlz_listesi_olustur(ws2,start_row_list)
     
     try:
         wb_save(DIR=REPORT_DIR,name='oto_monofaz.xlsx',wb=wb)
@@ -683,18 +625,7 @@ def izolasyon_monofazUI_printout():
         pass
     ws2=wb.get_sheet_by_name("M_Listesi")
     start_row_list=3
-    for key,value in mlz_listesi.items():
-
-        a20 = ws2.cell(row=start_row_list, column=2, value=key)
-        a21 = ws2.cell(row=start_row_list, column=4, value=value)
-        start_row_list+=1
-    
-    start_row_list=3
-    for kesit in kesit_listesi:
-
-        a20 = ws2.cell(row=start_row_list, column=3, value=kesit)
-        
-        start_row_list+=1
+    mlz_listesi_olustur(ws2,start_row_list)
     
     try:
         wb_save(DIR=REPORT_DIR,name='izolasyon_MonoFazUI.xlsx',wb=wb)

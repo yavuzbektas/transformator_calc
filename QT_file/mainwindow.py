@@ -18062,7 +18062,7 @@ class Ui_MainWindow(object):
         self.pushButton.setText(QCoreApplication.translate("MainWindow", u"Hesaplar", None))
         self.menuMenu.setTitle(QCoreApplication.translate("MainWindow", u"Menu", None))
         self.menuTrafo_Tipleri.setTitle(QCoreApplication.translate("MainWindow", u"Trafo Tipleri", None))
-        self.menu_zalasyon_Trafosu.setTitle(QCoreApplication.translate("MainWindow", u"\u0130zalasyon Trafosu", None))
+        self.menu_zalasyon_Trafosu.setTitle(QCoreApplication.translate("MainWindow", u"\u0130zolasyon Trafosu", None))
         self.menu_nt_Trafosu.setTitle(QCoreApplication.translate("MainWindow", u"\u015e\u00f6nt Trafosu", None))
         self.menu_ok_Trafosu.setTitle(QCoreApplication.translate("MainWindow", u"\u015eok Trafosu", None))
         self.menuOto_Trafosu.setTitle(QCoreApplication.translate("MainWindow", u"Oto Trafosu", None))
