@@ -524,12 +524,14 @@ class MyWindow(QMainWindow):
         if returnValue == QMessageBox.Cancel:
             return False
         elif returnValue == QMessageBox.Ok:
+            self.ui.doubleSpinBox_gauss.setValue(window.ui.doubleSpinBox_gauss.value())
             for i in range(0, 10):
 
                 for key in vt.kademe.keys():
                     gl_main[i][key] = gl_popup[i][key]
 
             window.close()
+        
         self.hesaplamalari_guncelle()
     def open_izolasyon(self):
         self.window3 = popup.Izolasyondialog()

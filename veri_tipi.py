@@ -154,6 +154,8 @@ recete_veri =  {
     "diAkimYog":0.0,
     "diYogunluk":0.0,
     "sacYogunluk":0.0,
+    "baglanti_primer":"",
+    "baglanti_sekonder":""
 }   
 malzeme_listesi = {"teller":{
                     "mlz_tel_1":"agr_tel_1",

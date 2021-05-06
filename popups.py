@@ -918,7 +918,7 @@ class KesitParamdialog(QDialog):
     def test(self):
         self.save_selected_kademe(kademe=int(self.ui.doubleSpinBox_kademe_no.value()))
     def object_signals(self):
-
+        self.ui.doubleSpinBox_gauss.valueChanged.connect(self.update_gauss )
         self.ui.pushButton_kad_1.clicked.connect(self.kademe_data_show)
         self.ui.pushButton_kad_2.clicked.connect(self.kademe_data_show)
         self.ui.pushButton_kad_3.clicked.connect(self.kademe_data_show)
@@ -943,6 +943,8 @@ class KesitParamdialog(QDialog):
         self.ui.pushButton_kaydet.clicked.connect(lambda x:self.timer.stop())
         self.ui.pushButton_kaydet_2.clicked.connect(lambda x:self.timer.stop())
         self.ui.pushButton_kaydet_2.clicked.connect(self.close)
+    def update_gauss(self):
+        self.gauss=self.ui.doubleSpinBox_gauss.value()
     def object_multi_connect(self, object, arg):
         if type(object) == str:
             return False

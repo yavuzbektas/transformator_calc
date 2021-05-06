@@ -402,6 +402,7 @@ class MonoUIwindow(QMainWindow):
         if returnValue == QMessageBox.Cancel:
             return False
         elif returnValue == QMessageBox.Ok:
+            self.ui.doubleSpinBox_gauss.setValue(window.ui.doubleSpinBox_gauss.value())
             for i in range(0, 10):
 
                 for key in vt.kademe.keys():
@@ -524,7 +525,6 @@ class MonoUIwindow(QMainWindow):
         veri_kumesi.rec_veriler["primer_kademe" ]= int(self.ui.comboBox.currentText())
         veri_kumesi.rec_veriler[ "sekonder_kademe"] = int(self.ui.comboBox_sek.currentText())
         
-
         veri_kumesi.rec_veriler[ "gauss" ]= self.ui.doubleSpinBox_gauss.value()
         veri_kumesi.rec_veriler[ "sac" ]= self.ui.doubleSpinBox_sac.value()
         veri_kumesi.rec_veriler[ "c_sac" ]= self.ui.doubleSpinBox_c.value()
@@ -562,6 +562,8 @@ class MonoUIwindow(QMainWindow):
         veri_kumesi.rec_veriler["diAkimYog"] =self.ui.doubleSpinBox_64.value()
         veri_kumesi.rec_veriler["diYogunluk"] =self.ui.doubleSpinBox_65.value()
         veri_kumesi.rec_veriler["sacYogunluk"] =self.ui.doubleSpinBox_sacYogunluk.value()
+        veri_kumesi.rec_veriler[ "baglanti_primer"] = self.ui.comboBox_baglanti_primer.currentText()
+        veri_kumesi.rec_veriler[ "baglanti_sekonder"] = self.ui.comboBox_baglanti_sekonder.currentText()
     def recete_deger_al(self,window):
         data = db.calldata_with_id_recete(window.ui.doubleSpinBox_ID.value())
         if data == None:
@@ -609,6 +611,8 @@ class MonoUIwindow(QMainWindow):
         self.ui.doubleSpinBox_64.setValue(self.rec_veriler["diAkimYog"])
         self.ui.doubleSpinBox_65.setValue(self.rec_veriler["diYogunluk"])
         self.ui.doubleSpinBox_sacYogunluk.setValue(self.rec_veriler["sacYogunluk"])
+        self.ui.comboBox_baglanti_primer.setCurrentText(self.rec_veriler[ "baglanti_primer"])
+        self.ui.comboBox_baglanti_sekonder.setCurrentText(self.rec_veriler[ "baglanti_sekonder"])
         for i in range(0, 10):
             self.group_name_list_primer_kademe[i]=self.rec_veriler["primer_group_list"][i]
             self.group_name_list_sekonder_kademe[i]=self.rec_veriler["sekonder_group_list"][i]
@@ -988,8 +992,8 @@ class MonoUIwindow(QMainWindow):
                 primer_al_agirlik +=gl[i]["tel_agirlik"]
             elif gl[i]["teltipi"]=="Cu":
                 primer_cu_agirlik += gl[i]["tel_agirlik"]
-        primer_al_agirlik = hp.tel_agirlik_trifaz(primer_al_agirlik) # trifazlarda 3 faz oldugundan 3 ile carpılıyor
-        primer_cu_agirlik  = hp.tel_agirlik_trifaz( primer_cu_agirlik) # trifazlarda 3 faz oldugundan 3 ile carpılıyor
+        primer_al_agirlik = hp.tel_agirlik_monoUI(primer_al_agirlik) # trifazlarda 3 faz oldugundan 3 ile carpılıyor
+        primer_cu_agirlik  = hp.tel_agirlik_monoUI( primer_cu_agirlik) # trifazlarda 3 faz oldugundan 3 ile carpılıyor
         
         
         gl=self.group_name_list_sekonder_kademe
@@ -1000,25 +1004,26 @@ class MonoUIwindow(QMainWindow):
                 sekonder_al_agirlik += gl[i]["tel_agirlik"]
             elif gl[i]["teltipi"] == "Cu":
                 sekonder_cu_agirlik += gl[i]["tel_agirlik"]
-        sekonder_al_agirlik = hp.tel_agirlik_trifaz(sekonder_al_agirlik)   # trifazlarda 3 faz oldugundan 3 ile carpılıyor
-        sekonder_cu_agirlik = hp.tel_agirlik_trifaz(sekonder_cu_agirlik) # trifazlarda 3 faz oldugundan 3 ile carpılıyor
+        sekonder_al_agirlik = hp.tel_agirlik_monoUI(sekonder_al_agirlik)   # trifazlarda 3 faz oldugundan 3 ile carpılıyor
+        sekonder_cu_agirlik = hp.tel_agirlik_monoUI(sekonder_cu_agirlik) # trifazlarda 3 faz oldugundan 3 ile carpılıyor
         if self.ui.comboBox_sactipi.currentIndex()==1:
             sactipi="kesme_sac"
             self.ui.doubleSpinBox_sacagirlik.setValue(0)
         else:
             sactipi="ei_sac"
-        yan_sac_agirlik=hp.yanSacAgirlik_hesap_1(
+        yan_sac_agirlik=hp.yanSacAgirlik_hesap_2(
             sac_tipi=sactipi,
             karkas_en=self.ui.doubleSpinBox_karkas_en.value(),
             toplam_sarim_Yukseklik = self.primer_sarim_yukseklik_toplam + self.sekonder_sarim_yukseklik_toplam,
             primer_izolasyon=self.primer_izolasyon,
             nuveBosluk=self.ui.doubleSpinBox_nuvebosluk.value()
         )
-        gobekSac_agirlik=hp.gobekSacAgirlik_hesap_1(
+        gobekSac_agirlik=hp.gobekSacAgirlik_hesap_2(
             sac_tipi=sactipi,
-            karkas_en=self.ui.doubleSpinBox_karkas_en.value(),
-            karkas_yuk=self.ui.doubleSpinBox_karkas_yukseklik.value())
-        self.ui.doubleSpinBox_kesmeSacAgirlik.setValue( hp.kesmeSacAgirlik_hesap_1(
+            karkas_en=self.ui.doubleSpinBox_karkas_en.value()
+            )
+    
+        self.ui.doubleSpinBox_kesmeSacAgirlik.setValue( hp.kesmeSacAgirlik_hesap_2(
             sac_tipi=sactipi,
             karkas_en=self.ui.doubleSpinBox_karkas_en.value(),
             karkas_boy=self.ui.doubleSpinBox_karkas_boy.value(),
@@ -1035,17 +1040,25 @@ class MonoUIwindow(QMainWindow):
         self.ui.doubleSpinBox_sekonderagirlik_cu.setValue(sekonder_cu_agirlik)
     # ======================  olcu hesabı  =========================
     def olcu_hesapla(self):
-        
-        # a,b,c = hp.nuve_olcu_hesapla(
-        #     karkas_en = self.ui.doubleSpinBox_karkas_en.value(),
-        #     karkas_boy = self.ui.doubleSpinBox_karkas_boy.value(),
-        #     klemens_a = self.ui.doubleSpinBox_klemens_a_deg.value(),
-        #     klemens_b=self.ui.doubleSpinBox_klemens_b_deg.value(),
-        #     ayak_a=self.ui.doubleSpinBox_ayak_a_deg.value()
-        #     )
-        # self.ui.doubleSpinBox_olcu_a.setValue(a)
-        # self.ui.doubleSpinBox_olcu_b.setValue(  b)
-        # self.ui.doubleSpinBox_olcu_c.setValue(  c)
+        if self.ui.comboBox_sactipi.currentIndex()==1:
+            sactipi="kesme_sac"
+            self.ui.doubleSpinBox_sacagirlik.setValue(0)
+        else:
+            sactipi="ei_sac"
+        a,b,c = hp.nuve_olcu_hesapla_3(
+            sac_tipi=sactipi,
+            karkas_en = self.ui.doubleSpinBox_karkas_en.value(),
+            karkas_boy = self.ui.doubleSpinBox_karkas_boy.value(),
+            klemens_a = self.ui.doubleSpinBox_klemens_a_deg.value(),
+            klemens_b=self.ui.doubleSpinBox_klemens_b_deg.value(),
+            ayak_a=self.ui.doubleSpinBox_ayak_a_deg.value(),
+            sarim_yukseklik_toplam =self.primer_sarim_yukseklik_toplam + self.sekonder_sarim_yukseklik_toplam,
+            primer_izolasyon=self.primer_izolasyon,
+            nuve_bosluk=self.ui.doubleSpinBox_nuvebosluk.value()
+            )
+        self.ui.doubleSpinBox_olcu_a.setValue(a)
+        self.ui.doubleSpinBox_olcu_b.setValue(  b)
+        self.ui.doubleSpinBox_olcu_c.setValue(  c)
         self.trafoolcu_hesapla()    
     def trafoolcu_hesapla(self):
         if self.ui.comboBox_sactipi.currentIndex()==1:
@@ -1057,7 +1070,7 @@ class MonoUIwindow(QMainWindow):
             self.ui.doubleSpinBox_sacagirlik.setValue(hp.sac_agirlik_trifaz(karkas_en=self.ui.doubleSpinBox_karkas_en.value(),karkas_boy=self.ui.doubleSpinBox_karkas_boy.value()))
 
         
-        a,b,c,d,e,f  = hp.trafo_olcu_hesapla_2(
+        a,b,c,d,e,f  = hp.trafo_olcu_hesapla_5(
             sac_tipi =sactipi,
             karkas_en=self.ui.doubleSpinBox_karkas_en.value(),
             karkas_boy=self.ui.doubleSpinBox_karkas_boy.value(),

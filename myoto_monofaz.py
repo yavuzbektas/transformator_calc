@@ -155,7 +155,7 @@ class OtoMonofazwindow(QMainWindow):
         self.ui.doubleSpinBox_karkas_verim.valueChanged.connect(self.hesaplamalari_guncelle)
         self.ui.doubleSpinBox_karkas_yukseklik.valueChanged.connect(self.hesaplamalari_guncelle)
         self.ui.comboBox_sactipi.currentTextChanged.connect(self.hesaplamalari_guncelle)
-        self.ui.comboBox_baglanti_primer.currentTextChanged.connect(self.hesaplamalari_guncelle)
+        
         
         self.ui.pushButton_2.clicked.connect(lambda x: self.ekran_degistir(index=self.old_index))
 
@@ -195,7 +195,7 @@ class OtoMonofazwindow(QMainWindow):
                     karkas_yuk=self.ui.doubleSpinBox_karkas_yukseklik.value(),
                     verim=self.ui.doubleSpinBox_karkas_verim.value(),
                     sarim="primer",
-                    baglanti=self.ui.comboBox_baglanti_primer.currentText(),
+                    baglanti="",
                     kademe=int(self.ui.comboBox.currentText()))
 
         self.izolasyon_hesapla()
@@ -313,7 +313,7 @@ class OtoMonofazwindow(QMainWindow):
         self.window3.trafoTipi="monofaz_oto"
         
         if baglanti_turu=="p":
-            self.window3.baglanti=self.ui.comboBox_baglanti_primer.currentText()
+            self.window3.baglanti=""
             self.window3.kademe = int(sender.objectName().split("_")[len(sender.objectName().split("_"))-1])
             self.window3.guc = self.ui.doubleSpinBox_guc.value()
             #self.window3.gn2=[]
@@ -363,6 +363,7 @@ class OtoMonofazwindow(QMainWindow):
         if returnValue == QMessageBox.Cancel:
             return False
         elif returnValue == QMessageBox.Ok:
+            self.ui.doubleSpinBox_gauss.setValue(window.ui.doubleSpinBox_gauss.value())
             for i in range(0, 10):
 
                 for key in vt.kademe.keys():
@@ -711,7 +712,7 @@ class OtoMonofazwindow(QMainWindow):
                     karkas_yuk=self.ui.doubleSpinBox_karkas_yukseklik.value(),
                     verim=self.ui.doubleSpinBox_karkas_verim.value(),
                     sarim="primer",
-                    baglanti=self.ui.comboBox_baglanti_primer.currentText(),
+                    baglanti="",
                     kademe=int(self.ui.comboBox.currentText()))
     # ======================  İzolasyon Hesabı =========================    
     def izolasyon_verileri_guncelle(self,object):
@@ -1089,7 +1090,7 @@ class OtoMonofazwindow(QMainWindow):
     def printout_veri_kumesi(self):
         printout.primer_group_list =self.group_name_list_primer_kademe
         
-        printout.primer_baglanti = self.ui.comboBox_baglanti_primer.currentText()
+        printout.primer_baglanti =""
         printout.guc = self.ui.doubleSpinBox_guc.value()
         printout.trafo_tipi = " Oto Trafosu Trifaz Hesap Ozeti"
 

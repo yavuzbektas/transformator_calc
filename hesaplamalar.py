@@ -56,17 +56,45 @@ def spir_hesap_7(gerilim, frekans, gauss, karkas_en, karkas_boy, verim, Kf=4.44)
         sonuc=0
     return sonuc 
 def akim_hesap_1(guc, gerilim):
-    return guc / gerilim
+    try : 
+        sonuc =guc / gerilim
+    except Exception as error:
+        print(error)
+        sonuc=0
+    return sonuc 
+    
 def akim_hesap_2(kesit, akim_yogunlugu):
     return kesit * akim_yogunlugu
 def akim_hesap_3(guc, gerilim):
-    return guc / (gerilim*math.sqrt(3))
+    try : 
+        sonuc =guc / (gerilim*math.sqrt(3))
+    except Exception as error:
+        print(error)
+        sonuc=0
+    return sonuc 
 def akim_hesap_4(guc, gerilim):
-    return guc / (gerilim*3)
+    try : 
+        sonuc =guc / (gerilim*3)
+    except Exception as error:
+        print(error)
+        sonuc=0
+    return sonuc 
+
 def akim_hesap_5(guc, gerilim):
-    return guc /gerilim/math.sqrt(3)
+    try : 
+        sonuc =guc /gerilim/math.sqrt(3)
+    except Exception as error:
+        print(error)
+        sonuc=0
+    return sonuc
 def akim_hesap_6(guc, gerilim):
-    return guc / (gerilim*2)
+    try : 
+        sonuc =guc / (gerilim*2)
+    except Exception as error:
+        print(error)
+        sonuc=0
+    return sonuc
+    
 def kesit_hesap_1(akim, akim_yogunlugu):  # akım yogunluguna göre
     return akim / akim_yogunlugu
 def kesit_hesap_2(cap):  # çap değerine göre
@@ -109,13 +137,34 @@ def karkas_yuk(karkas_en):
 def karkas_yuk_2(karkas_en):
     return karkas_en * 3 - math.floor(karkas_en * 0.15)
 def karkas_Ac_oto(c, guc, frekans):
-    return c * math.sqrt(guc / (2 * frekans))
+    try : 
+        sonuc =c * math.sqrt(guc / (2 * frekans))
+    except Exception as error:
+        print(error)
+        sonuc=0
+    return sonuc
 def karkas_Ac_oto_2(c, guc, frekans):
-    return c * math.sqrt(guc / (3 * frekans))
+    try : 
+        sonuc=  c * math.sqrt(guc / (3 * frekans))
+    except Exception as error:
+        print(error)
+        sonuc=0
+    return sonuc
 def karkas_Ac_oto_3(c, akim,gerilim, frekans):
-    return c * math.sqrt((akim*gerilim) / (2 * frekans))
+    try : 
+        sonuc =c * math.sqrt((akim*gerilim) / (2 * frekans))
+    except Exception as error:
+        print(error)
+        sonuc=0
+    return sonuc
 def karkas_Ac_oto_4(c, akim,gerilim, frekans):
-    return c * math.sqrt((akim*gerilim*3/math.sqrt(3)) / (3 * frekans))
+    try : 
+        sonuc =c * math.sqrt((akim*gerilim*3/math.sqrt(3)) / (3 * frekans))
+    except Exception as error:
+        print(error)
+        sonuc=0
+    return sonuc
+    
 def karkas_Ac(karkas_en, karkas_boy):
     return karkas_en * karkas_boy / 100
 def tel_yukseklik_hesap_1(tel_cap, karetel_yuk1, karetel_yuk2, karetel_yuk3, karetel_yuk4, folyo_yuk1, folyo_yuk2,
@@ -129,7 +178,8 @@ def tel_en_hesap_1(tel_cap, karetel_en1, karetel_en2, karetel_en3, karetel_en4, 
                 folyo_en1 + folyo_en2 + folyo_en3 + folyo_en4)
     return en
 def spir_kat_hesap_1(karkas_yuk, tel_en):
-    return math.floor(karkas_yuk / tel_en)
+    sonuc = math.floor(karkas_yuk / tel_en)
+    return sonuc
 def kat_sayisi_hesap_1(spir, spir_kat):
     if spir_kat>0 :
         return math.ceil(spir / spir_kat)
@@ -163,6 +213,8 @@ def tel_agirlik_hesap_1(tel_uzunluk, kesit_2, tel_yogunluk):
     return tel_uzunluk * kesit_2 / 1000000 * tel_yogunluk
 def tel_agirlik_trifaz(sarim_agirlik):
     return sarim_agirlik * 3 # trifazlarda 3 faz oldugundan 3 ile carpılıyor
+def tel_agirlik_monoUI(sarim_agirlik):
+    return sarim_agirlik * 2 # monoUI da  2 ile carpılıyor
 def primer_izolasyon_hesap(izo_deg, tur, kademe):
     return izo_deg * tur
 def va_izolasyon_hesap(izo_deg, tur, kademe):
@@ -286,6 +338,21 @@ def trafo_olcu_hesapla_4(sac_tipi,karkas_en,karkas_boy,karkas_yuk,nuve_bosluk):
     olcu_e=karkas_boy+karkas_en/2+2
     olcu_f=0
     return (olcu_a,olcu_b,olcu_c,olcu_d,olcu_e,olcu_f)
+def trafo_olcu_hesapla_5(sac_tipi,karkas_en,karkas_boy,karkas_yuk,nuve_bosluk,sarim_yukseklik_toplam,primer_izolasyon):
+    if sac_tipi=="ei_sac":
+        olcu_a=math.ceil(karkas_en*4 )
+        olcu_c=math.ceil(3*karkas_en+2*karkas_en)
+    elif sac_tipi=="kesme_sac":
+        olcu_a=math.ceil(2*(karkas_en+karkas_en/2+nuve_bosluk+sarim_yukseklik_toplam +karkas_en*0.05+primer_izolasyon ))
+        olcu_c=math.ceil(karkas_yuk+karkas_en*0.15+2*karkas_en)
+    else:
+        olcu_a=0
+        olcu_c=0
+    olcu_b = 2*karkas_en+karkas_boy
+    olcu_d=olcu_a-karkas_en
+    olcu_e=karkas_boy+karkas_en+5
+    olcu_f=0
+    return (olcu_a,olcu_b,olcu_c,olcu_d,olcu_e,olcu_f)
 def nuve_olcu_hesapla(karkas_en,karkas_boy,klemens_a,klemens_b,ayak_a):
     nuve_olcu_a=karkas_en*3
     nuve_olcu_b=karkas_boy +klemens_a + ayak_a
@@ -296,12 +363,34 @@ def nuve_olcu_hesapla_2(sac_tipi,karkas_en,karkas_boy,klemens_a,klemens_b,ayak_a
     nuve_olcu_b=karkas_boy +klemens_a + ayak_a+2*sarim_yukseklik_toplam
     nuve_olcu_c=karkas_en*5 +klemens_b
     return (nuve_olcu_a,nuve_olcu_b,nuve_olcu_c)
+def nuve_olcu_hesapla_3(sac_tipi,karkas_en,karkas_boy,klemens_a,klemens_b,ayak_a,sarim_yukseklik_toplam,primer_izolasyon,nuve_bosluk):
+    if sac_tipi=="ei_sac":
+        nuve_olcu_a=karkas_en*3 + 2*sarim_yukseklik_toplam + 2* karkas_en * 0.05 
+        
+        
+    elif sac_tipi=="kesme_sac": 
+        nuve_olcu_a=karkas_en*2 + 4*sarim_yukseklik_toplam + karkas_en * 0.1 + 2*primer_izolasyon + 2*nuve_bosluk
+        
+    else:
+        nuve_olcu_a=0
+    nuve_olcu_b=karkas_boy +klemens_a + ayak_a
+    nuve_olcu_c=karkas_en*5 +klemens_b
+    return (nuve_olcu_a,nuve_olcu_b,nuve_olcu_c)
 def yanSacAgirlik_hesap_1(sac_tipi,karkas_en,toplam_sarim_Yukseklik,primer_izolasyon,nuveBosluk):
     yanSac=0
     if sac_tipi=="ei_sac":
         yanSac=0
     elif sac_tipi=="kesme_sac":    
         yanSac=math.ceil(karkas_en+(2*(toplam_sarim_Yukseklik+karkas_en*0.05+primer_izolasyon + nuveBosluk)))
+    else:
+        yanSac=0
+    return yanSac
+def yanSacAgirlik_hesap_2(sac_tipi,karkas_en,toplam_sarim_Yukseklik,primer_izolasyon,nuveBosluk):
+    yanSac=0
+    if sac_tipi=="ei_sac":
+        yanSac=0
+    elif sac_tipi=="kesme_sac":    
+        yanSac=math.ceil(2*karkas_en+(2*(toplam_sarim_Yukseklik+karkas_en*0.05+primer_izolasyon + nuveBosluk)))+9
     else:
         yanSac=0
     return yanSac
@@ -314,6 +403,15 @@ def gobekSacAgirlik_hesap_1(sac_tipi,karkas_en,karkas_yuk):
     else:
         gobekSac=0
     return gobekSac
+def gobekSacAgirlik_hesap_2(sac_tipi,karkas_en):
+    gobekSac=0
+    if sac_tipi=="ei_sac":
+        gobekSac=0
+    elif sac_tipi=="kesme_sac":    
+        gobekSac=karkas_en*3
+    else:
+        gobekSac=0
+    return gobekSac
 def kesmeSacAgirlik_hesap_1(sac_tipi,karkas_en,karkas_boy,nuve_bosluk,gobek_sac,yan_sac,sac_yogunluk):
     kesmeSac=0
     if sac_tipi=="ei_sac":
@@ -323,6 +421,16 @@ def kesmeSacAgirlik_hesap_1(sac_tipi,karkas_en,karkas_boy,nuve_bosluk,gobek_sac,
     else:
         kesmeSac=0
     return kesmeSac    
+def kesmeSacAgirlik_hesap_2(sac_tipi,karkas_en,karkas_boy,nuve_bosluk,gobek_sac,yan_sac,sac_yogunluk):
+    kesmeSac=0
+
+    if sac_tipi=="ei_sac":
+        kesmeSac=0
+    elif sac_tipi=="kesme_sac":    
+        
+        kesmeSac=(yan_sac*karkas_boy*karkas_en*2+2*gobek_sac*karkas_boy*karkas_en)/(10**9)*sac_yogunluk
+    
+    return kesmeSac  
 def trafo_hesap_1( gl, guc, frekans, 
                    gauss, karkas_en, karkas_boy, 
                    karkas_yuk, verim, sarim, 
@@ -1621,25 +1729,11 @@ def trafo_hesap_trifaz_oto( gl, guc, frekans,
                         akim_2=gl[1]["akim1"]
                     else :
                         akim_2=0
-                    if baglanti=="Yıldız":            
-                        gl[0]["akim1"]=(akim_hesap_5(guc=guc,gerilim=gl[i]["voltaj"])-akim_2)
-                            
-                    elif baglanti=="MYV":
-                        gl[0]["akim1"]=(akim_hesap_5(guc=guc,gerilim=gl[i]["voltaj"])-akim_2)
-                    else:
-                        print("Akım hesaplanamadı . yanlıs Bağlanı Seçimi",baglanti," +")
+                    gl[0]["akim1"]=(akim_hesap_5(guc=guc,gerilim=gl[i]["voltaj"])-akim_2)
                 elif i>0:
-                    if baglanti=="Yıldız":
-                        
-                        gl[i]["akim1"]=akim_hesap_5(
+                    gl[i]["akim1"]=akim_hesap_5(
                                 guc=guc,
                                 gerilim=gl[i]["voltaj"])
-                    elif baglanti=="MYV":
-                        gl[i]["akim1"]=akim_hesap_5(
-                                guc=guc,
-                                gerilim=gl[i]["voltaj"])
-                    else:
-                        print("Akım hesaplanamadı . yanlıs Bağlanı Seçimi",baglanti," +")
                 # Kesit 1 Hesabı -------------------------
                 gl[i]["kesit1"]=kesit_hesap_1(
                     akim=gl[i]["akim1"],
@@ -1649,24 +1743,13 @@ def trafo_hesap_trifaz_oto( gl, guc, frekans,
                 gl[i]["cap1"]=cap_hesap_1(
                     kesit=gl[i]["kesit1"])
                 # spir 1 Hesabı -------------------------
-                if baglanti=="Yıldız":
-                    gl[i]["spir1"]=spir_hesap_3(
+                gl[i]["spir1"]=spir_hesap_3(
                         gerilim=gl[i]["voltaj"],
                         frekans=frekans,
                         gauss=gauss,
                         karkas_en=karkas_en,
                         karkas_boy=karkas_boy,
-                        verim=verim)
-                elif baglanti=="MYV":
-                    gl[i]["spir1"]=spir_hesap_3(
-                        gerilim=gl[i]["voltaj"],
-                        frekans=frekans,
-                        gauss=gauss,
-                        karkas_en=karkas_en,
-                        karkas_boy=karkas_boy,
-                        verim=verim)
-                else:
-                    print("Spir Hesaplanamadı . yanlıs Bağlanı Seçimi")    
+                        verim=verim)   
                 # spir 2 Hesabı -------------------------
                 if gl[i]["check_spir_man"]==True:
                     pass

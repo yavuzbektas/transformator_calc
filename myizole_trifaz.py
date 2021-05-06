@@ -401,6 +401,7 @@ class MyWindow(QMainWindow):
         if returnValue == QMessageBox.Cancel:
             return False
         elif returnValue == QMessageBox.Ok:
+            self.ui.doubleSpinBox_gauss.setValue(window.ui.doubleSpinBox_gauss.value())
             for i in range(0, 10):
 
                 for key in vt.kademe.keys():
@@ -561,6 +562,8 @@ class MyWindow(QMainWindow):
         veri_kumesi.rec_veriler["diAkimYog"] =self.ui.doubleSpinBox_64.value()
         veri_kumesi.rec_veriler["diYogunluk"] =self.ui.doubleSpinBox_65.value()
         veri_kumesi.rec_veriler["sacYogunluk"] =self.ui.doubleSpinBox_sacYogunluk.value()
+        veri_kumesi.rec_veriler[ "baglanti_primer"] = self.ui.comboBox_baglanti_primer.currentText()
+        veri_kumesi.rec_veriler[ "baglanti_sekonder"] = self.ui.comboBox_baglanti_sekonder.currentText()
     def recete_deger_al(self,window):
         data = db.calldata_with_id_recete(window.ui.doubleSpinBox_ID.value())
         if data == None:
@@ -608,6 +611,8 @@ class MyWindow(QMainWindow):
         self.ui.doubleSpinBox_64.setValue(self.rec_veriler["diAkimYog"])
         self.ui.doubleSpinBox_65.setValue(self.rec_veriler["diYogunluk"])
         self.ui.doubleSpinBox_sacYogunluk.setValue(self.rec_veriler["sacYogunluk"])
+        self.ui.comboBox_baglanti_primer.setCurrentText(self.rec_veriler[ "baglanti_primer"])
+        self.ui.comboBox_baglanti_sekonder.setCurrentText(self.rec_veriler[ "baglanti_sekonder"])
         for i in range(0, 10):
             self.group_name_list_primer_kademe[i]=self.rec_veriler["primer_group_list"][i]
             self.group_name_list_sekonder_kademe[i]=self.rec_veriler["sekonder_group_list"][i]

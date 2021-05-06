@@ -530,12 +530,7 @@ def ototrafo_trifaz_printout():
     
     insert_image_trafo(ws=ws,last_row=max_number+46,image=Image(IMAGE_DIR +"o_t.png"))
     
-    if primer_baglanti=="Yıldız":
-        ws.add_image(Image(IMAGE_DIR + 'star.png'), "G" + str(12))
-    elif primer_baglanti=="MYV":
-        ws.add_image(Image(IMAGE_DIR + 'delta.png'), "G" + str(12))
-    else:
-        print("Bağlantı seçimi hatalı : ",primer_baglanti)
+    
     
     ws2=wb.get_sheet_by_name("M_Listesi")
     start_row_list=3
@@ -570,12 +565,7 @@ def ototrafo_monofaz_printout():
     
     insert_image_trafo(ws=ws,last_row=max_number+46,image=Image(IMAGE_DIR +"o_t.png"))
     
-    if primer_baglanti=="Yıldız":
-        ws.add_image(Image(IMAGE_DIR + 'star.png'), "G" + str(12))
-    elif primer_baglanti=="MYV":
-        ws.add_image(Image(IMAGE_DIR + 'delta.png'), "G" + str(12))
-    else:
-        print("Bağlantı seçimi hatalı : ",primer_baglanti)
+    
     
     ws2=wb.get_sheet_by_name("M_Listesi")
     start_row_list=3
