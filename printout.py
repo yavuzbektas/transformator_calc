@@ -507,7 +507,7 @@ def izolasyon_trifaz_printout():
         print(err)
 
         print(err)
-def ototrafo_trifaz_printout():
+def ototrafo_trifaz_printout(izole_gucu):
     wb = load_workbook(REPORT_DIR+ 'demo.xlsx')
     ws=wb.active
     topline(ws=ws,tarih=datetime.datetime.now(),trafo_tipi=trafo_tipi)
@@ -527,7 +527,9 @@ def ototrafo_trifaz_printout():
    
     
     insert_kademe_value(ws=ws,start_row=10+primer_number,kademe_name="primer",kademe=primer_kademe,values=primer_group_list)
-    
+    if izole_gucu>0:
+        ws.cell(row=max_number+31, column=2, value="İzolasyon Trafosu Karşılığı " + str(izole_gucu)+"'VA dir")
+        ws.merge_cells(start_row=max_number+31, start_column=2, end_column=12, end_row=max_number+31)
     insert_image_trafo(ws=ws,last_row=max_number+46,image=Image(IMAGE_DIR +"o_t.png"))
     
     
@@ -620,6 +622,52 @@ def izolasyon_monofazUI_printout():
     try:
         wb_save(DIR=REPORT_DIR,name='izolasyon_MonoFazUI.xlsx',wb=wb)
         file = REPORT_DIR+"izolasyon_MonoFazUI.xlsx"
+        os.startfile(file)
+    except Exception as err:
+        print(err)    
+def monofazSont_printout():
+    wb = load_workbook(REPORT_DIR+ 'demo.xlsx')
+    ws=wb.active
+    topline(ws=ws,tarih=datetime.datetime.now(),trafo_tipi=trafo_tipi)
+    
+    bottomline(ws=ws,last_row=30)
+    max_number,primer_number,sek_number,va_number=find_last_row(ws=ws,primer_kademe=primer_kademe,sekonder_kademe=sekonder_kademe,va_kademe=va_kademe,va_altkademe=va_altkademe,va_enabled=va_enabled)
+
+    insert_row(ws=ws,start_row=30,number=max_number+4)
+    ws.merge_cells(start_row=max_number+4+31, start_column=2, end_column=5, end_row=max_number+4+31)
+    ws.merge_cells(start_row=max_number+4+32, start_column=2, end_column=5, end_row=max_number+4+32)
+    ws.merge_cells(start_row=max_number+4+33, start_column=2, end_column=5, end_row=max_number+4+33)
+    ws.merge_cells(start_row=max_number+4+34, start_column=2, end_column=5, end_row=max_number+4+34)
+    ws.merge_cells(start_row=max_number+4+35, start_column=2, end_column=5, end_row=max_number+4+35)
+    ws.merge_cells(start_row=max_number+4+36, start_column=2, end_column=5, end_row=max_number+4+36)
+    start_row=va_number
+    
+    insert_kademe_value(ws=ws,start_row=10+sek_number,kademe_name="sekonder",kademe=sekonder_kademe,values=sekonder_group_list)
+    
+    insert_kademe_value(ws=ws,start_row=10+primer_number,kademe_name="primer",kademe=primer_kademe,values=primer_group_list)
+    
+    insert_image_trafo(ws=ws,last_row=max_number+46,image=Image(IMAGE_DIR +"o_mui.png"))
+    
+    if primer_baglanti=="Seri":
+        ws.add_image(Image(IMAGE_DIR + 'seri.jpg'), "G" + str(12))
+    elif primer_baglanti=="Paralel":
+        ws.add_image(Image(IMAGE_DIR + 'paralel.jpg'), "G" + str(12))
+    else:
+        print("Bağlantı seçimi hatalı : ",primer_baglanti)
+    if sekonder_baglanti=="Seri":
+
+        ws.add_image(Image(IMAGE_DIR + 'seri.jpg'), "O" + str(12))
+    elif sekonder_baglanti=="Paralel":
+        ws.add_image(Image(IMAGE_DIR + 'paralel.jpg'), "O" + str(12))
+    else:
+        pass
+    ws2=wb.get_sheet_by_name("M_Listesi")
+    start_row_list=3
+    mlz_listesi_olustur(ws2,start_row_list)
+    
+    try:
+        wb_save(DIR=REPORT_DIR,name='izolasyon_MonoFazSont.xlsx',wb=wb)
+        file = REPORT_DIR+"izolasyon_MonoFazSont.xlsx"
         os.startfile(file)
     except Exception as err:
         print(err)    

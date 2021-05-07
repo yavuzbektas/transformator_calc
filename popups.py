@@ -781,9 +781,13 @@ class KesitParamdialog(QDialog):
         self.c = 7.0
         self.karkas_verim = 100.0
         self.gauss =15000.0
-        self.cu_yog = 3.0
-        self.al_yog = 3.0
-        self.dig_yog = 3.0
+        self.cu_yog = 3
+        self.al_yog = 1.6
+        self.dig_yog = 1.6
+        self.cu_par=8700
+        self.al_par=2700 
+        self.dig_par=2700
+        
         self.gn1 = []
         self.gn2 = []
         self.gl = []
@@ -1512,7 +1516,13 @@ class KesitParamdialog(QDialog):
                         sva8_izolasyon=self.sva8_izolasyon,
                         sva9_sarim_yukseklik_toplam=self.sva9_sarim_yukseklik_toplam,
                         sva9_izolasyon=self.sva9_izolasyon,
-                        kademe=kademe)
+                        kademe=kademe,
+                        cu_par= self.cu_par,
+                        cu_yog=self.cu_yog,
+                        al_par=self.al_par ,
+                        al_yog=self.al_yog,
+                        dig_par=self.dig_par,
+                        dig_yog=self.dig_yog)
         elif self.trafoTipi=="trifaz_izole":
             hp.trafo_hesap_trifaz_izole(gl, guc, frekans,
                         gauss, karkas_en, karkas_boy,
@@ -1520,7 +1530,13 @@ class KesitParamdialog(QDialog):
                         primer_sarim_yukseklik_toplam=self.primer_sarim_yukseklik_toplam,
                         primer_izolasyon=self.primer_izolasyon,
                         baglanti=self.baglanti,
-                        kademe=kademe)
+                        kademe=kademe,
+                        cu_par= self.cu_par,
+                         cu_yog=self.cu_yog,
+                        al_par=self.al_par ,
+                        al_yog=self.al_yog,
+                        dig_par=self.dig_par,
+                        dig_yog=self.dig_yog)
         elif self.trafoTipi=="trifaz_oto":
             hp.trafo_hesap_trifaz_oto(gl, guc, frekans,
                         gauss, karkas_en, karkas_boy,
@@ -1528,7 +1544,13 @@ class KesitParamdialog(QDialog):
                         primer_sarim_yukseklik_toplam=self.primer_sarim_yukseklik_toplam,
                         primer_izolasyon=self.primer_izolasyon,
                         baglanti=self.baglanti,
-                        kademe=kademe)
+                        kademe=kademe,
+                        cu_par= self.cu_par,
+                         cu_yog=self.cu_yog,
+                        al_par=self.al_par ,
+                        al_yog=self.al_yog,
+                        dig_par=self.dig_par,
+                        dig_yog=self.dig_yog)
         elif self.trafoTipi=="monofaz_oto":
             hp.trafo_hesap_monofaz_oto(gl, guc, frekans,
                         gauss, karkas_en, karkas_boy,
@@ -1536,7 +1558,13 @@ class KesitParamdialog(QDialog):
                         primer_sarim_yukseklik_toplam=self.primer_sarim_yukseklik_toplam,
                         primer_izolasyon=self.primer_izolasyon,
                         baglanti=self.baglanti,
-                        kademe=kademe)
+                        kademe=kademe,
+                        cu_par= self.cu_par,
+                         cu_yog=self.cu_yog,
+                        al_par=self.al_par ,
+                        al_yog=self.al_yog,
+                        dig_par=self.dig_par,
+                        dig_yog=self.dig_yog)
         elif self.trafoTipi=="monofazUI_izole":
             hp.trafo_hesap_monoFazUI_izole(gl, guc, frekans,
                         gauss, karkas_en, karkas_boy,
@@ -1544,7 +1572,13 @@ class KesitParamdialog(QDialog):
                         primer_sarim_yukseklik_toplam=self.primer_sarim_yukseklik_toplam,
                         primer_izolasyon=self.primer_izolasyon,
                         baglanti=self.baglanti,
-                        kademe=kademe)
+                        kademe=kademe,
+                        cu_par= self.cu_par,
+                         cu_yog=self.cu_yog,
+                        al_par=self.al_par ,
+                        al_yog=self.al_yog,
+                        dig_par=self.dig_par,
+                        dig_yog=self.dig_yog)
         self.load_selected_kademe(kademe=kademe)
         # for i in range (0,self.max_kademe):
         #

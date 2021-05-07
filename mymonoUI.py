@@ -128,8 +128,8 @@ class MonoUIwindow(QMainWindow):
         import Trafo_app
         self.window = Trafo_app.Login()
 
-        self.close()
-        self.window.show()
+        if self.close():
+            self.window.show()
     def hide_list(self,list_name):
         for i in list_name:
             i.setVisible(False)
@@ -159,6 +159,14 @@ class MonoUIwindow(QMainWindow):
         self.ui.comboBox_sactipi.currentTextChanged.connect(self.hesaplamalari_guncelle)
         self.ui.comboBox_baglanti_primer.currentTextChanged.connect(self.hesaplamalari_guncelle)
         self.ui.comboBox_baglanti_sekonder.currentTextChanged.connect(self.hesaplamalari_guncelle)
+        self.ui.doubleSpinBox_58.valueChanged.connect(self.hesaplamalari_guncelle)
+        self.ui.doubleSpinBox_59.valueChanged.connect(self.hesaplamalari_guncelle)
+        self.ui.doubleSpinBox_62.valueChanged.connect(self.hesaplamalari_guncelle)
+        self.ui.doubleSpinBox_63.valueChanged.connect(self.hesaplamalari_guncelle)
+        self.ui.doubleSpinBox_64.valueChanged.connect(self.hesaplamalari_guncelle)
+        self.ui.doubleSpinBox_65.valueChanged.connect(self.hesaplamalari_guncelle)
+        self.ui.doubleSpinBox_58.valueChanged.connect(self.hesaplamalari_guncelle)
+        
         self.ui.pushButton_2.clicked.connect(lambda x: self.ekran_degistir(index=self.old_index))
 
         self.ui.actionTeller.triggered.connect(lambda x: self.ekran_degistir(index=4))
@@ -216,6 +224,18 @@ class MonoUIwindow(QMainWindow):
         self.olcu_hesapla()
         self.malzeme_listesi_yap()
         self.klemens_icon_update()
+    def closeEvent(self, event):
+        # do stuff
+        returnValue = popup.warning_msjbox(
+            text="Tüm veriler kaybolabilir. Kaydetmeniz Önerilir.\nYine de Kapatmak için 'Devam Et' tuşuna basın",
+            title="DİKKAT - Veriler Kaybolacak")
+
+        if returnValue == QMessageBox.Cancel:
+            event.ignore()
+            return False
+        elif returnValue == QMessageBox.Ok:
+            event.accept()
+            return True
     # ======= Diyolog pencerelerin acilisi ===========================
     def tum_degerleri_temizle(self):
         returnValue = popup.clear_msjbox(
@@ -383,9 +403,12 @@ class MonoUIwindow(QMainWindow):
         self.window3.c=self.ui.doubleSpinBox_c.value()
         self.window3.karkas_verim=self.ui.doubleSpinBox_karkas_verim.value()
         self.window3.gauss=self.ui.doubleSpinBox_gauss.value()
-        self.window3.cu_yog = self.ui.doubleSpinBox_58.value()
-        self.window3.al_yog = self.ui.doubleSpinBox_62.value()
-        self.window3.di_yog = self.ui.doubleSpinBox_64.value()   
+        self.window3.cu_yog = self.ui.doubleSpinBox_59.value()
+        self.window3.al_yog = self.ui.doubleSpinBox_63.value()
+        self.window3.di_yog = self.ui.doubleSpinBox_65.value()   
+        self.window3.cu_par=self.ui.doubleSpinBox_58.value()
+        self.window3.al_par=self.ui.doubleSpinBox_62.value()
+        self.window3.dig_par=self.ui.doubleSpinBox_64.value()
         self.window3.primer_izolasyon = self.primer_izolasyon
         self.window3.primer_sarim_yukseklik_toplam = self.primer_sarim_yukseklik_toplam
         self.window3.sekonder_sarim_yukseklik_toplam = self.sekonder_sarim_yukseklik_toplam
@@ -432,86 +455,96 @@ class MonoUIwindow(QMainWindow):
             self.window = myApp.MyWindow()
 
             self.window.ui.lineEdit_user.setText(self.ui.lineEdit_user.text())
-            self.close()
-            self.window.show()
-            self.window.ui.stackedWidget.setCurrentIndex(0)
+            if self.close():
+            
+                self.window.show()
+                self.window.ui.stackedWidget.setCurrentIndex(0)
         elif trafo_index == 1:
 
             import myizole_trifaz
             self.window = myizole_trifaz.MyWindow()
 
             self.window.ui.lineEdit_user.setText(self.ui.lineEdit_user.text())
-            self.close()
-            self.window.show()
-            self.window.ui.stackedWidget.setCurrentIndex(0)
+            if self.close():
+                self.window.show()
+                self.window.ui.stackedWidget.setCurrentIndex(0)
         elif trafo_index == 2:
             import mysont_monofaz
             self.window = mysont_monofaz.SontMonofazwindow()
             self.window.ui.lineEdit_user.setText(self.ui.lineEdit_user.text())
-            self.close()
-            self.window.show()
-            self.window.ui.stackedWidget.setCurrentIndex(0)
+            if self.close():
+            
+                self.window.show()
+                self.window.ui.stackedWidget.setCurrentIndex(0)
         elif trafo_index == 3:
             import mysont_trifaz
             self.window = mysont_trifaz.SontTrifazwindow()
             self.window.ui.lineEdit_user.setText(self.ui.lineEdit_user.text())
-            self.close()
-            self.window.show()
-            self.window.ui.stackedWidget.setCurrentIndex(0)
+            if self.close():
+            
+                self.window.show()
+                self.window.ui.stackedWidget.setCurrentIndex(0)
         elif trafo_index == 4:
             import mysok_monofaz
             self.window = mysok_monofaz.SokMonofazwindow()
 
             self.window.ui.lineEdit_user.setText(self.ui.lineEdit_user.text())
-            self.close()
-            self.window.show()
-            self.window.ui.stackedWidget.setCurrentIndex(0)
+            if self.close():
+            
+                self.window.show()
+                self.window.ui.stackedWidget.setCurrentIndex(0)
         elif trafo_index == 5:
             import mysok_trifaz
             self.window = mysok_trifaz.SokTrifazwindow()
 
             self.window.ui.lineEdit_user.setText(self.ui.lineEdit_user.text())
-            self.close()
-            self.window.show()
-            self.window.ui.stackedWidget.setCurrentIndex(0)
+            if self.close():
+            
+                self.window.show()
+                self.window.ui.stackedWidget.setCurrentIndex(0)
         elif trafo_index == 6:
             import myoto_monofaz
             self.window = myoto_monofaz.OtoMonofazwindow()
 
             self.window.ui.lineEdit_user.setText(self.ui.lineEdit_user.text())
-            self.close()
-            self.window.show()
-            self.window.ui.stackedWidget.setCurrentIndex(0)
+            if self.close():
+            
+                self.window.show()
+                self.window.ui.stackedWidget.setCurrentIndex(0)
         elif trafo_index == 7:
             import myoto_trifaz
             self.window = myoto_trifaz.OtoTrifazwindow()
 
             self.window.ui.lineEdit_user.setText(self.ui.lineEdit_user.text())
-            self.close()
-            self.window.show()
-            self.window.ui.stackedWidget.setCurrentIndex(0)
+            if self.close():
+            
+                self.window.show()
+                self.window.ui.stackedWidget.setCurrentIndex(0)
         elif trafo_index == 8:
             import myharmonik
             self.window = myharmonik.Harmonikwindow()
 
             self.window.ui.lineEdit_user.setText(self.ui.lineEdit_user.text())
-            self.close()
-            self.window.show()
-            self.window.ui.stackedWidget.setCurrentIndex(0)
+            if self.close():
+            
+                self.window.show()
+                self.window.ui.stackedWidget.setCurrentIndex(0)
         elif trafo_index == 9:
             import myups
             self.window = myups.UPSwindow()
             self.window.ui.lineEdit_user.setText(self.ui.lineEdit_user.text())
-            self.close()
-            self.window.show()
-            self.window.ui.stackedWidget.setCurrentIndex(0)
+            if self.close():
+            
+                self.window.show()
+                self.window.ui.stackedWidget.setCurrentIndex(0)
         elif trafo_index == 10:
             import mymonoUI
             self.window = mymonoUI.MonoUIwindow()
             self.window.ui.lineEdit_user.setText(self.ui.lineEdit_user.text())
-            self.close()
-            self.window.show()
-            self.window.ui.stackedWidget.setCurrentIndex(0)
+            if self.close():
+            
+                self.window.show()
+                self.window.ui.stackedWidget.setCurrentIndex(0)
     # ========== RECETE ==========================
     def recete_veri_kumesi(self,veri_kumesi):
         veri_kumesi.rec_veriler["kullanici"] = self.ui.lineEdit_user.text()
@@ -659,7 +692,7 @@ class MonoUIwindow(QMainWindow):
         self.karkas_hesaplama()
     def karkas_hesaplama(self):
         self.ui.doubleSpinBox_karkas_yuk_oto.setValue(hp.karkas_yuk_2(karkas_en=self.ui.doubleSpinBox_karkas_en.value()))
-        self.ui.doubleSpinBox_karkas_cm_oto.setValue(hp.karkas_Ac_oto_2(c=self.ui.doubleSpinBox_c.value(),
+        self.ui.doubleSpinBox_karkas_cm_oto.setValue(hp.karkas_Ac_oto(c=self.ui.doubleSpinBox_c.value(),
                                                                    guc=self.ui.doubleSpinBox_guc.value(),
                                                                    frekans=self.ui.doubleSpinBox_frekans.value()))
         self.ui.doubleSpinBox_karkas_cm.setValue(hp.karkas_Ac(karkas_en=self.ui.doubleSpinBox_karkas_en.value(),
@@ -968,18 +1001,15 @@ class MonoUIwindow(QMainWindow):
         else:
             bosluk=0
         self.ui.doubleSpinBox_8.setValue(bosluk)
-        if bosluk>0 and self.ui.comboBox_sactipi.currentIndex()==0:
+        if bosluk>0 :
             self.ui.comboBox_2.setCurrentIndex(0)
             self.ui.label_Ac_error_2.setVisible(False)
             self.ui.label_Ac_ok_2.setVisible(True)
-        elif bosluk<0 and self.ui.comboBox_sactipi.currentIndex()==0:
+        elif bosluk<0 :
             self.ui.comboBox_2.setCurrentIndex(1)
             self.ui.label_Ac_error_2.setVisible(True)
             self.ui.label_Ac_ok_2.setVisible(False)
-        elif self.ui.comboBox_sactipi.currentIndex()==1:
-            self.ui.comboBox_2.setCurrentIndex(2)
-            self.ui.label_Ac_error_2.setVisible(False)
-            self.ui.label_Ac_ok_2.setVisible(False)
+        
         else:
             pass
     # ======================  agırlık  hesabı ========================= 
@@ -1133,7 +1163,13 @@ class MonoUIwindow(QMainWindow):
                          primer_sarim_yukseklik_toplam=self.primer_sarim_yukseklik_toplam,
                          primer_izolasyon=self.primer_izolasyon,
                          baglanti=baglanti,
-                         kademe=kademe)
+                         kademe=kademe,
+                         cu_par= self.ui.doubleSpinBox_58.value(),
+                         cu_yog=self.ui.doubleSpinBox_59.value(),
+                        al_par=self.ui.doubleSpinBox_62.value() ,
+                        al_yog=self.ui.doubleSpinBox_63.value(),
+                        dig_par=self.ui.doubleSpinBox_64.value(),
+                        dig_yog=self.ui.doubleSpinBox_65.value())
 
         self.karkas_hesaplama()
         self.bosluk_hesapla()
