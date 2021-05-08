@@ -266,17 +266,17 @@ class SontMonofazwindow(QMainWindow):
         sender = self.sender()
         baglanti_turu= sender.objectName().split("_")[2]
         index=0
-        self.window3.trafoTipi="monofaz_oto"
+        self.window3.trafoTipi="monofaz_sont"
         
         if baglanti_turu=="p":
             
-            self.window3.kademe = 1
             self.window3.guc = self.ui.doubleSpinBox_guc.value()
-            
             self.window3.max_kademe=1
+            self.window3.kademe = 1
             self.window3.kademe_button_show(self.window3.max_kademe)
             self.window3.load_allkademe_values(gl=self.group_name_list_primer_kademe)
             self.window3.load_selected_kademe(self.window3.kademe-1)
+
             self.window3.sarim = "primer"
             self.window3.ui.pushButton_kaydet.clicked.connect(lambda x: self.kesit_parametrelerini_al(window=self.window3,
                                                         gl_popup=self.window3.group_name_list_kademe,
@@ -306,10 +306,14 @@ class SontMonofazwindow(QMainWindow):
         self.window3.cu_par=self.ui.doubleSpinBox_58.value()
         self.window3.al_par=self.ui.doubleSpinBox_62.value()
         self.window3.dig_par=self.ui.doubleSpinBox_64.value() 
-        self.window3.primer_izolasyon = self.primer_izolasyon
         self.window3.primer_sarim_yukseklik_toplam = self.primer_sarim_yukseklik_toplam
-        
-
+        self.window3.Kf =self.ui.doubleSpinBox_Kf.value()
+        self.window3.Ku=self.ui.doubleSpinBox_Ku.value()
+        self.window3.Um =self.ui.doubleSpinBox_Um.value()  
+        self.window3.Lg_man = self.ui.doubleSpinBox_Lg_man.value()
+        self.window3.klemens_a=self.ui.doubleSpinBox_klemens_a_deg.value()
+        self.window3.klemens_b=self.ui.doubleSpinBox_klemens_b_deg.value()
+        self.window3.ayak_a=self.ui.doubleSpinBox_ayak_a_deg.value()
         self.window3.show()
 
         self.window3.ui.pushButton_kaydet_2.clicked.connect(self.window3.close)
@@ -882,43 +886,64 @@ class SontMonofazwindow(QMainWindow):
         self.hesap_sarim_uzunlugu()
         self.izolasyon_hesapla()
         self.voltaj_check(gl=gl)
-        hp.trafo_hesap_monofaz_sont(gl, guc, frekans,
+        degerler=hp.trafo_hesap_monofaz_sont(gl, guc, frekans,
                         gauss, karkas_en, karkas_boy,
                         karkas_yuk, verim, sarim,
                         primer_sarim_yukseklik_toplam=self.primer_sarim_yukseklik_toplam,
-                        primer_izolasyon=self.primer_izolasyon,
-                        baglanti=baglanti,
-                        kademe=kademe,
                         cu_par= self.ui.doubleSpinBox_58.value(),
                         cu_yog=self.ui.doubleSpinBox_59.value(),
                         al_par=self.ui.doubleSpinBox_62.value() ,
                         al_yog=self.ui.doubleSpinBox_63.value(),
                         dig_par=self.ui.doubleSpinBox_64.value(),
-                        dig_yog=self.ui.doubleSpinBox_65.value())
+                        dig_yog=self.ui.doubleSpinBox_65.value(),
+                        Lg_man=self.ui.doubleSpinBox_Lg_man.value(), 
+                        c=self.ui.doubleSpinBox_c.value(), 
+                        Kf=self.ui.doubleSpinBox_Kf.value(), 
+                        Ku=self.ui.doubleSpinBox_Ku.value(), 
+                        Um=self.ui.doubleSpinBox_Kf.value(),
+                        klemens_a=self.ui.doubleSpinBox_klemens_a_deg.value(),
+                        klemens_b=self.ui.doubleSpinBox_klemens_b_deg.value(),
+                        ayak_a=self.ui.doubleSpinBox_ayak_a_deg.value())
 
         self.karkas_hesaplama()
         self.bosluk_hesapla()
         self.agirlik_hesapla()
         self.olcu_hesapla()
-
+        for deger in degerler.items():
+            print(deger)
         # Baslangıcta degerler sıfırlanır -------------------------
-        for index in range(0, len(gl)):
-            gl2[index][0].setValue(gl[index]["voltaj"])
-            gl2[index][1].setValue(gl[index]["spir1"])
-            gl2[index][2].setValue(gl[index]["kesit1"])
-            gl2[index][3].setValue(gl[index]["cap1"])
-            gl2[index][4].setValue(gl[index]["akim1"])
-            gl2[index][5].setValue(gl[index]["spir2"])
-            gl2[index][6].setValue(gl[index]["kesit2"])
-            gl2[index][7].setValue(gl[index]["cap2"])
-            gl2[index][8].setValue(gl[index]["akim2"])
-            gl2[index][9].setCurrentText(gl[index]["teltipi"])
-            if gl2[index][0].value() > 0:
-                gl2[index][11].setVisible(False)
-                gl2[index][10].setVisible(True)
-            else:
+        self.ui.doubleSpinBox_apSacaGore.setValue(degerler["ApSac"])
+        self.ui.doubleSpinBox_akim_t.setValue(gl[0]["akim_t"])
+        self.ui.doubleSpinBox_enduktans.setValue(degerler["enduktans"])
+        self.ui.doubleSpinBox_Sp1.setValue(degerler["sp1"])
+        self.ui.doubleSpinBox_Lg_oto.setValue(degerler["Lg_oto"])
+        self.ui.doubleSpinBox_f_oto.setValue(degerler["f_oto"])
+        self.ui.doubleSpinBox_Sp_oto.setValue(degerler["sp1_oto"])
+        self.ui.doubleSpinBox_Lg_mpl.setValue(degerler["Lg_mpl"])
+        self.ui.doubleSpinBox_f_mpl.setValue(degerler["f_mpl"])
+        self.ui.doubleSpinBox_Sp_mpl.setValue(degerler["sp1_mpl"])
+        self.ui.doubleSpinBox_f_man.setValue(degerler["f_man"])
+        self.ui.doubleSpinBox_Sp_man.setValue(degerler["sp1_man"])
+        self.ui.doubleSpinBox_Ap.setValue(degerler["Ap"])
+        self.ui.doubleSpinBox_mpl.setValue(degerler["mpl"])
+        
+        gl2[0][0].setValue(gl[0]["voltaj"])
+        gl2[0][1].setValue(gl[0]["spir1"])
+        gl2[0][2].setValue(gl[0]["kesit1"])
+        gl2[0][3].setValue(gl[0]["cap1"])
+        gl2[0][4].setValue(gl[0]["akim1"])
+        gl2[0][5].setValue(gl[0]["spir2"])
+        gl2[0][6].setValue(gl[0]["kesit2"])
+        gl2[0][7].setValue(gl[0]["cap2"])
+        gl2[0][8].setValue(gl[0]["akim2"])
+        gl2[0][9].setCurrentText(gl[0]["teltipi"])
+        if gl2[0][0].value() > 0:
+            gl2[0][11].setVisible(False)
+            gl2[0][10].setVisible(True)
+        else:
                 gl2[index][11].setVisible(True)
                 gl2[index][10].setVisible(False)
+    
     def voltaj_check(self,gl):
         for i in range(0,len(gl)-1):
             if gl[i]["voltaj"]>0 and gl[i]["voltaj"]>gl[i+1]["voltaj"] and gl[i+1]["voltaj"]>0:

@@ -823,6 +823,12 @@ class KesitParamdialog(QDialog):
         self.kademe_button_show(self.max_kademe)
         self.trafoTipi=""
         self.baglanti=""
+        self.Kf=0
+        self.Ku=0
+        self.Um  =0 
+        self.klemens_a=0
+        self.klemens_b=0
+        self.ayak_a=0
     def veri_kumesi(self):
         self.group_list_items = [self.ui.doubleSpinBox_akim1, self.ui.doubleSpinBox_akim2,
                                       self.ui.doubleSpinBox_cap1,
@@ -984,13 +990,14 @@ class KesitParamdialog(QDialog):
 
     def load_allkademe_values(self,gl):
         try:
-            for i in range (0,10):
+            for i in range (0,len(gl)):
 
                 for key in vt.kademe.keys():
                     if key in self.group_name_list_kademe[i].keys():
                         self.group_name_list_kademe[i][key]=gl[i][key]
         except Exception as err:
             print("kademe yukleme hatası :",err)
+        return True
     def save_kademe_values(self,gl):
         for i in range (0,10):
 
@@ -1579,6 +1586,25 @@ class KesitParamdialog(QDialog):
                         al_yog=self.al_yog,
                         dig_par=self.dig_par,
                         dig_yog=self.dig_yog)
+        elif self.trafoTipi=="monofaz_sont":    
+            degerler=hp.trafo_hesap_monofaz_sont(gl, guc, frekans,
+                        gauss, karkas_en, karkas_boy,
+                        karkas_yuk, verim, sarim,
+                        primer_sarim_yukseklik_toplam=self.primer_sarim_yukseklik_toplam,
+                        cu_par= self.cu_par,
+                        cu_yog=self.cu_yog,
+                        al_par=self.al_par ,
+                        al_yog=self.al_yog,
+                        dig_par=self.dig_par,
+                        dig_yog=self.dig_yog,
+                        Lg_man=self.Lg_man, 
+                        c=self.c, 
+                        Kf=self.Kf, 
+                        Ku=self.Ku, 
+                        Um=self.Um,
+                        klemens_a=self.klemens_a,
+                        klemens_b=self.klemens_b,
+                        ayak_a=self.ayak_a)
         self.load_selected_kademe(kademe=kademe)
         # for i in range (0,self.max_kademe):
         #
