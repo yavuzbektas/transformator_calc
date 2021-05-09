@@ -1683,13 +1683,13 @@ class Reciepedialog(QDialog):
                     self.ui.tabWidget_2.setTabVisible(i, False)
         self.ui.tabWidget_2.setCurrentIndex(0)
     def primer_kademe_guncelle(self):
-        for i in range(0, 10):
+        for i in range(0, len(self.rec_veriler["primer_group_list"])):
             if self.rec_veriler["primer_group_list"][i]["voltaj"] > 0:
 
                 text = self.ui.lineEdit_primer.text()
                 self.ui.lineEdit_primer.setText(text +  str(self.rec_veriler["primer_group_list"][i]["voltaj"]) + "-" )
     def sekonder_kademe_guncelle(self):
-        for i in range(0, 10):
+        for i in range(0, len(self.rec_veriler["sekonder_group_list"])):
             if self.rec_veriler["va_enabled"]==False:
                 if self.rec_veriler["sekonder_group_list"][i]["voltaj"] > 0:
                     text = self.ui.lineEdit_sekonder.text()

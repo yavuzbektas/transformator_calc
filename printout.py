@@ -631,7 +631,7 @@ def monofazSont_printout():
     topline(ws=ws,tarih=datetime.datetime.now(),trafo_tipi=trafo_tipi)
     
     bottomline(ws=ws,last_row=30)
-    max_number,primer_number,sek_number,va_number=find_last_row(ws=ws,primer_kademe=primer_kademe,sekonder_kademe=sekonder_kademe,va_kademe=va_kademe,va_altkademe=va_altkademe,va_enabled=va_enabled)
+    max_number,primer_number,sek_number,va_number=find_last_row(ws=ws,primer_kademe=primer_kademe,sekonder_kademe=0,va_kademe=0,va_altkademe=0,va_enabled=False)
 
     insert_row(ws=ws,start_row=30,number=max_number+4)
     ws.merge_cells(start_row=max_number+4+31, start_column=2, end_column=5, end_row=max_number+4+31)
@@ -642,25 +642,13 @@ def monofazSont_printout():
     ws.merge_cells(start_row=max_number+4+36, start_column=2, end_column=5, end_row=max_number+4+36)
     start_row=va_number
     
-    insert_kademe_value(ws=ws,start_row=10+sek_number,kademe_name="sekonder",kademe=sekonder_kademe,values=sekonder_group_list)
+    
     
     insert_kademe_value(ws=ws,start_row=10+primer_number,kademe_name="primer",kademe=primer_kademe,values=primer_group_list)
     
-    insert_image_trafo(ws=ws,last_row=max_number+46,image=Image(IMAGE_DIR +"o_mui.png"))
+    insert_image_trafo(ws=ws,last_row=max_number+45,image=Image(IMAGE_DIR +"o_mui.png"))
     
-    if primer_baglanti=="Seri":
-        ws.add_image(Image(IMAGE_DIR + 'seri.jpg'), "G" + str(12))
-    elif primer_baglanti=="Paralel":
-        ws.add_image(Image(IMAGE_DIR + 'paralel.jpg'), "G" + str(12))
-    else:
-        print("Bağlantı seçimi hatalı : ",primer_baglanti)
-    if sekonder_baglanti=="Seri":
-
-        ws.add_image(Image(IMAGE_DIR + 'seri.jpg'), "O" + str(12))
-    elif sekonder_baglanti=="Paralel":
-        ws.add_image(Image(IMAGE_DIR + 'paralel.jpg'), "O" + str(12))
-    else:
-        pass
+    
     ws2=wb.get_sheet_by_name("M_Listesi")
     start_row_list=3
     mlz_listesi_olustur(ws2,start_row_list)

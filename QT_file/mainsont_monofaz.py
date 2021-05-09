@@ -418,7 +418,7 @@ class Ui_MainWindow(object):
         self.doubleSpinBox_Sp_mpl.setAutoFillBackground(False)
         self.doubleSpinBox_Sp_mpl.setAlignment(Qt.AlignCenter)
         self.doubleSpinBox_Sp_mpl.setButtonSymbols(QAbstractSpinBox.NoButtons)
-        self.doubleSpinBox_Sp_mpl.setDecimals(2)
+        self.doubleSpinBox_Sp_mpl.setDecimals(3)
         self.doubleSpinBox_Sp_mpl.setMaximum(999999.000000000000000)
 
         self.gridLayout.addWidget(self.doubleSpinBox_Sp_mpl, 2, 6, 1, 1)
@@ -431,7 +431,7 @@ class Ui_MainWindow(object):
         self.doubleSpinBox_f_mpl.setAutoFillBackground(False)
         self.doubleSpinBox_f_mpl.setAlignment(Qt.AlignCenter)
         self.doubleSpinBox_f_mpl.setButtonSymbols(QAbstractSpinBox.NoButtons)
-        self.doubleSpinBox_f_mpl.setDecimals(2)
+        self.doubleSpinBox_f_mpl.setDecimals(3)
         self.doubleSpinBox_f_mpl.setMaximum(999999.000000000000000)
 
         self.gridLayout.addWidget(self.doubleSpinBox_f_mpl, 2, 5, 1, 1)
@@ -450,7 +450,7 @@ class Ui_MainWindow(object):
         self.doubleSpinBox_enduktans.setAutoFillBackground(False)
         self.doubleSpinBox_enduktans.setAlignment(Qt.AlignCenter)
         self.doubleSpinBox_enduktans.setButtonSymbols(QAbstractSpinBox.NoButtons)
-        self.doubleSpinBox_enduktans.setDecimals(2)
+        self.doubleSpinBox_enduktans.setDecimals(3)
         self.doubleSpinBox_enduktans.setMaximum(999999.000000000000000)
 
         self.gridLayout.addWidget(self.doubleSpinBox_enduktans, 1, 2, 1, 1)
@@ -476,7 +476,7 @@ class Ui_MainWindow(object):
         self.doubleSpinBox_f_oto.setAutoFillBackground(False)
         self.doubleSpinBox_f_oto.setAlignment(Qt.AlignCenter)
         self.doubleSpinBox_f_oto.setButtonSymbols(QAbstractSpinBox.NoButtons)
-        self.doubleSpinBox_f_oto.setDecimals(2)
+        self.doubleSpinBox_f_oto.setDecimals(3)
         self.doubleSpinBox_f_oto.setMaximum(999999.000000000000000)
 
         self.gridLayout.addWidget(self.doubleSpinBox_f_oto, 1, 5, 1, 1)
@@ -489,7 +489,7 @@ class Ui_MainWindow(object):
         self.doubleSpinBox_apSacaGore.setAutoFillBackground(False)
         self.doubleSpinBox_apSacaGore.setAlignment(Qt.AlignCenter)
         self.doubleSpinBox_apSacaGore.setButtonSymbols(QAbstractSpinBox.NoButtons)
-        self.doubleSpinBox_apSacaGore.setDecimals(2)
+        self.doubleSpinBox_apSacaGore.setDecimals(3)
         self.doubleSpinBox_apSacaGore.setMaximum(999999.000000000000000)
 
         self.gridLayout.addWidget(self.doubleSpinBox_apSacaGore, 1, 0, 1, 1)
@@ -508,7 +508,7 @@ class Ui_MainWindow(object):
         self.doubleSpinBox_Sp_man.setAutoFillBackground(False)
         self.doubleSpinBox_Sp_man.setAlignment(Qt.AlignCenter)
         self.doubleSpinBox_Sp_man.setButtonSymbols(QAbstractSpinBox.NoButtons)
-        self.doubleSpinBox_Sp_man.setDecimals(2)
+        self.doubleSpinBox_Sp_man.setDecimals(3)
         self.doubleSpinBox_Sp_man.setMaximum(999999.000000000000000)
 
         self.gridLayout.addWidget(self.doubleSpinBox_Sp_man, 3, 6, 1, 1)
@@ -533,7 +533,7 @@ class Ui_MainWindow(object):
         self.doubleSpinBox_Sp_oto.setAutoFillBackground(False)
         self.doubleSpinBox_Sp_oto.setAlignment(Qt.AlignCenter)
         self.doubleSpinBox_Sp_oto.setButtonSymbols(QAbstractSpinBox.NoButtons)
-        self.doubleSpinBox_Sp_oto.setDecimals(2)
+        self.doubleSpinBox_Sp_oto.setDecimals(3)
         self.doubleSpinBox_Sp_oto.setMaximum(999999.000000000000000)
 
         self.gridLayout.addWidget(self.doubleSpinBox_Sp_oto, 1, 6, 1, 1)
@@ -546,7 +546,7 @@ class Ui_MainWindow(object):
         self.doubleSpinBox_akim_t.setAutoFillBackground(False)
         self.doubleSpinBox_akim_t.setAlignment(Qt.AlignCenter)
         self.doubleSpinBox_akim_t.setButtonSymbols(QAbstractSpinBox.NoButtons)
-        self.doubleSpinBox_akim_t.setDecimals(2)
+        self.doubleSpinBox_akim_t.setDecimals(3)
         self.doubleSpinBox_akim_t.setMaximum(999999.000000000000000)
 
         self.gridLayout.addWidget(self.doubleSpinBox_akim_t, 1, 1, 1, 1)
@@ -559,7 +559,7 @@ class Ui_MainWindow(object):
         self.doubleSpinBox_f_man.setAutoFillBackground(False)
         self.doubleSpinBox_f_man.setAlignment(Qt.AlignCenter)
         self.doubleSpinBox_f_man.setButtonSymbols(QAbstractSpinBox.NoButtons)
-        self.doubleSpinBox_f_man.setDecimals(2)
+        self.doubleSpinBox_f_man.setDecimals(3)
         self.doubleSpinBox_f_man.setMaximum(999999.000000000000000)
 
         self.gridLayout.addWidget(self.doubleSpinBox_f_man, 3, 5, 1, 1)
@@ -572,7 +572,7 @@ class Ui_MainWindow(object):
         self.doubleSpinBox_Sp1.setAutoFillBackground(False)
         self.doubleSpinBox_Sp1.setAlignment(Qt.AlignCenter)
         self.doubleSpinBox_Sp1.setButtonSymbols(QAbstractSpinBox.NoButtons)
-        self.doubleSpinBox_Sp1.setDecimals(2)
+        self.doubleSpinBox_Sp1.setDecimals(3)
         self.doubleSpinBox_Sp1.setMaximum(999999.000000000000000)
 
         self.gridLayout.addWidget(self.doubleSpinBox_Sp1, 1, 3, 1, 1)
@@ -585,7 +585,7 @@ class Ui_MainWindow(object):
         self.doubleSpinBox_Lg_oto.setAutoFillBackground(False)
         self.doubleSpinBox_Lg_oto.setAlignment(Qt.AlignCenter)
         self.doubleSpinBox_Lg_oto.setButtonSymbols(QAbstractSpinBox.NoButtons)
-        self.doubleSpinBox_Lg_oto.setDecimals(2)
+        self.doubleSpinBox_Lg_oto.setDecimals(3)
         self.doubleSpinBox_Lg_oto.setMaximum(999999.000000000000000)
 
         self.gridLayout.addWidget(self.doubleSpinBox_Lg_oto, 1, 4, 1, 1)
@@ -604,7 +604,7 @@ class Ui_MainWindow(object):
         self.doubleSpinBox_Lg_man.setAutoFillBackground(False)
         self.doubleSpinBox_Lg_man.setAlignment(Qt.AlignCenter)
         self.doubleSpinBox_Lg_man.setButtonSymbols(QAbstractSpinBox.UpDownArrows)
-        self.doubleSpinBox_Lg_man.setDecimals(2)
+        self.doubleSpinBox_Lg_man.setDecimals(3)
         self.doubleSpinBox_Lg_man.setMaximum(999999.000000000000000)
         self.doubleSpinBox_Lg_man.setSingleStep(0.050000000000000)
 
@@ -642,7 +642,7 @@ class Ui_MainWindow(object):
         self.doubleSpinBox_mpl.setAutoFillBackground(False)
         self.doubleSpinBox_mpl.setAlignment(Qt.AlignCenter)
         self.doubleSpinBox_mpl.setButtonSymbols(QAbstractSpinBox.NoButtons)
-        self.doubleSpinBox_mpl.setDecimals(2)
+        self.doubleSpinBox_mpl.setDecimals(3)
         self.doubleSpinBox_mpl.setMaximum(999999.000000000000000)
 
         self.gridLayout.addWidget(self.doubleSpinBox_mpl, 3, 1, 1, 1)
@@ -667,7 +667,7 @@ class Ui_MainWindow(object):
         self.doubleSpinBox_Ap.setAutoFillBackground(False)
         self.doubleSpinBox_Ap.setAlignment(Qt.AlignCenter)
         self.doubleSpinBox_Ap.setButtonSymbols(QAbstractSpinBox.NoButtons)
-        self.doubleSpinBox_Ap.setDecimals(2)
+        self.doubleSpinBox_Ap.setDecimals(3)
         self.doubleSpinBox_Ap.setMaximum(999999.000000000000000)
 
         self.gridLayout.addWidget(self.doubleSpinBox_Ap, 3, 0, 1, 1)
@@ -1790,7 +1790,7 @@ class Ui_MainWindow(object):
 
         self.retranslateUi(MainWindow)
 
-        self.stackedWidget.setCurrentIndex(1)
+        self.stackedWidget.setCurrentIndex(0)
         self.tabWidget_4.setCurrentIndex(0)
 
 
@@ -1833,7 +1833,7 @@ class Ui_MainWindow(object):
         self.label_Ac_error.setText("")
         self.label_Ac_ok_2.setText("")
         self.comboBox_2.setItemText(0, QCoreApplication.translate("MainWindow", u"S\u0131\u011fd\u0131", None))
-        self.comboBox_2.setItemText(1, QCoreApplication.translate("MainWindow", u"Yanl\u0131\u015f", None))
+        self.comboBox_2.setItemText(1, QCoreApplication.translate("MainWindow", u"S\u0131\u011fmad\u0131", None))
         self.comboBox_2.setItemText(2, QCoreApplication.translate("MainWindow", u"Kesme", None))
 
         self.label_76.setText(QCoreApplication.translate("MainWindow", u"S\u0131\u011fma Durumu :", None))
@@ -1874,8 +1874,8 @@ class Ui_MainWindow(object):
         self.label_26.setText(QCoreApplication.translate("MainWindow", u"MPL", None))
         self.label_27.setText(QCoreApplication.translate("MainWindow", u"Ap", None))
         self.groupBox_6.setTitle(QCoreApplication.translate("MainWindow", u"Hesaplama De\u011ferlendirmesi", None))
-        self.comboBox_degerlendirme.setItemText(0, QCoreApplication.translate("MainWindow", u"De\u011ferler Do\u011fru", None))
-        self.comboBox_degerlendirme.setItemText(1, QCoreApplication.translate("MainWindow", u"De\u011ferler Yanl\u0131\u015f", None))
+        self.comboBox_degerlendirme.setItemText(0, QCoreApplication.translate("MainWindow", u"De\u011ferlerleri De\u011fi\u015ftir", None))
+        self.comboBox_degerlendirme.setItemText(1, QCoreApplication.translate("MainWindow", u"De\u011ferler Do\u011fru", None))
 
         self.tabWidget_4.setTabText(self.tabWidget_4.indexOf(self.tab_13), QCoreApplication.translate("MainWindow", u"Primer", None))
         self.groupBox_2.setTitle(QCoreApplication.translate("MainWindow", u"A\u011f\u0131rl\u0131klar", None))

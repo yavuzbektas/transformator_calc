@@ -1248,7 +1248,7 @@
              <enum>QAbstractSpinBox::NoButtons</enum>
             </property>
             <property name="decimals">
-             <number>2</number>
+             <number>3</number>
             </property>
             <property name="maximum">
              <double>999999.000000000000000</double>
@@ -1280,7 +1280,7 @@
              <enum>QAbstractSpinBox::NoButtons</enum>
             </property>
             <property name="decimals">
-             <number>2</number>
+             <number>3</number>
             </property>
             <property name="maximum">
              <double>999999.000000000000000</double>
@@ -1322,7 +1322,7 @@
              <enum>QAbstractSpinBox::NoButtons</enum>
             </property>
             <property name="decimals">
-             <number>2</number>
+             <number>3</number>
             </property>
             <property name="maximum">
              <double>999999.000000000000000</double>
@@ -1386,7 +1386,7 @@
              <enum>QAbstractSpinBox::NoButtons</enum>
             </property>
             <property name="decimals">
-             <number>2</number>
+             <number>3</number>
             </property>
             <property name="maximum">
              <double>999999.000000000000000</double>
@@ -1418,7 +1418,7 @@
              <enum>QAbstractSpinBox::NoButtons</enum>
             </property>
             <property name="decimals">
-             <number>2</number>
+             <number>3</number>
             </property>
             <property name="maximum">
              <double>999999.000000000000000</double>
@@ -1460,7 +1460,7 @@
              <enum>QAbstractSpinBox::NoButtons</enum>
             </property>
             <property name="decimals">
-             <number>2</number>
+             <number>3</number>
             </property>
             <property name="maximum">
              <double>999999.000000000000000</double>
@@ -1512,7 +1512,7 @@
              <enum>QAbstractSpinBox::NoButtons</enum>
             </property>
             <property name="decimals">
-             <number>2</number>
+             <number>3</number>
             </property>
             <property name="maximum">
              <double>999999.000000000000000</double>
@@ -1544,7 +1544,7 @@
              <enum>QAbstractSpinBox::NoButtons</enum>
             </property>
             <property name="decimals">
-             <number>2</number>
+             <number>3</number>
             </property>
             <property name="maximum">
              <double>999999.000000000000000</double>
@@ -1576,7 +1576,7 @@
              <enum>QAbstractSpinBox::NoButtons</enum>
             </property>
             <property name="decimals">
-             <number>2</number>
+             <number>3</number>
             </property>
             <property name="maximum">
              <double>999999.000000000000000</double>
@@ -1608,7 +1608,7 @@
              <enum>QAbstractSpinBox::NoButtons</enum>
             </property>
             <property name="decimals">
-             <number>2</number>
+             <number>3</number>
             </property>
             <property name="maximum">
              <double>999999.000000000000000</double>
@@ -1640,7 +1640,7 @@
              <enum>QAbstractSpinBox::NoButtons</enum>
             </property>
             <property name="decimals">
-             <number>2</number>
+             <number>3</number>
             </property>
             <property name="maximum">
              <double>999999.000000000000000</double>
@@ -1682,7 +1682,7 @@
              <enum>QAbstractSpinBox::UpDownArrows</enum>
             </property>
             <property name="decimals">
-             <number>2</number>
+             <number>3</number>
             </property>
             <property name="maximum">
              <double>999999.000000000000000</double>
@@ -1757,7 +1757,7 @@
              <enum>QAbstractSpinBox::NoButtons</enum>
             </property>
             <property name="decimals">
-             <number>2</number>
+             <number>3</number>
             </property>
             <property name="maximum">
              <double>999999.000000000000000</double>
@@ -1809,7 +1809,7 @@
              <enum>QAbstractSpinBox::NoButtons</enum>
             </property>
             <property name="decimals">
-             <number>2</number>
+             <number>3</number>
             </property>
             <property name="maximum">
              <double>999999.000000000000000</double>
@@ -1858,14 +1858,17 @@
           <property name="focusPolicy">
            <enum>Qt::StrongFocus</enum>
           </property>
+          <property name="insertPolicy">
+           <enum>QComboBox::NoInsert</enum>
+          </property>
           <item>
            <property name="text">
-            <string>Değerler Doğru</string>
+            <string>Değerlerleri Değiştir</string>
            </property>
           </item>
           <item>
            <property name="text">
-            <string>Değerler Yanlış</string>
+            <string>Değerler Doğru</string>
            </property>
           </item>
          </widget>

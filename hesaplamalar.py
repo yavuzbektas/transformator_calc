@@ -87,8 +87,7 @@ def akim_hesap_1(guc, gerilim):
     except Exception as error:
         print(error,inspect.currentframe().f_code.co_name)
         sonuc=0
-    return sonuc 
-    
+    return sonuc   
 def akim_hesap_2(kesit, akim_yogunlugu):
     return kesit * akim_yogunlugu
 def akim_hesap_3(guc, gerilim):
@@ -105,7 +104,6 @@ def akim_hesap_4(guc, gerilim):
         print(error,inspect.currentframe().f_code.co_name)
         sonuc=0
     return sonuc 
-
 def akim_hesap_5(guc, gerilim):
     try : 
         sonuc =guc /gerilim/math.sqrt(3)
@@ -119,16 +117,14 @@ def akim_hesap_6(guc, gerilim):
     except Exception as error:
         print(error,inspect.currentframe().f_code.co_name)
         sonuc=0
-    return sonuc
-    
+    return sonuc    
 def kesit_hesap_1(akim, akim_yogunlugu):  # akım yogunluguna göre
     try:
        sonuc= akim / akim_yogunlugu
     except Exception as error:
         print(error,inspect.currentframe().f_code.co_name)
         sonuc=0
-    return sonuc
-    
+    return sonuc  
 def kesit_hesap_2(cap):  # çap değerine göre
     return cap ** 2 * math.pi / 4
 def kesit_hesap_3(kenar1, kenar2):
@@ -140,8 +136,6 @@ def cap_hesap_1(kesit):
         print(error,inspect.currentframe().f_code.co_name)
         sonuc=0
     return sonuc
-
-
 def akim_yogunlugu_1(tel_turu, cu_par, cu_yog, al_par, al_yog, dig_par, dig_yog):
     
     if tel_turu == "Cu":
@@ -172,6 +166,8 @@ def karkas_yuk(karkas_en):
     return karkas_en * 1.5 - math.floor(karkas_en * 0.15)
 def karkas_yuk_2(karkas_en):
     return karkas_en * 3 - math.floor(karkas_en * 0.15)
+def karkas_yuk_oto(karkas_en):
+    return karkas_en * 1.5 - math.floor(karkas_en * 0.15)
 def karkas_Ac_oto(c, guc, frekans):
     try : 
         sonuc =c * math.sqrt(guc / (2 * frekans))
@@ -318,7 +314,6 @@ def gauss_onerilen_hesapla(sac):
         gauss = 10500
         c_deg = 7
     return gauss,c_deg
-
 def trafo_olcu_hesapla_1(sac_tipi,karkas_en,karkas_boy,karkas_yuk,nuve_bosluk):
     if sac_tipi=="ei_sac":
         olcu_a=math.ceil(karkas_en*2+2*(karkas_en/2+nuve_bosluk))
@@ -334,7 +329,6 @@ def trafo_olcu_hesapla_1(sac_tipi,karkas_en,karkas_boy,karkas_yuk,nuve_bosluk):
     olcu_e=karkas_boy+karkas_en/2+2+2
     olcu_f=0
     return (olcu_a,olcu_b,olcu_c,olcu_d,olcu_e,olcu_f)
-
 def trafo_olcu_hesapla_2(sac_tipi,karkas_en,karkas_boy,karkas_yuk,nuve_bosluk,sarim_yukseklik_toplam,primer_izolasyon):
     if sac_tipi=="ei_sac":
         olcu_a=math.ceil(karkas_en*6 )
@@ -484,7 +478,7 @@ def end_hesap_1(gerilim,frekans,akim):
     sonuc =0.0
     try : 
         
-        sonuc =  gerilim / (2*math.pi * frekans* akim)
+        sonuc =  gerilim / (2*math.pi * frekans* akim)*1000
         
     except Exception as error:
         print(error,inspect.currentframe().f_code.co_name)
@@ -521,14 +515,14 @@ def ApSac_hesap_1(karkas_en,karkas_boy):
     return sonuc 
 def Lg_mpl_hesap_1(mpl,enduktans,karkas_man,sp1,karkas_en,karkas_boy,Um):
     try : 
-        sonuc = 0.4*math.pi*sp1*10**2*karkas_en/(10**8*enduktans/1000)-mpl/Um
+        sonuc = 0.4*math.pi*sp1**2*karkas_man/(10**8*(enduktans/1000))-(mpl/Um)
     except Exception as error:
         print(error,inspect.currentframe().f_code.co_name)
         sonuc=0
     return sonuc 
 def Lg_oto_hesap_1(enduktans,karkas_man,sp1,karkas_en,karkas_boy):
     try : 
-        sonuc = 0.4*math.pi*sp1*10**2*karkas_en/(10**8*enduktans/1000)
+        sonuc = 0.4*math.pi*sp1**2*karkas_man/(10**8*enduktans/1000)
     except Exception as error:
         print(error,inspect.currentframe().f_code.co_name)
         sonuc=0
@@ -3589,6 +3583,7 @@ def trafo_hesap_monofaz_sont( gl, guc, frekans,
             # Karkas Man Hesabı -------------------------
             degerler["karkas_man"]=karkas_Ac(karkas_en=karkas_en,karkas_boy=karkas_boy)
             degerler["karkas_oto"]=karkas_Ac_oto(c=c, guc=guc, frekans=frekans)
+            degerler["karkas_yuk_oto"]=karkas_yuk_oto(karkas_en=karkas_en)
             degerler["mpl"]=mpl_hesap_1(karkas_en=karkas_en,karkas_yuk=karkas_yuk)
             # Enduktans Hesabı -------------------------
             degerler["akim_t"]=gl[0]["akim1"]
