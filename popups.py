@@ -826,9 +826,12 @@ class KesitParamdialog(QDialog):
         self.Kf=0
         self.Ku=0
         self.Um  =0 
+        self.Lg_man=0
         self.klemens_a=0
         self.klemens_b=0
         self.ayak_a=0
+        self.akim_m = 0.0
+        self.enduktans_m = 0.0
     def veri_kumesi(self):
         self.group_list_items = [self.ui.doubleSpinBox_akim1, self.ui.doubleSpinBox_akim2,
                                       self.ui.doubleSpinBox_cap1,
@@ -1588,6 +1591,65 @@ class KesitParamdialog(QDialog):
                         dig_yog=self.dig_yog)
         elif self.trafoTipi=="monofaz_sont":    
             degerler=hp.trafo_hesap_monofaz_sont(gl, guc, frekans,
+                        gauss, karkas_en, karkas_boy,
+                        karkas_yuk, verim, sarim,
+                        primer_sarim_yukseklik_toplam=self.primer_sarim_yukseklik_toplam,
+                        cu_par= self.cu_par,
+                        cu_yog=self.cu_yog,
+                        al_par=self.al_par ,
+                        al_yog=self.al_yog,
+                        dig_par=self.dig_par,
+                        dig_yog=self.dig_yog,
+                        Lg_man=self.Lg_man, 
+                        c=self.c, 
+                        Kf=self.Kf, 
+                        Ku=self.Ku, 
+                        Um=self.Um,
+                        klemens_a=self.klemens_a,
+                        klemens_b=self.klemens_b,
+                        ayak_a=self.ayak_a)
+        elif self.trafoTipi=="trifaz_sont":    
+            degerler=hp.trafo_hesap_trifaz_sont(gl, guc, frekans,
+                        gauss, karkas_en, karkas_boy,
+                        karkas_yuk, verim, sarim,
+                        primer_sarim_yukseklik_toplam=self.primer_sarim_yukseklik_toplam,
+                        cu_par= self.cu_par,
+                        cu_yog=self.cu_yog,
+                        al_par=self.al_par ,
+                        al_yog=self.al_yog,
+                        dig_par=self.dig_par,
+                        dig_yog=self.dig_yog,
+                        Lg_man=self.Lg_man, 
+                        c=self.c, 
+                        Kf=self.Kf, 
+                        Ku=self.Ku, 
+                        Um=self.Um,
+                        klemens_a=self.klemens_a,
+                        klemens_b=self.klemens_b,
+                        ayak_a=self.ayak_a)
+        elif self.trafoTipi=="monofaz_sok":    
+            degerler=hp.trafo_hesap_monofaz_sok(gl, guc, frekans,
+                        gauss, karkas_en, karkas_boy,
+                        karkas_yuk, verim, sarim,
+                        primer_sarim_yukseklik_toplam=self.primer_sarim_yukseklik_toplam,
+                        cu_par= self.cu_par,
+                        cu_yog=self.cu_yog,
+                        al_par=self.al_par ,
+                        al_yog=self.al_yog,
+                        dig_par=self.dig_par,
+                        dig_yog=self.dig_yog,
+                        Lg_man=self.Lg_man, 
+                        c=self.c, 
+                        Kf=self.Kf, 
+                        Ku=self.Ku, 
+                        Um=self.Um,
+                        klemens_a=self.klemens_a,
+                        klemens_b=self.klemens_b,
+                        ayak_a=self.ayak_a,
+                        akim_m=self.akim_m,
+                        enduktans_m=self.enduktans_m)
+        elif self.trafoTipi=="trifaz_sok":    
+            degerler=hp.trafo_hesap_trifaz_sok(gl, guc, frekans,
                         gauss, karkas_en, karkas_boy,
                         karkas_yuk, verim, sarim,
                         primer_sarim_yukseklik_toplam=self.primer_sarim_yukseklik_toplam,

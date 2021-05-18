@@ -934,8 +934,11 @@ class mydb():
         query = "SELECT *  FROM sac_tekfaz  WHERE sac_tekfaz.sac_olcu ORDER BY ABS(sac_tekfaz.sac_olcu - {}) LIMIT 1 ".format( filter_value)
         data = self.fetchall(query)
         return data
-
-# sac_trifaz secimi   
+    def show_nearest_MPLvalue_tekfaz(self, filter_value):
+        query = "SELECT *  FROM sac_tekfaz  WHERE sac_tekfaz.At_deg ORDER BY ABS(sac_tekfaz.At_deg - {}) LIMIT 1 ".format( filter_value)
+        data = self.fetchall(query)
+        return data
+    # sac_trifaz secimi   
     def check_sac_trifaz(self,values):
         query = "SELECT id,sac_olcu,a_deg,b_deg,c_deg,d_deg,e_deg,f_deg,h_deg,i_deg,k1_deg,k2_deg,ag1_deg,ag2_deg,Ac_deg,Wa_deg,Ap_deg,Kg_deg,At_deg,MPL_deg,MLT_deg FROM sac_trifaz WHERE sac_olcu='%s'" % values
         data = self.fetchone(query)
@@ -975,5 +978,9 @@ class mydb():
         return data
     def show_nearest_value_trifaz(self, filter_value):
         query = "SELECT *  FROM sac_trifaz  WHERE sac_trifaz.sac_olcu ORDER BY ABS(sac_trifaz.sac_olcu - {}) LIMIT 1 ".format( filter_value)
+        data = self.fetchall(query)
+        return data
+    def show_nearest_MPLvalue_trifaz(self, filter_value):
+        query = "SELECT *  FROM sac_trifaz  WHERE sac_trifaz.Ap_deg ORDER BY ABS(sac_trifaz.Ap_deg - {}) LIMIT 1 ".format( filter_value)
         data = self.fetchall(query)
         return data

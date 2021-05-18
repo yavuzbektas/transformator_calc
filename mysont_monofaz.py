@@ -1,5 +1,5 @@
 
-# ======================  Oto Monofaz Trafo =========================
+# ====================== Şönt Monofaz Trafo =========================
 import  math
 from QT_file.mainsont_monofaz import Ui_MainWindow
 import db_sql,myConfig,printout
@@ -11,7 +11,7 @@ import json
 from collections import Counter
 import logging,logging.handlers
 
-# ======================  Oto Monofaz Trafo =========================
+# ======================  Şönt Monofaz Trafo =========================
 # ======================  Veri TAbanı Bağlantısı =========================
 db=db_sql.mydb() # veri tabanı bağlantısı
 # ===============================================
@@ -488,7 +488,7 @@ class SontMonofazwindow(QMainWindow):
         veri_kumesi.rec_veriler["Lg_man"] =self.ui.doubleSpinBox_Lg_man.value()
         veri_kumesi.rec_veriler["Kf"] =self.ui.doubleSpinBox_Kf.value() 
         veri_kumesi.rec_veriler["Ku"] =self.ui.doubleSpinBox_Ku.value() 
-        veri_kumesi.rec_veriler["Kf"] =self.ui.doubleSpinBox_Kf.value()
+        veri_kumesi.rec_veriler["Um"] =self.ui.doubleSpinBox_Um.value()
     def recete_deger_al(self,window):
         data = db.calldata_with_id_recete(window.ui.doubleSpinBox_ID.value())
         if data == None:
@@ -532,7 +532,7 @@ class SontMonofazwindow(QMainWindow):
         self.ui.doubleSpinBox_Lg_man.setValue(self.rec_veriler["Lg_man"])
         self.ui.doubleSpinBox_Kf.setValue(self.rec_veriler["Kf"]) 
         self.ui.doubleSpinBox_Ku.setValue(self.rec_veriler["Ku"]) 
-        self.ui.doubleSpinBox_Kf.setValue(self.rec_veriler["Kf"])
+        self.ui.doubleSpinBox_Um.setValue(self.rec_veriler["Um"])
         self.group_name_list_primer_kademe[0]=self.rec_veriler["primer_group_list"][0]
             
         self.hesaplamalari_guncelle()
@@ -970,8 +970,11 @@ class SontMonofazwindow(QMainWindow):
         printout.toplam_cu = str(self.ui.doubleSpinBox_toplamagirlik_cu.value())
         printout.karkas = str(self.ui.doubleSpinBox_karkas_en.value()) + " x " + str(
             self.ui.doubleSpinBox_karkas_boy.value()) + " x " + str(self.ui.doubleSpinBox_karkas_yukseklik.value())
-        printout.trafo_olcu = str(self.ui.doubleSpinBox_trafoolcu_a.value()) + " x " + str(
-            self.ui.doubleSpinBox_trafoolcu_b.value()) + " x " + str(self.ui.doubleSpinBox_trafoolcu_c.value())
+        printout.trafo_olcu = (str(self.ui.doubleSpinBox_trafoolcu_a.value()) + " x " + 
+            str(self.ui.doubleSpinBox_trafoolcu_b.value()) + 
+            " x " + str(self.ui.doubleSpinBox_trafoolcu_c.value()) +
+            " x " + str(self.ui.doubleSpinBox_trafoolcu_d.value()) +
+            " x " + str(self.ui.doubleSpinBox_trafoolcu_e.value()))
         if self.ui.doubleSpinBox_kesmeSacAgirlik.value()>0:
             
             printout.sac_agirlik = str(self.ui.doubleSpinBox_kesmeSacAgirlik.value()) + " kg"
@@ -1005,6 +1008,25 @@ class SontMonofazwindow(QMainWindow):
         printout.kesit_listesi=self.kesit_listesi
         printout.sac_tipi=self.ui.comboBox_sactipi.currentText()
         printout.karkas_kod=self.ui.lineEdit_mlz_karkas.text()
+        printout.apSacaGore=self.ui.doubleSpinBox_apSacaGore.value()
+        printout.akim_t=self.ui.doubleSpinBox_akim_t.value()
+        printout.enduktans=self.ui.doubleSpinBox_enduktans.value()
+        printout.Sp1=self.ui.doubleSpinBox_Sp1.value()
+        printout.Lg_oto=self.ui.doubleSpinBox_Lg_oto.value()
+        printout.f_oto=self.ui.doubleSpinBox_f_oto.value()
+        printout.Sp_oto=self.ui.doubleSpinBox_Sp_oto.value()
+        printout.Lg_mpl=self.ui.doubleSpinBox_Lg_mpl.value()
+        printout.f_mpl=self.ui.doubleSpinBox_f_mpl.value()
+        printout.Sp_mpl=self.ui.doubleSpinBox_Sp_mpl.value()
+        printout.Lg_man=self.ui.doubleSpinBox_Lg_man.value()
+        printout.f_man=self.ui.doubleSpinBox_f_man.value()
+        printout.Sp_man=self.ui.doubleSpinBox_Sp_man.value()
+        printout.Ap=self.ui.doubleSpinBox_Ap.value()
+        printout.mpl=self.ui.doubleSpinBox_mpl.value()
+        printout.karkas_cm_man = self.ui.doubleSpinBox_karkas_cm_oto.value()
+        printout.karkas_cm_oto= self.ui.doubleSpinBox_karkas_cm.value()
+        printout.bosluk =self.ui.doubleSpinBox_8.value()
+        printout.karkas_yuk_oto = self.ui.doubleSpinBox_karkas_yuk_oto.value()
     def printout_report(self):
         self.printout_veri_kumesi()
         printout.monofazSont_printout()

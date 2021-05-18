@@ -84,6 +84,25 @@ izolasyon_karsiligi=0
 va_guclist=[]
 mlz_listesi=[]
 kesit_listesi=[]
+apSacaGore=0.0
+akim_t=0.0
+enduktans=0.0
+Sp1=0.0
+Lg_oto=0.0
+f_oto=0.0
+Sp_oto=0.0
+Lg_mpl=0.0
+f_mpl=0.0
+Sp_mpl=0.0
+Lg_man=0.0
+f_man=0.0
+Sp_man=0.0
+Ap=0.0
+mpl=0.0
+karkas_cm_man=0.0
+karkas_cm_oto=0.0
+bosluk=0.0
+karkas_yuk_oto =0.0
 # ====================================================
     
 def topline(ws,tarih,trafo_tipi=trafo_tipi):
@@ -418,6 +437,27 @@ def mlz_listesi_olustur(ws2,start_row_list):
         a20 = ws2.cell(row=start_row_list, column=3, value=kesit)
         
         start_row_list+=1
+def rightSide_values(ws, last_row=9):
+    
+    a1=ws.cell(row=last_row + 1, column=12, value=bosluk)
+    a2=ws.cell(row=last_row + 2, column=12, value=enduktans)
+    a3=ws.cell(row=last_row + 3, column=12, value=akim_t)
+    a4=ws.cell(row=last_row + 4, column=12, value=apSacaGore)
+    a5=ws.cell(row=last_row + 5, column=12, value=Ap)
+    a6=ws.cell(row=last_row + 6, column=12, value=mpl)
+    a7=ws.cell(row=last_row + 7, column=12, value=karkas_cm_oto)
+    a8=ws.cell(row=last_row + 8, column=12, value=karkas_cm_man)
+    a9=ws.cell(row=last_row + 9, column=12, value=Sp1)
+    a10=ws.cell(row=last_row + 10, column=12, value=Lg_oto)
+    a11=ws.cell(row=last_row + 11, column=12, value=f_oto)
+    a12=ws.cell(row=last_row + 12, column=12, value=Sp_oto)
+    a13=ws.cell(row=last_row + 13, column=12, value=Lg_mpl)
+    a14=ws.cell(row=last_row + 14, column=12, value=f_mpl)
+    a15=ws.cell(row=last_row + 15, column=12, value=Sp_mpl)
+    a16=ws.cell(row=last_row + 16, column=12, value=Lg_man)
+    a17=ws.cell(row=last_row + 17, column=12, value=f_man)
+    a18=ws.cell(row=last_row + 18, column=12, value=Sp_man)
+    a2.alignment = Alignment(horizontal='center')   
 def izolasyon_mono_printout():
     wb = load_workbook(REPORT_DIR+ 'demo.xlsx')
     ws=wb.active
@@ -626,11 +666,12 @@ def izolasyon_monofazUI_printout():
     except Exception as err:
         print(err)    
 def monofazSont_printout():
-    wb = load_workbook(REPORT_DIR+ 'demo.xlsx')
+    wb = load_workbook(REPORT_DIR+ 'sont_template.xlsx')
     ws=wb.active
     topline(ws=ws,tarih=datetime.datetime.now(),trafo_tipi=trafo_tipi)
     
     bottomline(ws=ws,last_row=30)
+    rightSide_values(ws=ws)
     max_number,primer_number,sek_number,va_number=find_last_row(ws=ws,primer_kademe=primer_kademe,sekonder_kademe=0,va_kademe=0,va_altkademe=0,va_enabled=False)
 
     insert_row(ws=ws,start_row=30,number=max_number+4)
@@ -654,12 +695,81 @@ def monofazSont_printout():
     mlz_listesi_olustur(ws2,start_row_list)
     
     try:
-        wb_save(DIR=REPORT_DIR,name='izolasyon_MonoFazSont.xlsx',wb=wb)
-        file = REPORT_DIR+"izolasyon_MonoFazSont.xlsx"
+        wb_save(DIR=REPORT_DIR,name='MonoFazSont.xlsx',wb=wb)
+        file = REPORT_DIR+"MonoFazSont.xlsx"
         os.startfile(file)
     except Exception as err:
         print(err)    
+def trifazSont_printout():
+    wb = load_workbook(REPORT_DIR+ 'sont_template.xlsx')
+    ws=wb.active
+    topline(ws=ws,tarih=datetime.datetime.now(),trafo_tipi=trafo_tipi)
+    
+    bottomline(ws=ws,last_row=30)
+    rightSide_values(ws=ws)
+    max_number,primer_number,sek_number,va_number=find_last_row(ws=ws,primer_kademe=primer_kademe,sekonder_kademe=0,va_kademe=0,va_altkademe=0,va_enabled=False)
 
+    insert_row(ws=ws,start_row=30,number=max_number+4)
+    ws.merge_cells(start_row=max_number+4+31, start_column=2, end_column=5, end_row=max_number+4+31)
+    ws.merge_cells(start_row=max_number+4+32, start_column=2, end_column=5, end_row=max_number+4+32)
+    ws.merge_cells(start_row=max_number+4+33, start_column=2, end_column=5, end_row=max_number+4+33)
+    ws.merge_cells(start_row=max_number+4+34, start_column=2, end_column=5, end_row=max_number+4+34)
+    ws.merge_cells(start_row=max_number+4+35, start_column=2, end_column=5, end_row=max_number+4+35)
+    ws.merge_cells(start_row=max_number+4+36, start_column=2, end_column=5, end_row=max_number+4+36)
+    start_row=va_number
+    
+    
+    
+    insert_kademe_value(ws=ws,start_row=10+primer_number,kademe_name="primer",kademe=primer_kademe,values=primer_group_list)
+    
+    insert_image_trafo(ws=ws,last_row=max_number+45,image=Image(IMAGE_DIR +"o_mui.png"))
+    
+    
+    ws2=wb.get_sheet_by_name("M_Listesi")
+    start_row_list=3
+    mlz_listesi_olustur(ws2,start_row_list)
+    
+    try:
+        wb_save(DIR=REPORT_DIR,name='MonoFazSont.xlsx',wb=wb)
+        file = REPORT_DIR+"MonoFazSont.xlsx"
+        os.startfile(file)
+    except Exception as err:
+        print(err)    
+def monofazSok_printout():
+    wb = load_workbook(REPORT_DIR+ 'sont_template.xlsx')
+    ws=wb.active
+    topline(ws=ws,tarih=datetime.datetime.now(),trafo_tipi=trafo_tipi)
+    
+    bottomline(ws=ws,last_row=30)
+    rightSide_values(ws=ws)
+    max_number,primer_number,sek_number,va_number=find_last_row(ws=ws,primer_kademe=primer_kademe,sekonder_kademe=0,va_kademe=0,va_altkademe=0,va_enabled=False)
+
+    insert_row(ws=ws,start_row=30,number=max_number+4)
+    ws.merge_cells(start_row=max_number+4+31, start_column=2, end_column=5, end_row=max_number+4+31)
+    ws.merge_cells(start_row=max_number+4+32, start_column=2, end_column=5, end_row=max_number+4+32)
+    ws.merge_cells(start_row=max_number+4+33, start_column=2, end_column=5, end_row=max_number+4+33)
+    ws.merge_cells(start_row=max_number+4+34, start_column=2, end_column=5, end_row=max_number+4+34)
+    ws.merge_cells(start_row=max_number+4+35, start_column=2, end_column=5, end_row=max_number+4+35)
+    ws.merge_cells(start_row=max_number+4+36, start_column=2, end_column=5, end_row=max_number+4+36)
+    start_row=va_number
+    
+    
+    
+    insert_kademe_value(ws=ws,start_row=10+primer_number,kademe_name="primer",kademe=primer_kademe,values=primer_group_list)
+    
+    insert_image_trafo(ws=ws,last_row=max_number+45,image=Image(IMAGE_DIR +"o_mui.png"))
+    
+    
+    ws2=wb.get_sheet_by_name("M_Listesi")
+    start_row_list=3
+    mlz_listesi_olustur(ws2,start_row_list)
+    
+    try:
+        wb_save(DIR=REPORT_DIR,name='MonoFazSok.xlsx',wb=wb)
+        file = REPORT_DIR+"MonoFazSok.xlsx"
+        os.startfile(file)
+    except Exception as err:
+        print(err)    
 if __name__ == '__main__':
     pass    
 #izolasyon_mono_printout()

@@ -687,6 +687,7 @@ class Ui_MainWindow(object):
         self.comboBox_degerlendirme.setEnabled(False)
         self.comboBox_degerlendirme.setGeometry(QRect(0, 25, 231, 41))
         self.comboBox_degerlendirme.setFocusPolicy(Qt.StrongFocus)
+        self.comboBox_degerlendirme.setInsertPolicy(QComboBox.NoInsert)
         self.tabWidget_4.addTab(self.tab_13, "")
         self.groupBox_2 = QGroupBox(self.izolasyon_m_p)
         self.groupBox_2.setObjectName(u"groupBox_2")

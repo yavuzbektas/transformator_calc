@@ -1349,8 +1349,11 @@ class MonoUIwindow(QMainWindow):
         printout.toplam_cu = str(self.ui.doubleSpinBox_toplamagirlik_cu.value())
         printout.karkas = str(self.ui.doubleSpinBox_karkas_en.value()) + " x " + str(
             self.ui.doubleSpinBox_karkas_boy.value()) + " x " + str(self.ui.doubleSpinBox_karkas_yukseklik.value())
-        printout.trafo_olcu = str(self.ui.doubleSpinBox_trafoolcu_a.value()) + " x " + str(
-            self.ui.doubleSpinBox_trafoolcu_b.value()) + " x " + str(self.ui.doubleSpinBox_trafoolcu_c.value())
+        printout.trafo_olcu = (str(self.ui.doubleSpinBox_trafoolcu_a.value()) + " x " + 
+            str(self.ui.doubleSpinBox_trafoolcu_b.value()) + 
+            " x " + str(self.ui.doubleSpinBox_trafoolcu_c.value()) +
+            " x " + str(self.ui.doubleSpinBox_trafoolcu_d.value()) +
+            " x " + str(self.ui.doubleSpinBox_trafoolcu_e.value()))
         if self.ui.doubleSpinBox_kesmeSacAgirlik.value()>0:
             
             printout.sac_agirlik = str(self.ui.doubleSpinBox_kesmeSacAgirlik.value()) + " kg"
