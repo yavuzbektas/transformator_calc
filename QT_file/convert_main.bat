@@ -16,9 +16,9 @@
 :pyside2-uic mainsont_monofaz.ui > mainsont_monofaz.py
 :pyside2-uic mainsont_trifaz.ui > mainsont_trifaz.py
 pyside2-uic mainsok_monofaz.ui > mainsok_monofaz.py
+pyside2-uic mainsok_trifaz.ui > mainsok_trifaz.py
+
 
 :pyside2-uic mainharmonik.ui > mainharmonik.py
-
-:pyside2-uic mainsok_trifaz.ui > mainsok_trifaz.py
 :pyside2-uic mainups.ui > mainups.py
 :pyside2-rcc C:\Users\YBEKTAS\Desktop\Python\Projeler\Transformator_Calculate\software\source\\GUI\QT_file\icons.qrc -o C:\Users\YBEKTAS\Desktop\Python\Projeler\Transformator_Calculate\software\source\GUI\icons_rc.py

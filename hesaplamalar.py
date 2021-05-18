@@ -91,6 +91,16 @@ def spir_hesap_11(gerilim,gauss,frekans,karkas_man,Kf):
         print(error,inspect.currentframe().f_code.co_name)
         sonuc=0
     return sonuc
+def spir_hesap_12(Lg,enduktans,f_man,karkas_man,mpl,Um):
+    sonuc=0
+    if f_man==0:
+        return sonuc
+    try:
+       sonuc= math.sqrt((Lg+ (mpl/Um))* (enduktans /1000 ) * 10**8/ (0.4 * math.pi*karkas_man*f_man))
+    except Exception as error:
+        print(error,inspect.currentframe().f_code.co_name)
+        sonuc=0
+    return sonuc
 def akim_hesap_1(guc, gerilim):
     try : 
         sonuc =guc / gerilim
@@ -521,6 +531,20 @@ def end_hesap_2(gerilim,frekans,akim):
         print(error,inspect.currentframe().f_code.co_name)
         sonuc=0.0
     return sonuc 
+def end_hesap_3(gerilim,frekans,akim,enduktans_m):
+    sonuc =0.0
+    if enduktans_m>0:
+        sonuc=enduktans_m
+        return sonuc
+    else:
+        try : 
+            
+            sonuc =  (gerilim / (2*math.pi * frekans* akim))*1000
+            
+        except Exception as error:
+            print(error,inspect.currentframe().f_code.co_name)
+            sonuc=0.0
+        return sonuc 
 def mpl_hesap_1(karkas_en,karkas_yuk):
     try : 
         sonuc =  (karkas_en*6+2*karkas_yuk)/10
@@ -5006,11 +5030,6 @@ def trafo_hesap_monofaz_sok( gl, guc, frekans,
             gl[0]["agr_kapton_4"] = 0
         return dict(degerler)  
 
-
-
-
-
-
 # düzeltilecek 
 def trafo_hesap_trifaz_sok( gl, guc, frekans, 
                    gauss, karkas_en, karkas_boy, 
@@ -5026,16 +5045,25 @@ def trafo_hesap_trifaz_sok( gl, guc, frekans,
                     c,Kf,Ku,Um,
                     klemens_a, 
                     klemens_b, 
-                    ayak_a):
+                    ayak_a,
+                    akim_m,
+                    enduktans_m):
         
         degerler = {}
-        
-           
-        if gl[0]["voltaj"]> 0 :
+        degerler["volt_m"]=0.0
+        if akim_m > 0.0 :
+            
+            degerler["volt_m"]=float(voltaj_m_hesap_1(enduktans=0, enduktans_m=enduktans_m, akim=akim_m, frekans=frekans))
+            
+        degerler["guc_m"]=0.0   
+        if gl[0]["voltaj"]== 0 and degerler["volt_m"]>0:
+            gl[0]["voltaj"]=float(degerler["volt_m"])
+        elif gl[0]["voltaj"]> 0 :
+            degerler["guc_m"]  =  akim_m * gl[0]["voltaj"]*3
             
             # Akım 1 Hesabı -------------------------
             
-            gl[0]["akim1"]=akim_hesap_3(guc=guc,gerilim=gl[0]["voltaj"])
+            gl[0]["akim1"]=round(akim_m)
                     
             # Kesit 1 Hesabı -------------------------
             gl[0]["kesit1"]=kesit_hesap_1(
@@ -5053,19 +5081,10 @@ def trafo_hesap_trifaz_sok( gl, guc, frekans,
                 kesit=gl[0]["kesit1"])
             # Karkas Man Hesabı -------------------------
             degerler["karkas_man"]=karkas_Ac(karkas_en=karkas_en,karkas_boy=karkas_boy)
-            degerler["karkas_oto"]=karkas_Ac_oto_2(c=c, guc=guc, frekans=frekans)
+            degerler["karkas_oto"]=karkas_Ac_oto_2(c=c, guc=degerler["guc_m"], frekans=frekans)
             degerler["karkas_yuk_oto"]=karkas_yuk_2(karkas_en=karkas_en)
-            
-            # Enduktans Hesabı -------------------------
-            degerler["akim_t"]=gl[0]["akim1"]
-            degerler["enduktans"]= end_hesap_2(
-                gerilim=gl[0]["voltaj"],
-                frekans=frekans, 
-                akim=gl[0]["akim1"])
-            # F man Hesabı -------------------------
-            degerler["f_man"] = f_hesap_1(Lg=Lg_man, karkas_Ac=degerler["karkas_man"], karkas_yuk=karkas_yuk)
             degerler["Ap"] = Ap_hesap_1(
-                guc=guc, 
+                guc=degerler["guc_m"], 
                 karkas_yuk=karkas_yuk, 
                 Kf=Kf, 
                 Ku=Ku, 
@@ -5079,6 +5098,17 @@ def trafo_hesap_trifaz_sok( gl, guc, frekans,
                 dig_par=dig_par, 
                 dig_yog=dig_yog)
             degerler["mpl"]=mpl_hesap_2(Ap=degerler["Ap"])
+            # Enduktans Hesabı -------------------------
+            degerler["akim_t"]=gl[0]["akim1"]
+            degerler["enduktans"]= end_hesap_3(
+                gerilim=gl[0]["voltaj"],
+                frekans=frekans, 
+                akim=gl[0]["akim1"],
+                enduktans_m=enduktans_m)
+            degerler["volt_m"]=float(voltaj_m_hesap_1(enduktans= degerler["enduktans"], enduktans_m=enduktans_m, akim=akim_m, frekans=frekans))
+            # F man Hesabı -------------------------
+            degerler["f_man"] = f_hesap_1(Lg=Lg_man, karkas_Ac=degerler["karkas_man"], karkas_yuk=karkas_yuk)
+            
             degerler["ApSac"] = ApSac_hesap_2(karkas_en=karkas_en, karkas_boy=karkas_boy)
             degerler["sp1"] =spir_hesap_11(
                 gerilim=gl[0]["voltaj"], 
@@ -5111,11 +5141,17 @@ def trafo_hesap_trifaz_sok( gl, guc, frekans,
                 klemens_a=klemens_a, 
                 klemens_b=klemens_b, 
                 ayak_a=ayak_a)
-            degerler["trafoOlcu_a"],degerler["trafoOlcu_b"],degerler["trafoOlcu_c"],degerler["trafoOlcu_d"],degerler["trafoOlcu_e"],degerler["trafoOlcu_f"]=trafo_olcu_hesapla_6(karkas_en=karkas_en, karkas_boy=karkas_boy)
             degerler["sac_agirlik"]=sac_agirlik_trifaz(karkas_en=karkas_en,karkas_boy=karkas_boy)
+            degerler["bosluk"]=0
             # spir 1 Hesabı -------------------------
 
-            gl[0]["spir1"]=spir_hesap_8(Lg=Lg_man,enduktans=degerler["enduktans"],f_man= degerler["f_man"],karkas_man=degerler["karkas_man"])
+            gl[0]["spir1"]=spir_hesap_12(
+                Lg=Lg_man,
+                enduktans=degerler["enduktans"],
+                f_man= degerler["f_man"],
+                karkas_man=degerler["karkas_man"],
+                mpl=degerler["mpl"],
+                Um=Um)
             degerler["sp1_man"] =  gl[0]["spir1"]  
             # spir 2 Hesabı -------------------------
             if gl[0]["check_spir_man"]==True:
@@ -5355,6 +5391,7 @@ def trafo_hesap_trifaz_sok( gl, guc, frekans,
                                                                 kesit_2=gl[0]["kapton4"],
                                                                 tel_yogunluk=1330)
                 else:
+                    
                     gl[0]["tel_agirlik"]=0
                     gl[0]["agr_tel_1"] = 0
                     gl[0]["agr_tel_2"] = 0

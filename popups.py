@@ -1666,7 +1666,9 @@ class KesitParamdialog(QDialog):
                         Um=self.Um,
                         klemens_a=self.klemens_a,
                         klemens_b=self.klemens_b,
-                        ayak_a=self.ayak_a)
+                        ayak_a=self.ayak_a,
+                        akim_m=self.akim_m,
+                        enduktans_m=self.enduktans_m)
         self.load_selected_kademe(kademe=kademe)
         # for i in range (0,self.max_kademe):
         #
