@@ -36,7 +36,7 @@
      <enum>QFrame::StyledPanel</enum>
     </property>
     <property name="currentIndex">
-     <number>1</number>
+     <number>0</number>
     </property>
     <widget class="QWidget" name="izolasyon_m_p">
      <widget class="QGroupBox" name="groupBox_26">
@@ -1245,13 +1245,16 @@
              <set>Qt::AlignCenter</set>
             </property>
             <property name="buttonSymbols">
-             <enum>QAbstractSpinBox::NoButtons</enum>
+             <enum>QAbstractSpinBox::UpDownArrows</enum>
             </property>
             <property name="decimals">
              <number>3</number>
             </property>
             <property name="maximum">
              <double>999999.000000000000000</double>
+            </property>
+            <property name="singleStep">
+             <double>0.010000000000000</double>
             </property>
            </widget>
           </item>
@@ -1796,7 +1799,7 @@
              <set>Qt::AlignCenter</set>
             </property>
             <property name="buttonSymbols">
-             <enum>QAbstractSpinBox::NoButtons</enum>
+             <enum>QAbstractSpinBox::UpDownArrows</enum>
             </property>
             <property name="decimals">
              <number>3</number>
@@ -3773,6 +3776,12 @@
        <property name="alignment">
         <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
        </property>
+       <property name="decimals">
+        <number>3</number>
+       </property>
+       <property name="maximum">
+        <double>999.000000000000000</double>
+       </property>
        <property name="singleStep">
         <double>0.050000000000000</double>
        </property>
@@ -3843,7 +3852,7 @@
         <number>0</number>
        </property>
        <property name="maximum">
-        <double>99999.000000000000000</double>
+        <double>999999.000000000000000</double>
        </property>
        <property name="singleStep">
         <double>250.000000000000000</double>
@@ -3894,6 +3903,9 @@
        </property>
        <property name="alignment">
         <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+       </property>
+       <property name="maximum">
+        <double>999.000000000000000</double>
        </property>
        <property name="singleStep">
         <double>0.500000000000000</double>
@@ -4383,6 +4395,9 @@ Yogunluk:</string>
        <property name="maximum">
         <double>999.990000000000009</double>
        </property>
+       <property name="singleStep">
+        <double>0.500000000000000</double>
+       </property>
        <property name="value">
         <double>50.000000000000000</double>
        </property>
@@ -4441,7 +4456,7 @@ Yogunluk:</string>
         </rect>
        </property>
        <property name="decimals">
-        <number>2</number>
+        <number>3</number>
        </property>
        <property name="singleStep">
         <double>0.500000000000000</double>
@@ -4580,7 +4595,7 @@ Yogunluk:</string>
         </rect>
        </property>
        <property name="decimals">
-        <number>2</number>
+        <number>3</number>
        </property>
        <property name="singleStep">
         <double>0.500000000000000</double>
@@ -4719,7 +4734,7 @@ Yogunluk:</string>
         </rect>
        </property>
        <property name="decimals">
-        <number>2</number>
+        <number>3</number>
        </property>
        <property name="singleStep">
         <double>0.500000000000000</double>

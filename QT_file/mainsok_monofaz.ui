@@ -1245,13 +1245,16 @@
              <set>Qt::AlignCenter</set>
             </property>
             <property name="buttonSymbols">
-             <enum>QAbstractSpinBox::NoButtons</enum>
+             <enum>QAbstractSpinBox::UpDownArrows</enum>
             </property>
             <property name="decimals">
              <number>3</number>
             </property>
             <property name="maximum">
              <double>999999.000000000000000</double>
+            </property>
+            <property name="singleStep">
+             <double>0.010000000000000</double>
             </property>
            </widget>
           </item>
@@ -1796,7 +1799,7 @@
              <set>Qt::AlignCenter</set>
             </property>
             <property name="buttonSymbols">
-             <enum>QAbstractSpinBox::NoButtons</enum>
+             <enum>QAbstractSpinBox::UpDownArrows</enum>
             </property>
             <property name="decimals">
              <number>3</number>
@@ -3689,6 +3692,9 @@
        <property name="alignment">
         <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
        </property>
+       <property name="singleStep">
+        <double>0.500000000000000</double>
+       </property>
        <property name="value">
         <double>0.500000000000000</double>
        </property>
@@ -3804,6 +3810,12 @@
        </property>
        <property name="alignment">
         <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+       </property>
+       <property name="decimals">
+        <number>3</number>
+       </property>
+       <property name="singleStep">
+        <double>0.500000000000000</double>
        </property>
        <property name="value">
         <double>7.000000000000000</double>
@@ -4287,6 +4299,15 @@ Yogunluk:</string>
        <property name="alignment">
         <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
        </property>
+       <property name="decimals">
+        <number>2</number>
+       </property>
+       <property name="maximum">
+        <double>9999.000000000000000</double>
+       </property>
+       <property name="singleStep">
+        <double>0.500000000000000</double>
+       </property>
        <property name="value">
         <double>50.000000000000000</double>
        </property>
@@ -4345,7 +4366,13 @@ Yogunluk:</string>
         </rect>
        </property>
        <property name="decimals">
-        <number>1</number>
+        <number>3</number>
+       </property>
+       <property name="maximum">
+        <double>999.990000000000009</double>
+       </property>
+       <property name="singleStep">
+        <double>0.100000000000000</double>
        </property>
        <property name="value">
         <double>1.000000000000000</double>
@@ -4481,7 +4508,13 @@ Yogunluk:</string>
         </rect>
        </property>
        <property name="decimals">
-        <number>1</number>
+        <number>3</number>
+       </property>
+       <property name="maximum">
+        <double>999.990000000000009</double>
+       </property>
+       <property name="singleStep">
+        <double>0.100000000000000</double>
        </property>
        <property name="value">
         <double>1.600000000000000</double>
@@ -4617,7 +4650,13 @@ Yogunluk:</string>
         </rect>
        </property>
        <property name="decimals">
-        <number>1</number>
+        <number>3</number>
+       </property>
+       <property name="maximum">
+        <double>999.990000000000009</double>
+       </property>
+       <property name="singleStep">
+        <double>0.100000000000000</double>
        </property>
        <property name="value">
         <double>3.000000000000000</double>

@@ -832,7 +832,10 @@ class SokMonofazwindow(QMainWindow):
         else:
                 gl2[0][11].setVisible(True)
                 gl2[0][10].setVisible(False)
-    
+        if gl[0]["check_spir_man"] ==True:
+            self.ui.doubleSpinBox_Lg_man.setEnabled(False)
+        else:
+            self.ui.doubleSpinBox_Lg_man.setEnabled(True)
     def voltaj_check(self,gl):
         for i in range(0,len(gl)-1):
             if gl[i]["voltaj"]>0 and gl[i]["voltaj"]>gl[i+1]["voltaj"] and gl[i+1]["voltaj"]>0:
