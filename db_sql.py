@@ -981,6 +981,7 @@ class mydb():
         data = self.fetchall(query)
         return data
     def show_nearest_MPLvalue_trifaz(self, filter_value):
-        query = "SELECT *  FROM sac_trifaz  WHERE sac_trifaz.Ap_deg<{} ORDER BY ABS(sac_trifaz.Ap_deg - {}) LIMIT 1 ".format( filter_value,filter_value)
+        #query = "SELECT *  FROM sac_trifaz  WHERE sac_trifaz.Ap_deg<={} ORDER BY ABS(sac_trifaz.Ap_deg - {}) LIMIT 1 ".format( filter_value,filter_value)
+        query = "SELECT *  FROM sac_trifaz  WHERE sac_trifaz.At_deg ORDER BY ABS(sac_trifaz.At_deg - {}) LIMIT 1 ".format( filter_value)
         data = self.fetchall(query)
         return data

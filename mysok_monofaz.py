@@ -239,7 +239,7 @@ class SokMonofazwindow(QMainWindow):
             
             if self.window3.ui.lineEdit_ayak_name.text()!="":
                 self.ayak_deger_al(ayak_name=self.window3.ui.lineEdit_ayak_name.text(),a=self.window3.ui.doubleSpinBox_ayak_a.value())
-        
+            self.klemens_icon_update()
         self.window3.ui.pushButton_sec.clicked.connect(klemens_data_tarnsfer)
     def open_ayak(self):
         self.window3 = popup.Klemensdialog()
@@ -253,7 +253,7 @@ class SokMonofazwindow(QMainWindow):
             
             if self.window3.ui.lineEdit_ayak_name.text()!="":
                 self.ayak_deger_al(ayak_name=self.window3.ui.lineEdit_ayak_name.text(),a=self.window3.ui.doubleSpinBox_ayak_a.value())
-        
+            self.klemens_icon_update()
         self.window3.ui.pushButton_sec.clicked.connect(klemens_data_tarnsfer)
     def open_genel_parametre(self):
         self.window3 = popup.GenelParamdialog()
@@ -810,8 +810,8 @@ class SokMonofazwindow(QMainWindow):
             self.ui.doubleSpinBox_olcu_b.setValue(degerler["nuveOlcu_b"])
             self.ui.doubleSpinBox_olcu_c.setValue(degerler["nuveOlcu_c"])
             self.ui.doubleSpinBox_sacagirlik.setValue(degerler["sac_agirlik"])
-            self.ui.doubleSpinBox_karkas_cm_oto.setValue(degerler["karkas_man"])
-            self.ui.doubleSpinBox_karkas_cm.setValue(degerler["karkas_oto"])
+            self.ui.doubleSpinBox_karkas_cm_oto.setValue(degerler["karkas_oto"])
+            self.ui.doubleSpinBox_karkas_cm.setValue(degerler["karkas_man"])
             self.ui.doubleSpinBox_8.setValue(degerler["bosluk"])
             self.ui.doubleSpinBox_karkas_yuk_oto.setValue(degerler["karkas_yuk_oto"])
             self.ui.doubleSpinBox_guc.setValue(degerler["guc_m"])
@@ -1028,7 +1028,7 @@ class SokMonofazwindow(QMainWindow):
         printout.karkas_kod=self.ui.lineEdit_mlz_karkas.text()
         
         printout.akim_t=self.ui.doubleSpinBox_akim_t.value()
-        printout.enduktans=self.ui.doubleSpinBox_enduktans.value()
+        printout.enduktans=self.ui.doubleSpinBox_enduktans_2.value()
         printout.Sp1=self.ui.doubleSpinBox_Sp1.value()
         printout.Lg_oto=self.ui.doubleSpinBox_Lg_oto.value()
         printout.f_oto=self.ui.doubleSpinBox_f_oto.value()

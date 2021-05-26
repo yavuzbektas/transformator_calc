@@ -298,7 +298,7 @@ class OtoTrifazwindow(QMainWindow):
             
             if self.window3.ui.lineEdit_ayak_name.text()!="":
                 self.ayak_deger_al(ayak_name=self.window3.ui.lineEdit_ayak_name.text(),a=self.window3.ui.doubleSpinBox_ayak_a.value())
-        
+            self.klemens_icon_update()
         self.window3.ui.pushButton_sec.clicked.connect(klemens_data_tarnsfer)
     def open_ayak(self):
         self.window3 = popup.Klemensdialog()
@@ -312,7 +312,7 @@ class OtoTrifazwindow(QMainWindow):
             
             if self.window3.ui.lineEdit_ayak_name.text()!="":
                 self.ayak_deger_al(ayak_name=self.window3.ui.lineEdit_ayak_name.text(),a=self.window3.ui.doubleSpinBox_ayak_a.value())
-        
+            self.klemens_icon_update()
         self.window3.ui.pushButton_sec.clicked.connect(klemens_data_tarnsfer)
     def open_genel_parametre(self):
         self.window3 = popup.GenelParamdialog()
