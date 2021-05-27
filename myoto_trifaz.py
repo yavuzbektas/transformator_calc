@@ -802,14 +802,7 @@ class OtoTrifazwindow(QMainWindow):
             bosluk = hp.bosluk_hesap_1(karkas_en=self.ui.doubleSpinBox_karkas_en.value(),
             primer_top_yuk=primer_top_yuk,sekonder_top_yuk =sekonder_top_yuk ,primer_izolasyon=self.primer_izolasyon)
             self.ui.doubleSpinBox_nuvebosluk.setEnabled(False)
-        elif self.ui.comboBox_sactipi.currentIndex()==0 :
-            self.ui.doubleSpinBox_nuvebosluk.setEnabled(False)
-            bosluk=hp.bosluk_hesap_2(
-                karkas_en=self.ui.doubleSpinBox_karkas_en.value(),
-                primer_top_yuk= primer_top_yuk,
-                sekonder_top_yuk=sekonder_top_yuk,
-                sva1_yuk= sva1_yuk,sva2_yuk= sva2_yuk,sva3_yuk= sva3_yuk,sva4_yuk= sva4_yuk,sva5_yuk= sva5_yuk,
-                sva6_yuk= sva6_yuk,sva7_yuk= sva7_yuk,sva8_yuk= sva8_yuk,sva9_yuk= sva9_yuk,sva10_yuk= sva10_yuk,toplam_izolasyon=self.toplam_izolasyon)
+        
         elif self.ui.comboBox_sactipi.currentIndex()==1 :
             bosluk = hp.bosluk_hesap_3(karkas_en=self.ui.doubleSpinBox_karkas_en.value(),
             primer_top_yuk=primer_top_yuk,sekonder_top_yuk=sekonder_top_yuk,primer_izolasyon=self.primer_izolasyon,kesme_sac_bosluk=self.ui.doubleSpinBox_nuvebosluk.value())

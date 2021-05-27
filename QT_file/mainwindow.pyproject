@@ -1,3 +1,3 @@
 {
-    "files": ["izolasyon.ui","icons.qrc","kesit_param2.ui","tel_select.ui","about.ui","mainwindow.py","mainsont_monofaz.ui","karkas.ui","reciepe.ui","mainwindow2.ui","genel_param.ui","mainsok_monofaz.ui","mainoto_monofaz.ui","mainmonoUI.ui","klemens.ui","mainizole_trifaz.ui","kesit_param.ui","mainsont_trifaz.ui","login.ui","mainoto_trifaz.ui","mainsok_trifaz.ui"]
+    "files": ["icons.qrc","mainsont_trifaz.ui","kesit_param2.ui","mainwindow.py","login.ui","kesit_param.ui","mainoto_monofaz.ui","klemens.ui","mainsok_monofaz.ui","izolasyon.ui","tel_select.ui","reciepe.ui","genel_param.ui","mainizole_trifaz.ui","mainoto_trifaz.ui","mainwindow2.ui","mainmonoUI.ui","mainsok_trifaz.ui","karkas.ui","about.ui","mainsont_monofaz.ui","mainharmonik.ui"]
 }

@@ -101,6 +101,7 @@ def spir_hesap_12(Lg,enduktans,f_man,karkas_man,mpl,Um):
         print(error,inspect.currentframe().f_code.co_name)
         sonuc=0
     return sonuc
+
 def akim_hesap_1(guc, gerilim):
     try : 
         sonuc =guc / gerilim
@@ -473,6 +474,7 @@ def gobekSacAgirlik_hesap_1(sac_tipi,karkas_en,karkas_yuk):
     else:
         gobekSac=0
     return gobekSac
+
 def gobekSacAgirlik_hesap_2(sac_tipi,karkas_en):
     gobekSac=0
     if sac_tipi=="ei_sac":
@@ -482,6 +484,16 @@ def gobekSacAgirlik_hesap_2(sac_tipi,karkas_en):
     else:
         gobekSac=0
     return gobekSac
+def gobekSacAgirlik_hesap_3(sac_tipi,karkas_en,karkas_yuk):
+    gobekSac=0
+    if sac_tipi=="ei_sac":
+        gobekSac=karkas_en*3
+    elif sac_tipi=="kesme_sac":    
+        gobekSac=karkas_yuk+karkas_en*0.1
+    else:
+        gobekSac=0
+    return gobekSac
+
 def kesmeSacAgirlik_hesap_1(sac_tipi,karkas_en,karkas_boy,nuve_bosluk,gobek_sac,yan_sac,sac_yogunluk):
     kesmeSac=0
     if sac_tipi=="ei_sac":
@@ -556,7 +568,6 @@ def end_hesap_3(gerilim,frekans,akim,enduktans_m):
             print(error,inspect.currentframe().f_code.co_name)
             sonuc=0.0
         return sonuc 
-
 def end_hesap_4(sp,karkas_man,f,Lg):
     sonuc =0.0
     
@@ -671,6 +682,18 @@ def Lg_oto_hesap_1(enduktans,karkas_man,sp1,karkas_en,karkas_boy):
         sonuc=0
     return sonuc 
  #  Trafa Formüllerininn hesaplanmasıı --
+def Lg_oto_hesap_2(enduktans,karkas_man,sp1,karkas_en,karkas_boy,MPL,Um):
+    if enduktans <=0:
+        sonuc=0
+        return sonuc 
+    try : 
+        sonuc = 0.4*math.pi*sp1**2*karkas_man/(10**8*enduktans/1000) - MPL/Um
+    except Exception as error:
+        print(error,inspect.currentframe().f_code.co_name)
+        sonuc=0
+    return sonuc 
+ #  Trafa Formüllerininn hesaplanmasıı --
+
 def voltaj_m_hesap_1(enduktans,enduktans_m,akim,frekans):
     if enduktans_m>0:
        end=  enduktans_m/1000
@@ -5096,7 +5119,6 @@ def trafo_hesap_monofaz_sok( gl, guc, frekans,
         #     gl[0]["agr_kapton_4"] = 0
         return dict(degerler)  
 
-
 def trafo_hesap_trifaz_sok( gl, guc, frekans, 
                    gauss, karkas_en, karkas_boy, 
                    karkas_yuk, verim, sarim, 
@@ -5332,6 +5354,545 @@ def trafo_hesap_trifaz_sok( gl, guc, frekans,
             degerler["bosluk"]=bosluk_hesap_1(karkas_en=karkas_en,
             primer_top_yuk=gl[0]["sarim_yukseklik"],sekonder_top_yuk =0 ,primer_izolasyon=0)
             
+            # son kat
+            
+
+            try :
+                if math.fmod(gl[0]["spir2"], gl[0]["spirkat"]) == 0:
+                    gl[0]["sonkat_spir"]=gl[0]["spirkat"]
+                else:
+                    gl[0]["sonkat_spir"]=son_kat_hesap_1(
+                        spir_2=gl[0]["spir2"],
+                        spir_kat=gl[0]["spirkat"])
+            except Exception as err:
+                print(err)
+            
+                # kattaki bosluk ---------------------------
+            
+            gl[0]["katbosluk"]=kattaki_bosluk_hesap_1(
+                karkas_yuk=karkas_yuk,
+                tel_en=gl[0]["tel_en"],
+                son_kat=gl[0]["sonkat_spir"]
+            )
+            
+            
+
+            # tel uzunluk  ---------------------------
+            a0 = 2 * (karkas_en + karkas_boy) + 8 * 0.05 * karkas_en
+            
+            
+            
+            gl[0]["tel_uzunluk"]=((gl[0]["kat"] - 1) * ((2 * (karkas_en + karkas_boy)) +
+                                                8 * karkas_en * 0.05 + 4 * gl[0]["tel_yuk"]) + \
+                        (8 * gl[0]["tel_yuk"] * (gl[0]["kat"] - 1) * (gl[0]["kat"] - 2) / 2)) / 1000 *\
+                    gl[0]["spirkat"] + \
+                    ((2 * (karkas_en + karkas_boy)) + \
+                        8 * karkas_en * 0.05 + 4 * gl[0]["tel_yuk"] + \
+                        (8 * gl[0]["tel_yuk"] * (gl[0]["kat"] - 1))) / 1000 * gl[0]["sonkat_spir"]
+            
+
+            # tel agirlik  ---------------------------
+            if gl[0]["tel_uzunluk"] != 0:
+                gl[0]["tel_agirlik"]=tel_agirlik_hesap_1(tel_uzunluk=gl[0]["tel_uzunluk"], kesit_2=gl[0]["kesit2"],
+                                            tel_yogunluk=tel_yogunlugu_1(tel_turu=gl[0]["teltipi"],
+                cu_yog=cu_yog,
+                al_yog=al_yog,
+                dig_yog=dig_yog))
+                
+                gl[0]["agr_tel_1"]=tel_agirlik_hesap_1(tel_uzunluk=gl[0]["tel_uzunluk"], kesit_2=kesit_hesap_2(cap=gl[0]["mancap_1"]),
+                                            tel_yogunluk=tel_yogunlugu_1(tel_turu=gl[0]["teltipi"],
+                cu_yog=cu_yog,
+                al_yog=al_yog,
+                dig_yog=dig_yog))
+                gl[0]["agr_tel_2"] = tel_agirlik_hesap_1(tel_uzunluk=gl[0]["tel_uzunluk"],
+                                                            kesit_2=kesit_hesap_2(cap=gl[0]["mancap_2"]),
+                                                            tel_yogunluk=tel_yogunlugu_1(
+                                                                tel_turu=gl[0]["teltipi"],
+                cu_yog=cu_yog,
+                al_yog=al_yog,
+                dig_yog=dig_yog))
+                gl[0]["agr_tel_3"] = tel_agirlik_hesap_1(tel_uzunluk=gl[0]["tel_uzunluk"],
+                                                            kesit_2=kesit_hesap_2(cap=gl[0]["mancap_3"]),
+                                                            tel_yogunluk=tel_yogunlugu_1(
+                                                                tel_turu=gl[0]["teltipi"],
+                cu_yog=cu_yog,
+                al_yog=al_yog,
+                dig_yog=dig_yog))
+                gl[0]["agr_tel_4"] = tel_agirlik_hesap_1(tel_uzunluk=gl[0]["tel_uzunluk"],
+                                                            kesit_2=kesit_hesap_2(cap=gl[0]["mancap_4"]),
+                                                            tel_yogunluk=tel_yogunlugu_1(
+                                                                tel_turu=gl[0]["teltipi"],
+                cu_yog=cu_yog,
+                al_yog=al_yog,
+                dig_yog=dig_yog))
+                gl[0]["agr_karetel_1"] = tel_agirlik_hesap_1(tel_uzunluk=gl[0]["tel_uzunluk"],
+                                                            kesit_2=gl[0]["karetel11"] * gl[0]["karetel12"],
+                                                            tel_yogunluk=tel_yogunlugu_1(
+                                                                tel_turu=gl[0]["teltipi"],
+                cu_yog=cu_yog,
+                al_yog=al_yog,
+                dig_yog=dig_yog))
+                gl[0]["agr_karetel_2"] = tel_agirlik_hesap_1(tel_uzunluk=gl[0]["tel_uzunluk"],
+                                                                kesit_2=gl[0]["karetel21"] * gl[0]["karetel22"],
+                                                                tel_yogunluk=tel_yogunlugu_1(
+                                                                    tel_turu=gl[0]["teltipi"],
+                cu_yog=cu_yog,
+                al_yog=al_yog,
+                dig_yog=dig_yog))
+                gl[0]["agr_karetel_3"] = tel_agirlik_hesap_1(tel_uzunluk=gl[0]["tel_uzunluk"],
+                                                                kesit_2=gl[0]["karetel31"] * gl[0]["karetel32"],
+                                                                tel_yogunluk=tel_yogunlugu_1(
+                                                                    tel_turu=gl[0]["teltipi"],
+                cu_yog=cu_yog,
+                al_yog=al_yog,
+                dig_yog=dig_yog))
+                gl[0]["agr_karetel_4"] = tel_agirlik_hesap_1(tel_uzunluk=gl[0]["tel_uzunluk"],
+                                                                kesit_2=gl[0]["karetel41"] * gl[0]["karetel42"],
+                                                                tel_yogunluk=tel_yogunlugu_1(
+                                                                    tel_turu=gl[0]["teltipi"],
+                cu_yog=cu_yog,
+                al_yog=al_yog,
+                dig_yog=dig_yog))
+                gl[0]["agr_folyo_1"] = tel_agirlik_hesap_1(tel_uzunluk=gl[0]["tel_uzunluk"],
+                                                                kesit_2=gl[0]["folyotel11"] * gl[0]["folyotel12"],
+                                                                tel_yogunluk=tel_yogunlugu_1(
+                                                                    tel_turu=gl[0]["teltipi"],
+                cu_yog=cu_yog,
+                al_yog=al_yog,
+                dig_yog=dig_yog))
+                gl[0]["agr_folyo_2"] = tel_agirlik_hesap_1(tel_uzunluk=gl[0]["tel_uzunluk"],
+                                                            kesit_2=gl[0]["folyotel21"] * gl[0]["folyotel22"],
+                                                            tel_yogunluk=tel_yogunlugu_1(
+                                                                tel_turu=gl[0]["teltipi"],
+                cu_yog=cu_yog,
+                al_yog=al_yog,
+                dig_yog=dig_yog))
+                gl[0]["agr_folyo_3"] = tel_agirlik_hesap_1(tel_uzunluk=gl[0]["tel_uzunluk"],
+                                                            kesit_2=gl[0]["folyotel31"] * gl[0]["folyotel32"],
+                                                            tel_yogunluk=tel_yogunlugu_1(
+                                                                tel_turu=gl[0]["teltipi"],
+                cu_yog=cu_yog,
+                al_yog=al_yog,
+                dig_yog=dig_yog))
+                gl[0]["agr_folyo_4"] = tel_agirlik_hesap_1(tel_uzunluk=gl[0]["tel_uzunluk"],
+                                                            kesit_2=gl[0]["folyotel41"] * gl[0]["folyotel42"],
+                                                            tel_yogunluk=tel_yogunlugu_1(
+                                                                tel_turu=gl[0]["teltipi"],
+                cu_yog=cu_yog,
+                al_yog=al_yog,
+                dig_yog=dig_yog))
+                gl[0]["agr_kapton_1"] = tel_agirlik_hesap_1(tel_uzunluk=gl[0]["tel_uzunluk"],
+                                                            kesit_2=gl[0]["kapton1"],
+                                                            tel_yogunluk=1330)
+                gl[0]["agr_kapton_2"] = tel_agirlik_hesap_1(tel_uzunluk=gl[0]["tel_uzunluk"],
+                                                            kesit_2=gl[0]["kapton2"],
+                                                            tel_yogunluk=1330)
+                gl[0]["agr_kapton_3"] = tel_agirlik_hesap_1(tel_uzunluk=gl[0]["tel_uzunluk"],
+                                                            kesit_2=gl[0]["kapton3"],
+                                                            tel_yogunluk=1330)
+                gl[0]["agr_kapton_4"] = tel_agirlik_hesap_1(tel_uzunluk=gl[0]["tel_uzunluk"],
+                                                            kesit_2=gl[0]["kapton4"],
+                                                            tel_yogunluk=1330)
+            else:
+                
+                gl[0]["tel_agirlik"]=0
+                gl[0]["agr_tel_1"] = 0
+                gl[0]["agr_tel_2"] = 0
+                gl[0]["agr_tel_3"] = 0
+                gl[0]["agr_tel_4"] = 0
+                gl[0]["agr_karetel_1"] = 0
+                gl[0]["agr_karetel_2"] = 0
+                gl[0]["agr_karetel_3"] = 0
+                gl[0]["agr_karetel_4"] = 0
+                gl[0]["agr_folyo_1"] = 0
+                gl[0]["agr_folyo_2"] = 0
+                gl[0]["agr_folyo_3"] = 0
+                gl[0]["agr_folyo_4"] = 0
+                gl[0]["agr_kapton_1"] = 0
+                gl[0]["agr_kapton_2"] = 0
+                gl[0]["agr_kapton_3"] = 0
+                gl[0]["agr_kapton_4"] = 0
+
+        # else:
+        #     degerler.clear()
+        #     gl[0]["akim1"]=0
+        #     gl[0]["kesit1"]=0
+        #     gl[0]["cap1"]=0
+        #     gl[0]["spir1"]=0
+        #     gl[0]["cap2"]=0
+        #     gl[0]["akim2"]=0
+        #     gl[0]["spir2"]=0
+        #     gl[0]["folyotel11"]=0
+        #     gl[0]["folyotel12"]=0
+        #     gl[0]["folyotel21"]=0
+        #     gl[0]["folyotel22"]=0
+        #     gl[0]["folyotel31"]=0
+        #     gl[0]["folyotel32"]=0
+        #     gl[0]["folyotel41"]=0
+        #     gl[0]["folyotel42"]=0
+        #     gl[0]["kapton1"]=0
+        #     gl[0]["kapton2"]=0
+        #     gl[0]["kapton3"]=0
+        #     gl[0]["kapton4"]=0
+        #     gl[0]["karetel11"]=0
+        #     gl[0]["karetel12"]=0
+        #     gl[0]["karetel21"]=0
+        #     gl[0]["karetel22"]=0
+        #     gl[0]["karetel31"]=0
+        #     gl[0]["karetel32"]=0
+        #     gl[0]["karetel41"]=0
+        #     gl[0]["karetel42"]=0
+        #     gl[0]["kesit2"]=0
+        #     gl[0]["tel_en"]=0
+        #     gl[0]["tel_yuk"]=0
+        #     gl[0]["spirkat"]=0
+        #     gl[0]["kat"]=0
+        #     gl[0]["katbosluk"]=0
+        #     gl[0]["tel_uzunluk"]=0
+        #     gl[0]["tel_agirlik"]=0
+        #     gl[0]["sarim_yukseklik"]=0
+        #     gl[0]["sonkat_spir"]=0
+        #     gl[0]["check_spir_man"] = False
+        #     gl[0]["kesit_ok"]=False
+        #     gl[0]["kesit_error"]=True
+        #     gl[0]["akim_ok"]=False
+        #     gl[0]["akim_error"]=True
+        #     gl[0]["mancap_1"]=0
+        #     gl[0]["mancap_2"]=0
+        #     gl[0]["mancap_3"]=0
+        #     gl[0]["mancap_4"]=0
+        #     gl[0]["mlz_tel_1"] = ""
+        #     gl[0]["mlz_tel_2"] = ""
+        #     gl[0]["mlz_tel_3"] =  ""
+        #     gl[0]["mlz_tel_4"] =  ""
+        #     gl[0]["mlz_karetel_1"] =  ""
+        #     gl[0]["mlz_karetel_2"] =  ""
+        #     gl[0]["mlz_karetel_3"] =  ""
+        #     gl[0]["mlz_karetel_4"] =  ""
+        #     gl[0]["mlz_folyotel_1"] =  ""
+        #     gl[0]["mlz_folyotel_2"] =  ""
+        #     gl[0]["mlz_folyotel_3"] =  ""
+        #     gl[0]["mlz_folyotel_4"] =  ""
+        #     gl[0]["mlz_kapton_1"] =  ""
+        #     gl[0]["mlz_kapton_2"] =  ""
+        #     gl[0]["mlz_kapton_3"] =  ""
+        #     gl[0]["mlz_kapton_4"] =  ""
+        #     gl[0]["gb_check_tel_1"] =  False
+        #     gl[0]["gb_check_tel_2"] =  False
+        #     gl[0]["gb_check_tel_3"] =  False
+        #     gl[0]["gb_check_tel_4"] =  False
+        #     gl[0]["gb_check_karetel_1"]= False
+        #     gl[0]["gb_check_karetel_2"]= False
+        #     gl[0]["gb_check_karetel_3"]= False
+        #     gl[0]["gb_check_karetel_4"]= False
+        #     gl[0]["gb_check_folyotel_1"]= False
+        #     gl[0]["gb_check_folyotel_2"]= False
+        #     gl[0]["gb_check_folyotel_3"]= False
+        #     gl[0]["gb_check_folyotel_4"]= False
+        #     gl[0]["gb_check_kapton_1"]= False
+        #     gl[0]["gb_check_kapton_2"]= False
+        #     gl[0]["gb_check_kapton_3"]= False
+        #     gl[0]["gb_check_kapton_4"]= False
+        #     gl[0]["tel_agirlik"] = 0
+        #     gl[0]["agr_tel_1"] = 0
+        #     gl[0]["agr_tel_2"] = 0
+        #     gl[0]["agr_tel_3"] = 0
+        #     gl[0]["agr_tel_4"] = 0
+        #     gl[0]["agr_karetel_1"] = 0
+        #     gl[0]["agr_karetel_2"] = 0
+        #     gl[0]["agr_karetel_3"] = 0
+        #     gl[0]["agr_karetel_4"] = 0
+        #     gl[0]["agr_folyo_1"] = 0
+        #     gl[0]["agr_folyo_2"] = 0
+        #     gl[0]["agr_folyo_3"] = 0
+        #     gl[0]["agr_folyo_4"] = 0
+        #     gl[0]["agr_kapton_1"] = 0
+        #     gl[0]["agr_kapton_2"] = 0
+        #     gl[0]["agr_kapton_3"] = 0
+        #     gl[0]["agr_kapton_4"] = 0
+        return dict(degerler)  
+
+def trafo_hesap_trifaz_Harmonik( gl, guc, frekans, 
+                   gauss, karkas_en, karkas_boy, 
+                   karkas_yuk, verim, sarim, 
+                   primer_sarim_yukseklik_toplam,
+                   cu_par,
+                    cu_yog,
+                    al_par,
+                    al_yog,
+                    dig_par,
+                    dig_yog,
+                    Lg_man,
+                    c,Kf,Ku,Um,
+                    klemens_a, 
+                    klemens_b, 
+                    ayak_a,
+                    akim_m,
+                    enduktans_m,
+                    sacTipi,
+                    nuveBosluk,
+                    sacYogunluk):
+        
+        degerler = {}
+        degerler["volt_m"]=0.0
+        if akim_m > 0.0 :
+            
+            degerler["volt_m"]=float(voltaj_m_hesap_1(enduktans=0, enduktans_m=enduktans_m, akim=akim_m, frekans=frekans))
+            
+        degerler["guc_m"]=0.0   
+        if gl[0]["voltaj"]== 0 and degerler["volt_m"]>0:
+            gl[0]["voltaj"]=float(degerler["volt_m"])
+        elif gl[0]["voltaj"]> 0 :
+            degerler["guc_m"]  =  akim_m * gl[0]["voltaj"]*3
+            
+        # Akım 1 Hesabı -------------------------
+        
+        gl[0]["akim1"]=round(akim_m)
+                
+        # Kesit 1 Hesabı -------------------------
+        gl[0]["kesit1"]=kesit_hesap_1(
+            akim=gl[0]["akim1"],
+            akim_yogunlugu=akim_yogunlugu_1(
+                tel_turu=gl[0]["teltipi"],
+                cu_par=cu_par,
+                cu_yog=cu_yog,
+                al_par=al_par,
+                al_yog=al_yog,
+                dig_par=dig_par,
+                dig_yog=dig_yog))
+        # cap 1 Hesabı -------------------------
+        gl[0]["cap1"]=cap_hesap_1(
+            kesit=gl[0]["kesit1"])
+        # Karkas Man Hesabı -------------------------
+        degerler["karkas_man"]=karkas_Ac(karkas_en=karkas_en,karkas_boy=karkas_boy)
+        degerler["karkas_oto"]=karkas_Ac_oto(c=c, guc=degerler["guc_m"], frekans=frekans)
+        degerler["karkas_yuk_oto"]=karkas_yuk_2(karkas_en=karkas_en)
+        degerler["Ap"] = Ap_hesap_1(
+            guc=degerler["guc_m"], 
+            karkas_yuk=karkas_yuk, 
+            Kf=Kf, 
+            Ku=Ku, 
+            gauss=gauss, 
+            frekans=frekans, 
+            tel_turu=gl[0]["teltipi"], 
+            cu_par=cu_par, 
+            cu_yog=cu_yog, 
+            al_par=al_par, 
+            al_yog=al_yog, 
+            dig_par=dig_par, 
+            dig_yog=dig_yog)
+        degerler["mpl"]=mpl_hesap_1(karkas_en=karkas_en,karkas_yuk=karkas_yuk)
+        
+        degerler["akim_t"]=gl[0]["akim1"]
+        # F man Hesabı -------------------------
+        degerler["f_man"] = f_hesap_1(Lg=Lg_man, karkas_Ac=degerler["karkas_man"], karkas_yuk=karkas_yuk)
+        degerler["ApSac"] = ApSac_hesap_2(karkas_en=karkas_en, karkas_boy=karkas_boy)
+        degerler["sp1"] =spir_hesap_10(
+            gerilim=gl[0]["voltaj"], 
+            gauss=gauss, 
+            frekans=frekans, 
+            karkas_man=degerler["karkas_man"], 
+            Kf=Kf)
+        # Enduktans Hesabı -------------------------
+        if gl[0]["check_spir_man"]==True:
+                degerler["enduktans"]= end_hesap_3(
+                sp= gl[0]["spir2"],
+                karkas_man=degerler["karkas_man"], 
+                f=degerler["f_man"], 
+                Lg=Lg_man,
+                MPL=degerler["mpl"],
+                Um=Um
+                )
+        else:
+           
+            degerler["enduktans"]= end_hesap_1(
+                gerilim=gl[0]["voltaj"],
+                frekans=frekans, 
+                akim=gl[0]["akim1"]
+                )
+         
+        degerler["volt_m"]=float(voltaj_m_hesap_1(enduktans= degerler["enduktans"], enduktans_m=enduktans_m, akim=akim_m, frekans=frekans))
+          
+        degerler["Lg_mpl"] = Lg_mpl_hesap_1(
+            mpl=degerler["mpl"], 
+            enduktans=degerler["enduktans"], 
+            karkas_man=degerler["karkas_man"], 
+            sp1=degerler["sp1"], 
+            karkas_en=karkas_en, 
+            karkas_boy=karkas_boy,
+            Um=Um)
+        degerler["Lg_oto"] = Lg_oto_hesap_2(
+            enduktans=degerler["enduktans"], 
+            karkas_man=degerler["karkas_man"], 
+            sp1=degerler["sp1"], 
+            karkas_en=karkas_en, 
+            karkas_boy=karkas_boy,
+            MPL=degerler["mpl"],
+            Um=Um)
+        degerler["f_oto"]=f_hesap_1(Lg= degerler["Lg_oto"], karkas_Ac=degerler["karkas_man"], karkas_yuk=karkas_yuk)
+        degerler["sp1_oto"]=spir_hesap_12(
+            Lg=degerler["Lg_oto"],
+            enduktans=degerler["enduktans"],
+            f_man= degerler["f_oto"],
+            karkas_man=degerler["karkas_man"],
+            mpl=degerler["mpl"],
+            Um=Um)
+        degerler["f_mpl"]=f_hesap_1(Lg=degerler["Lg_mpl"], karkas_Ac=degerler["karkas_man"], karkas_yuk=karkas_yuk)
+        degerler["sp1_mpl"]=spir_hesap_8(Lg=degerler["Lg_mpl"],enduktans=degerler["enduktans"],f_man= degerler["f_mpl"],karkas_man=degerler["karkas_man"])
+        degerler["nuveOlcu_a"],degerler["nuveOlcu_b"],degerler["nuveOlcu_c"]=nuve_olcu_hesapla_4(
+            karkas_en=karkas_en, 
+            karkas_boy=karkas_boy, 
+            klemens_a=klemens_a, 
+            klemens_b=klemens_b, 
+            ayak_a=ayak_a)
+        degerler["sac_agirlik"]=sac_agirlik_trifaz(karkas_en=karkas_en,karkas_boy=karkas_boy)
+        degerler["kesmeSac_agirlik"]=0
+        
+        degerler["bosluk"]=0
+        # spir 1 Hesabı -------------------------
+
+        gl[0]["spir1"]=degerler["sp1_oto"]
+        degerler["sp1_man"] =  spir_hesap_12(
+            Lg=Lg_man,
+            enduktans=degerler["enduktans"],
+            f_man= degerler["f_man"],
+            karkas_man=degerler["karkas_man"],
+            mpl=degerler["mpl"],
+            Um=Um) 
+        # spir 2 Hesabı -------------------------
+        if gl[0]["check_spir_man"]==True:
+            pass
+        else:
+            gl[0]["spir2"]=round(gl[0]["spir1"])
+        # Kesit 2 Hesabı -------------------------
+        gl[0]["kesit2"]= kesit_hesap_2(cap=gl[0]["mancap_1"]) + \
+            kesit_hesap_2(cap=gl[0]["mancap_2"]) +\
+            kesit_hesap_2(cap=gl[0]["mancap_3"]) +\
+            kesit_hesap_2(cap=gl[0]["mancap_4"]) +\
+            (gl[0]["folyotel11"] * gl[0]["folyotel12"]) +\
+            (gl[0]["folyotel21"] * gl[0]["folyotel22"]) +\
+            (gl[0]["folyotel31"] * gl[0]["folyotel32"]) +\
+            (gl[0]["folyotel41"] * gl[0]["folyotel42"]) +\
+            (gl[0]["karetel11"] * gl[0]["karetel12"]) +\
+            (gl[0]["karetel21"] * gl[0]["karetel22"]) +\
+            (gl[0]["karetel31"] * gl[0]["karetel32"]) +\
+            (gl[0]["karetel41"] * gl[0]["karetel42"])
+        # Akım 2 Hesabı -------------------------
+        gl[0]["akim2"]=akim_hesap_2(
+
+            kesit=gl[0]["kesit2"],
+            akim_yogunlugu=akim_yogunlugu_1(
+                tel_turu=gl[0]["teltipi"],
+                cu_par=cu_par,
+                cu_yog=cu_yog,
+                al_par=al_par,
+                al_yog=al_yog,
+                dig_par=dig_par,
+                dig_yog=dig_yog))
+        # cap 2 Hesabı -------------------------
+        gl[0]["cap2"]= gl[0]["mancap_1"] + gl[0]["mancap_2"] + gl[0]["mancap_3"] + gl[0]["mancap_4"]
+        # akım 2 ve kesit 2 kontrol -------------------------
+        if gl[0]["kesit1"] <= gl[0]["kesit2"]:
+            gl[0]["kesit_ok"]=True
+            gl[0]["kesit_error"]=False
+        else:
+            gl[0]["kesit_ok"]=False
+            gl[0]["kesit_error"]=True
+        if gl[0]["akim1"] <= gl[0]["akim2"]:
+            gl[0]["akim_ok"]=True
+            gl[0]["akim_error"]=False
+        else:
+            gl[0]["akim_ok"]=False
+            gl[0]["akim_error"]=True
+        # -------------------------
+        tel_cap = 0
+
+        for tel_kademe in range(1, 5):
+
+            data = db.showfilter_tel_spir(filter_value=gl[0][f"mancap_{tel_kademe}"] , index=0)
+
+            if data == [] and gl[0][f"mancap_{tel_kademe}"] > 0:
+                tel_cap +=  (gl[0]["mancap_1"]) * 1.02
+            elif data != [] and gl[0][f"mancap_{tel_kademe}"] > 0:
+                tel_cap += data[0][4]
+        
+        # tel yüksekliği Hesabı -------------------------
+        gl[0]["tel_yuk"]=tel_yukseklik_hesap_1(
+            tel_cap=tel_cap, karetel_yuk1=gl[0]["karetel12"],
+            karetel_yuk2=gl[0]["karetel22"],
+            karetel_yuk3=gl[0]["karetel32"], karetel_yuk4=gl[0]["karetel42"],
+            folyo_yuk1=gl[0]["folyotel12"], folyo_yuk2=gl[0]["folyotel22"],
+            folyo_yuk3=gl[0]["folyotel32"], folyo_yuk4=gl[0]["folyotel42"],
+            kapton1=gl[0]["kapton1"], kapton2=gl[0]["kapton2"],
+            kapton3=gl[0]["kapton3"], kapton4=gl[0]["kapton4"])
+        # tel en Hesabı -------------------------
+        gl[0]["tel_en"]= tel_en_hesap_1(
+            tel_cap=tel_cap,
+            karetel_en1=gl[0]["karetel11"],
+            karetel_en2=gl[0]["karetel21"],
+            karetel_en3=gl[0]["karetel31"], karetel_en4=gl[0]["karetel41"],
+            folyo_en1=gl[0]["folyotel11"], folyo_en2=gl[0]["folyotel21"],
+            folyo_en3=gl[0]["folyotel31"], folyo_en4=gl[0]["folyotel41"],
+            )
+
+        if gl[0]["tel_en"] > 0:
+            # spir kat Hesabı -------------------------
+            gl[0]["spirkat"]=spir_kat_hesap_1(
+                karkas_yuk=karkas_yuk,
+                tel_en=gl[0]["tel_en"])
+
+            #  kat sayısı -------------------------------
+            
+            gl[0]["kat"]=kat_sayisi_hesap_1(
+                spir=gl[0]["spir2"],
+                spir_kat=gl[0]["spirkat"])
+
+            
+            # sarım yuksekliği  -------------------------
+            gl[0]["sarim_yukseklik"]=sarim_yüksekligi_hesap_1(
+                tel_yuk=gl[0]["tel_yuk"],
+                kat_sayisi=gl[0]["kat"])
+            
+            # kesme sac agirlik -----------------
+            if sacTipi==1:
+                sactipi_txt="kesme_sac"
+                degerler["sac_agirlik"]=0
+            else:
+                sactipi_txt="ei_sac"
+        
+            yan_sac_agirlik=yanSacAgirlik_hesap_1(
+                sac_tipi=sactipi_txt,
+                karkas_en=karkas_en,
+                toplam_sarim_Yukseklik = gl[0]["sarim_yukseklik"],
+                primer_izolasyon=0,
+                nuveBosluk=nuveBosluk
+                 )
+            gobekSac_agirlik=gobekSacAgirlik_hesap_3(
+                sac_tipi=sactipi_txt,
+                karkas_en=karkas_en,
+                karkas_yuk=karkas_yuk)
+            degerler["kesmeSac_agirlik"]=kesmeSacAgirlik_hesap_1(
+                sac_tipi=sactipi_txt,
+                karkas_en=karkas_en,
+                karkas_boy=karkas_boy,
+                nuve_bosluk=nuveBosluk,
+                gobek_sac = gobekSac_agirlik,
+                yan_sac=yan_sac_agirlik,
+                sac_yogunluk=sacYogunluk )
+            # bosluk   -------------------------
+            degerler["bosluk"]=bosluk_hesap_1(karkas_en=karkas_en,
+            primer_top_yuk=gl[0]["sarim_yukseklik"],sekonder_top_yuk =0 ,primer_izolasyon=0)
+            if sacTipi==0 :
+                degerler["bosluk"] = bosluk_hesap_1(karkas_en=karkas_en,
+                primer_top_yuk=gl[0]["sarim_yukseklik"],sekonder_top_yuk =0 ,primer_izolasyon=0)
+                
+            
+            elif sacTipi==1 :
+                degerler["bosluk"] =bosluk_hesap_3(karkas_en=karkas_en,
+                primer_top_yuk=gl[0]["sarim_yukseklik"],sekonder_top_yuk=0,primer_izolasyon=0,kesme_sac_bosluk=nuveBosluk)
+                
+            else:
+                degerler["bosluk"]=0
             # son kat
             
 
