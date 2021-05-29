@@ -1696,6 +1696,20 @@ class KesitParamdialog(QDialog):
                         sacTipi=self.sacTipi,
                         nuveBosluk=self.nuveBosluk,
                         sacYogunluk=self.sacYogunluk)
+        elif self.trafoTipi=="UPS":
+            hp.trafo_hesap_UPS(gl, guc, frekans,
+                        gauss, karkas_en, karkas_boy,
+                        karkas_yuk, verim, sarim,
+                        primer_sarim_yukseklik_toplam=self.primer_sarim_yukseklik_toplam,
+                        primer_izolasyon=self.primer_izolasyon,
+                        baglanti=self.baglanti,
+                        kademe=kademe,
+                        cu_par= self.cu_par,
+                         cu_yog=self.cu_yog,
+                        al_par=self.al_par ,
+                        al_yog=self.al_yog,
+                        dig_par=self.dig_par,
+                        dig_yog=self.dig_yog)
         
         self.load_selected_kademe(kademe=kademe)
         # for i in range (0,self.max_kademe):
