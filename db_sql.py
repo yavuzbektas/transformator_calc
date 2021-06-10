@@ -9,7 +9,7 @@ __github__ = ""
 # #######################################
 db_type ="sqlite"
 
-import sqlite3,myConfig
+import sqlite3, myConfig , os
 
 TABLES = {}
 TABLES['users'] = ("CREATE TABLE `users` "
@@ -321,13 +321,17 @@ TABLES['recete'] = ("CREATE TABLE `recete` "
                     "`sva9_tel` TEXT ,"
                     "`sva10_tel` TEXT ,"
                    "`record_date` TIMESTAMP  DEFAULT CURRENT_TIMESTAMP )")
-
+TABLES['ips'] = ("CREATE TABLE `ips` ("
+                           "`id` INTEGER NOT NULL UNIQUE PRIMARY KEY  AUTOINCREMENT,"
+                           "`ip_no` TEXT,"
+                           "`record_date` TIMESTAMP NULL DEFAULT CURRENT_TIMESTAMP)")
 import myConfig
 config_file = myConfig.read_config()
-DB_NAME= config_file.get("PATHS", "DB_DIR") +"\\"+ config_file.get("DATABASE", "DB_NAME")
+DB_NAME= config_file.get("PATHS", "SERVER_DIR") +"\\"+ config_file.get("DATABASE", "DB_NAME")
 HOST= config_file.get("DATABASE", "HOST")
 USERNAME=config_file.get("DATABASE", "USERNAME")
 PASSWORD= config_file.get("DATABASE", "PASSWORD")
+
 class mydb(): 
     def __init__(self,host=HOST,username=USERNAME,password=PASSWORD,DB_NAME=DB_NAME):
         self.host=host
@@ -983,5 +987,42 @@ class mydb():
     def show_nearest_MPLvalue_trifaz(self, filter_value):
         #query = "SELECT *  FROM sac_trifaz  WHERE sac_trifaz.Ap_deg<={} ORDER BY ABS(sac_trifaz.Ap_deg - {}) LIMIT 1 ".format( filter_value,filter_value)
         query = "SELECT *  FROM sac_trifaz  WHERE sac_trifaz.At_deg ORDER BY ABS(sac_trifaz.At_deg - {}) LIMIT 1 ".format( filter_value)
+        data = self.fetchall(query)
+        return data
+    
+    # ip secimi   
+    def check_ips(self,values):
+        query = f"SELECT id,ip_no FROM ips WHERE ip_no='{values}'"
+        data = self.fetchone(query)
+        return data
+    def insert_ips(self,values):
+        query = "INSERT INTO ips (ip_no) VALUES ( '%s')" % values
+        data = self.commit_db(query)
+        return data
+    def calldata_with_id_ips(self,id):
+        query =  "SELECT id,ip_no,record_date FROM ips WHERE ips.id = '%d'" % (id,)
+        data = self.fetchone(query)
+        return data
+    def delete_ips(self,value):
+        query = "DELETE FROM ips WHERE ip_no='%s'" % value
+        data = self.commit_db(query)
+        return data
+    def update_ips(self,value):
+        query = "UPDATE  ips SET " \
+                "ip_no='%s'" \
+                "WHERE id='%d'" % (value)
+        data = self.commit_db(query)
+        return data
+    def showall_ips(self):
+        query = "SELECT ip_no  FROM ips "
+        data = self.fetchall(query)
+        return data
+    def showfilter_ips(self, filter_value, index=0):
+        if index == 0:
+            criteria = "ips.ip_no"
+        else:
+            criteria = ""
+
+        query = "SELECT id,ip_no,record_date  FROM ips WHERE {} LIKE '{}%'".format(criteria, filter_value)
         data = self.fetchall(query)
         return data
